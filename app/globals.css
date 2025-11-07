@@ -1,0 +1,372 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Assuming these fonts are loaded via Next.js or similar mechanism */
+    --font-logo: var(--font-allura);
+    --font-body: var(--font-poppins);
+  }
+
+  body {
+    font-family: var(--font-body), serif;
+  }
+}
+
+@layer utilities {
+  .font-logo {
+    font-family: var(--font-logo), sans-serif;
+  }
+
+  .font-body {
+    font-family: var(--font-body), serif;
+  }
+}
+
+/* ===============================
+    Global Color Variables (Spicy Palette)
+    =============================== */
+:root {
+  /* --- BASE COLORS --- */
+  --color-saffron: #FFB300;
+  /* Warm Saffron (Primary Accent) */
+  --color-chili: #E53935;
+  /* Chili Red (Secondary Accent/Alert) */
+  --color-cayenne: #A32412;
+  /* Cayenne Dark (Deep Accent/Text) */
+  --color-neutral: #FFF8F0;
+  /* Neutral Warm Background (Light Text/Background) */
+  --color-muted-brown: #4B2E2E;
+  /* Muted Brown (Dark Text/Dark Base) */
+
+  /* --- BACKGROUNDS --- */
+  /* Light: Neutral Warm Background (#FFF8F0). Using a simplified solid base here. */
+  --color-bg-light: #FFF8F0;
+
+  /* Dark: Deep Muted Brown/Near Black (A darker variant of #4B2E2E for high contrast) */
+  --color-bg-dark: #2D1C1C;
+
+  /* Nav Backgrounds (Using the designated background colors) */
+  --color-bg-light-top-nav: #A32412;
+  --color-bg-dark-top-nav: #A32412;
+
+  --color-bg-light-mid-nav: #ffeade;
+  --color-bg-dark-mid-nav: #3d2626;
+
+  --color-bg-light-bottom-nav: #FFF8F0;
+  --color-bg-dark-bottom-nav: #4B2E2E;
+
+  /* Footer Backgrounds (Light: Muted Brown, Dark: Very Dark Muted Brown/Near Black) */
+  --color-bg-light-footer: linear-gradient(to top,
+      #5c3d3d 0%,
+      /* Darker Muted Brown for depth */
+      #4B2E2E 100%);
+  --color-bg-dark-footer: linear-gradient(to top,
+      #1A0F0F 0%,
+      #2D1C1C 100%);
+
+  /* Sub Backgrounds (Semi-transparent versions of main BG colors) */
+  --color-bg-light-sub: rgba(255, 248, 240, 0.9);
+  --color-bg-dark-sub: rgba(75, 46, 46, 0.9);
+  /* Semi-transparent Muted Brown */
+
+  /* --- TEXT COLORS --- */
+  /* Headings (Light: Muted Brown, Dark: Warm Saffron for pop) */
+  --color-heading-light: var(--color-muted-brown);
+  --color-heading-dark: var(--color-saffron);
+
+  /* Subheadings (Light: Cayenne Dark, Dark: Neutral Warm) */
+  --color-subheading-light: var(--color-cayenne);
+  --color-subheading-dark: var(--color-neutral);
+
+  /* Body Text (Light: Muted Brown, Dark: Neutral Warm) */
+  --color-text-light: var(--color-muted-brown);
+  --color-text-dark: var(--color-neutral);
+
+  /* Sublinks /Dropdowns */
+  --color-bg-light: #FFF8F0;
+  --color-bg-dark: #2D1C1C;
+
+  /* --- BORDERS --- */
+  /* Light: Diluted Cayenne Dark, Dark: Dark Saffron for subtle theming */
+  --color-border-light: #E5DDD6;
+  --color-border-dark: #684B0A;
+
+  /* --- BUTTONS & CTA --- */
+
+  /* Secondary Buttons (Light: Neutral Background/Cayenne Text, Dark: Muted Brown/Saffron Text) */
+  --color-btn-light: var(--color-cayenne);
+  /* Using Cayenne Dark as the main color for secondary buttons */
+  --color-btn-dark: var(--color-chili);
+  /* Using Chili Red as the main color for secondary buttons */
+
+  /* CTA Buttons (Primary: Warm Saffron for both themes) */
+  --color-cta-light: var(--color-saffron);
+  --color-cta-dark: var(--color-saffron);
+
+  /* This is now handled by the gradient-heading class below, keeping for legacy structure */
+  --color-main-heading: var(--color-saffron);
+}
+
+/* ===============================
+    Base Theme Application
+    =============================== */
+body {
+  background: var(--color-bg-light);
+  color: var(--color-text-light);
+  overflow-x: hidden;
+}
+
+html.dark body {
+  background: var(--color-bg-dark);
+  color: var(--color-text-dark);
+}
+
+/* Nav Styles */
+body .top-nav,
+body nav.top-nav {
+  background-color: var(--color-bg-light-top-nav);
+  color: #FFF8F0;
+}
+
+.top-nav a,
+html.dark body .top-nav a {
+  color: #FFF8F0;
+}
+
+html.dark body .top-nav,
+html.dark body nav.top-nav {
+  background-color: var(--color-bg-dark-top-nav);
+  color: #FFF8F0;
+}
+
+/* Middle Navbar */
+body .mid-nav,
+body nav.mid-nav {
+  background-color: var(--color-bg-light-mid-nav);
+  color: var(--color-text-light);
+}
+
+html.dark body .mid-nav,
+html.dark body nav.mid-nav {
+  background-color: var(--color-bg-dark-mid-nav);
+  color: var(--color-text-dark);
+}
+
+/* Bottom Navbar */
+body .bottom-nav,
+body nav.bottom-nav {
+  background-color: var(--color-bg-light-bottom-nav);
+  color: var(--color-text-light);
+}
+
+html.dark body .bottom-nav,
+html.dark body nav.bottom-nav {
+  background-color: var(--color-bg-dark-bottom-nav);
+  color: var(--color-text-dark);
+}
+
+
+/* Footer Styles (Text color is handled implicitly by body/color) */
+footer,
+footer>h1,
+footer>h2,
+footer>h3,
+footer>h4,
+footer>h5,
+footer>h6,
+footer p {
+  background: var(--color-bg-light-footer);
+  color: var(--color-text-dark);
+  /* Using dark theme text color for contrast on dark footer */
+}
+
+html.dark body footer,
+html.dark body footer>h1,
+html.dark body footer>h2,
+html.dark body footer>h3,
+html.dark body footer>h4,
+html.dark body footer>h5,
+html.dark body footer>h6,
+html.dark body footer p {
+  background: var(--color-bg-dark-footer);
+  color: var(--color-text-dark);
+}
+
+/* Sub/Modal Styles (for semi-transparent, blurred backgrounds) */
+body .sub {
+  background-color: var(--color-bg-light-sub);
+  color: var(--color-text-light);
+  backdrop-filter: blur(8px);
+}
+
+html.dark body .sub {
+  background-color: var(--color-bg-dark-sub);
+  color: var(--color-text-dark);
+  backdrop-filter: blur(8px);
+}
+
+/* ===============================
+    Headings & Subheadings
+    =============================== */
+/* Dynamic Gradient Heading (Spicy Fade) */
+.gradient-heading {
+  /* Light: Chili Red to Cayenne Dark */
+  background: linear-gradient(to right, var(--color-chili), var(--color-cayenne));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+html.dark body .gradient-heading {
+  /* Dark: Warm Saffron to Chili Red */
+  background: linear-gradient(to right, var(--color-saffron), var(--color-chili));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Base Headings H1, H5, H6 (using heading variables) */
+h1,
+h5,
+h6 {
+  color: var(--color-heading-light);
+}
+
+html.dark body h1,
+html.dark body h5,
+html.dark body h6 {
+  color: var(--color-heading-dark);
+}
+
+/* Sub Headings H2, H3, H4 (using subheading variables) */
+h2,
+h3,
+h4 {
+  color: var(--color-subheading-light);
+}
+
+html.dark body h2,
+html.dark body h3,
+html.dark body h4 {
+  color: var(--color-subheading-dark);
+}
+
+/* Body and Label Text (using text variables) */
+p,
+label {
+  color: var(--color-text-light);
+}
+
+html.dark body p,
+html.dark body label {
+  color: var(--color-text-dark);
+}
+
+/* Links (Using Cayenne Dark for light, Chili Red for dark) */
+a {
+  color: var(--color-cayenne);
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--color-saffron);
+  /* Warm Saffron for energetic hover feedback */
+}
+
+html.dark body a {
+  color: var(--color-chili);
+}
+
+html.dark body a:hover {
+  color: var(--color-saffron);
+}
+
+/* ===============================
+    Borders
+    =============================== */
+.border,
+.border-b,
+.border-l,
+.border-r {
+  border: 1px solid var(--color-border-light);
+}
+
+html.dark body .border,
+.border-b,
+.border-l,
+.border-r {
+  border: 1px solid var(--color-border-dark);
+}
+
+/* ===============================
+    Buttons
+    =============================== */
+.btn {
+  padding: 0.6rem 1.2rem;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* Primary Button (Secondary style, using Cayenne and Chili) */
+.btn-primary {
+  background: var(--color-btn-light);
+  color: #fff;
+}
+
+html.dark body .btn-primary {
+  background: var(--color-btn-dark);
+  color: #fff;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  /* Darken the secondary color slightly on hover for light theme */
+  background: #7a1d0f;
+  /* A darker Cayenne Dark */
+}
+
+html.dark body .btn-primary:hover,
+html.dark body .btn-primary:focus {
+  /* Darken the secondary color slightly on hover for dark theme */
+  background: #a32412;
+  /* A darker Chili Red */
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
+/* CTA Button (Primary style, using Warm Saffron) */
+.btn-cta {
+  background-color: var(--color-cta-light);
+  color: var(--color-muted-brown);
+  /* Dark text on bright Saffron for contrast */
+  font-weight: 700;
+}
+
+html.dark body .btn-cta {
+  background-color: var(--color-cta-dark);
+  color: var(--color-muted-brown);
+}
+
+.btn-cta:hover,
+.btn-cta:focus {
+  /* Darker Saffron on hover for feedback */
+  background-color: #e69a00;
+  opacity: 1;
+  /* Override default opacity rule for better control */
+}
+
+.btn-cta:active {
+  transform: scale(0.97);
+}
+
+.dropdowns {
+  background-color: var(--color-bg-light);
+}
+
+html.dark body .dropdowns {
+  background-color: var(--color-bg-dark)
+}

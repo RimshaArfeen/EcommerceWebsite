@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { ShoppingBag } from 'lucide-react';
+import "../../globals.css"
 
 // Mock data (Keeping this separate is good practice)
 const slides = [
@@ -58,7 +59,7 @@ const SliderComponent = () => {
           <div className="absolute inset-0 bg-gray-900 opacity-40"></div>
 
           <div className="relative z-10 max-w-5xl mx-auto px-4 py-16 sm:px-6 lg:px-8 text-center text-white">
-            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tight mb-6 uppercase">
+            <h1 className="mainHeading text-3xl sm:text-4xl md:text-6xl  font-bold tracking-tight mb-6 uppercase">
               {item.title}
             </h1>
             <p className="text-xl sm:text-2xl text-gray-200 max-w-4xl mx-auto mb-16 font-medium leading-snug">

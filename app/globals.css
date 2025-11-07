@@ -127,7 +127,9 @@ body nav.top-nav {
   background-color: var(--color-bg-light-top-nav);
   color: #FFF8F0;
 }
-
+.mainHeading{
+  color :#FFB300
+}
 .top-nav a,
 html.dark body .top-nav a {
   color: #FFF8F0;

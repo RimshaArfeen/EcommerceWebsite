@@ -66,9 +66,13 @@ const TopNavbar = () => {
           <UtilityLink href="/help" icon={HelpCircle}>
             Help Center
           </UtilityLink>
-          <UtilityLink href="/account" icon={User}>
-            My Account
+          <UtilityLink href="/login" icon={User}>
+           Login/Register
           </UtilityLink>
+
+          {/* <UtilityLink href="/account" icon={User}>
+            My Account
+          </UtilityLink> */}
         </div>
       </div>
     </nav>

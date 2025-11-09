@@ -57,9 +57,8 @@
 
   /* Footer Backgrounds (Light: Muted Brown, Dark: Very Dark Muted Brown/Near Black) */
   --color-bg-light-footer: linear-gradient(to top,
-      #5c3d3d 0%,
-      /* Darker Muted Brown for depth */
-      #4B2E2E 100%);
+      #1A0F0F 0%,
+      #2D1C1C 100%);
   --color-bg-dark-footer: linear-gradient(to top,
       #1A0F0F 0%,
       #2D1C1C 100%);

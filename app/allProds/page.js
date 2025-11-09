@@ -22,7 +22,7 @@ const page = () => {
                     </div>
 
                     {/* Products Grid */}
-                    <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 md:gap-8">
+                    <div className="grid w-[95%] mx-auto sm:w-full sm:grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 md:gap-8">
                          {mockProducts.map((product) => (
                               <ProdCard key={product.id} product={product} />
                          ))}

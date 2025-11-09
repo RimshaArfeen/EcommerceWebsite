@@ -3,13 +3,6 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Search, Heart, ShoppingCart, Sun, Moon } from 'lucide-react';
 
-/**
- * The main Navbar component for the spicy food e-commerce site.
- * It features the brand name, a central search bar, quick links,
- * and a theme toggle.
- * It will inherit the primary navigation styling from the 'nav' selector
- * in your globals.css file.
- */
 const MainNavbar = () => {
   const [searchTerm, setSearchTerm] = useState('');
   // State to track the current theme mode (true for dark, false for light)
@@ -93,7 +86,7 @@ const MainNavbar = () => {
             <button
               type="submit"
               aria-label="Search"
-              className="p-3  bg-[#e69a00] transition-colors hover:cursor-pointer"
+              className="p-3 bg-[#e69a00] transition-colors hover:cursor-pointer"
             >
               <Search size={20} style={{ color: 'var(--color-muted-brown)' }} />
             </button>

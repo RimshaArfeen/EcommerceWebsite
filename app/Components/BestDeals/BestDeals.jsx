@@ -90,7 +90,7 @@ const settings = {
   infinite: true,
   slidesToShow: 2,
   slidesToScroll: 1,
-//   autoplay: true,
+  autoplay: true,
   speed: 1000,
   autoplaySpeed: 2500,
   cssEase: "linear",
@@ -112,7 +112,7 @@ const settings = {
 
 
      return (
-          <section className="pb-8 font-sans">
+          <section className="py-24 font-sans">
                <div className="max-w-7xl mx-auto ">
 
                    

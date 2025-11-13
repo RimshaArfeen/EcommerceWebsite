@@ -102,7 +102,7 @@ const Footer = () => {
             <div className="flex items-center space-x-2 mb-4">
               <Zap className="w-8 h-8 text-red-600" />
               <span className="text-2xl font-bold tracking-tight text-gray-900">
-                HeatWave Co.
+                SPICYBAZAAR.
               </span>
             </div>
             <p className="text-sm text-gray-500 mb-4">
@@ -158,7 +158,7 @@ const Footer = () => {
 
           {/* Copyright and Legal Links (Inline) */}
           <div className="text-sm text-gray-500 space-y-2 lg:text-right">
-            <p>&copy; {new Date().getFullYear()} HeatWave Co. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} SPICYBAZAAR. All rights reserved.</p>
             <div className="flex justify-start lg:justify-end space-x-4">
               {legalLinks.map((link, index) => (
                 <a 

@@ -19,7 +19,7 @@ const Categories = () => {
   };
 
   return (
-    <section className="py-16 font-sans min-h-screen">
+    <section className="py-24 font-sans ">
       <div className="max-w-7xl mx-auto">
         
       

@@ -48,7 +48,7 @@ const SliderComponent = () => {
   // you might need to adjust the height based on your layout.
   // The relevant style change is using the `style` prop on the main div.
   return (
- <div className="slider-container">
+ <div className="slider-container pb-24">
   <Slider {...settings}>
     {slides.map((item, idx) => (
       <div key={idx}> {/* ← This wrapper fixes background clipping */}

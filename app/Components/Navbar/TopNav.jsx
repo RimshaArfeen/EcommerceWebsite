@@ -1,6 +1,7 @@
 "use client";
 // app/Components/Navbar/TopNav.jsx
-import React from 'react';
+import React, { useEffect ,useState } from 'react';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import {
   Info,
@@ -39,6 +40,13 @@ const UtilityLink = ({
  * selector in your globals.css file.
  */
 const TopNavbar = () => {
+    const { data: session, status } = useSession();
+    const [isLogin, setIsLogin] = useState(false)
+
+    useEffect(() => {
+    setIsLogin(status === "authenticated");
+  }, [status]);
+
   return (
     <nav
       // aria-label="Top utility navigation"
@@ -66,9 +74,16 @@ const TopNavbar = () => {
           <UtilityLink href="/help" icon={HelpCircle}>
             Help Center
           </UtilityLink>
+          {!isLogin ? (
           <UtilityLink href="/login" icon={User}>
            Login/Register
           </UtilityLink>
+
+          ): (
+            <UtilityLink href="/account" icon={User}>
+           My Account
+          </UtilityLink>
+          )}
 
           {/* <UtilityLink href="/account" icon={User}>
             My Account

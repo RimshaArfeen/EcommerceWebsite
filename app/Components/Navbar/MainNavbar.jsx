@@ -2,37 +2,40 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Search, Heart, ShoppingCart, Sun, Moon } from 'lucide-react';
+import { useCart } from '@/app/context/CartContext';
+import { useWishlist } from '@/app/context/LikeContext';
+
 
 const MainNavbar = () => {
   const [searchTerm, setSearchTerm] = useState('');
   // State to track the current theme mode (true for dark, false for light)
   const [isDark, setIsDark] = useState(false);
+  const { cartItems } = useCart()
+  const { likedItems } = useWishlist()
+  const total_items = cartItems.reduce((total, item) => total + (item.qty || 0), 0);
+  const total_liked_items = likedItems.length
+  // console.log("Cart Now:", cartItems);
+  // console.log("Liked Items", likedItems)
+  // console.log("Total items:", total_items);
+
 
   // --- Theme Logic ---
   useEffect(() => {
-    // 1. Check local storage for theme preference
     const storedTheme = localStorage.getItem('theme');
-    // 2. Check system preference
     const systemPreference = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    // Set initial theme based on storage or system preference
     if (storedTheme === 'dark' || (!storedTheme && systemPreference)) {
-        document.documentElement.classList.add('dark');
-        setIsDark(true);
+      document.documentElement.classList.add('dark');
+      setIsDark(true);
     } else {
-        document.documentElement.classList.remove('dark');
-        setIsDark(false);
+      document.documentElement.classList.remove('dark');
+      setIsDark(false);
     }
   }, []);
 
   const toggleTheme = () => {
     const newIsDark = !isDark;
     setIsDark(newIsDark);
-    
-    // Toggle the 'dark' class on the root HTML element
     document.documentElement.classList.toggle('dark');
-    
-    // Persist the new theme preference
     localStorage.setItem('theme', newIsDark ? 'dark' : 'light');
   };
   // --- End Theme Logic ---
@@ -57,12 +60,12 @@ const MainNavbar = () => {
   );
 
   return (
-    <nav 
+    <nav
       aria-label="Main navigation and search"
       className="w-full   px-4 py-3 sm:px-6 lg:px-8 "
     >
       <div className="container mx-auto flex flex-wrap items-center justify-between gap-4">
-        
+
         {/* Left Section: Brand Name */}
         <div className="">
           <Link href="/" className="text-2xl font-logo font-extrabold tracking-wide">
@@ -94,13 +97,26 @@ const MainNavbar = () => {
         </div>
 
         {/* Right Section: User Icons and Theme Toggle */}
-        <div className="flex items-center space-x-3 order-4 ">
-          
+        <div className="flex items-center space-x-4 order-4 ">
+
           {/* Wishlist Icon */}
-          <IconLink href="/wishlist" icon={Heart} label="Wishlist" />
+          <Link href="/wishlist"
+            className="relative inline-flex items-center">
+            <Heart className="w-6 h-6" />
+            <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full font-bold">
+              {total_liked_items}
+            </span>
+          </Link>
+
 
           {/* Cart Icon */}
-          <IconLink href="/cart" icon={ShoppingCart} label="Shopping Cart" />
+          <Link href="/cart"
+            className="relative inline-flex items-center">
+            <ShoppingCart className="w-6 h-6" />
+            <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full font-bold">
+              {total_items}
+            </span>
+          </Link>
 
           {/* Theme Toggle Button (New Addition) */}
           <button

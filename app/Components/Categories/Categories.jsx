@@ -1,67 +1,72 @@
+"use client";
 
-import React from 'react'
-import "../../globals.css"
-import { categoriesData } from './CategoriesData'
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import "../../globals.css";
 
-
-
-/**
- * Senior Next.js Developer / UI/UX Design: Spicy Food E-commerce Category Section
- * This component provides a clean, responsive grid layout for product categories.
- * It uses simple, accessible, default Tailwind colors and includes an interactive
- * card hover effect for improved user experience.
- */
 const Categories = () => {
-  // Simple handleClick for demonstration
-  const handleClick = (title) => {
-    console.log(`Navigating to category: ${title}`);
-    // In a real Next.js Categories, this would be router.push('/categories/' + slug)
-  };
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch("/api/categories", { cache: "no-store" });
+        if (!res.ok) throw new Error("Failed to fetch categories");
+        const data = await res.json();
+        setCategories(data);
+      } catch (err) {
+        console.error("Error fetching categories:", err);
+        setCategories([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  if (loading) return <p className="text-center py-10">Loading categories...</p>;
 
   return (
-    <section className="py-24 font-sans ">
-      <div className="max-w-7xl mx-auto">
-        
-      
-
-        {/* Categories Grid */}
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6 lg:grid-cols-4 xl:grid-cols-6 xl:gap-8">
-          {categoriesData.map((category, index) => (
-            <div
-              key={index}
-              onClick={() => handleClick(category.title)}
-              className="group cursor-pointer rounded-l overflow-hidden e shadow-lg border border-gray-100 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-gray-300"
-            >
-              {/* Image Container */}
-              <div className="relative aspect-w-4 aspect-h-3 h-40 overflow-hidden">
-                {/* Using a placeholder image. When you integrate this, replace the 
-                  `src` with your actual category image URL.
-                */}
-                <img
-                  src={category.image}
-                  alt={category.title}
-                  className="object-cover w-full h-full transition duration-500 group-hover:scale-[1.05] group-hover:opacity-90"
-                  // Fallback placeholder image URL
-                  onError={(e) => {
-                    e.target.onerror = null; 
-                    e.target.src = `https://placehold.co/600x400/e2e8f0/334155?text=${category.title}`;
-                  }}
-                  loading="lazy"
-                />
-              </div>
-
-              {/* Title and Description */}
-              <div className="p-3 sm:p-4 text-center">
-                <h3 className="text-lg font-bold tracking-tight leading-snug truncate">
-                  {category.title}
-                </h3>
-                {/* Hiding the description on small screens to keep mobile UI clean */}
-                <p className="text-sm mt-1 hidden sm:block">
-                  {category.description}
-                </p>
-              </div>
-            </div>
-          ))}
+    <section className="py-24 font-sans">
+      <div className="w-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <h2 className="text-3xl font-extrabold tracking-tight  mb-10 text-center">
+          Shop by Category
+        </h2>
+        <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:gap-8 lg:grid-cols-4 xl:gap-10">
+          {categories.length > 0 ? (
+            categories.map(category => (
+              <Link
+                key={category.id}
+                href={`/allProds/${category.slug}`}
+                className="group cursor-pointer block overflow-hidden rounded-xl shadow-lg border hover:shadow-2xl transition duration-300 transform hover:-translate-y-1"
+              >
+                <div className="relative aspect-video h-48 sm:h-56 overflow-hidden">
+                  <img
+                    src={category.imageUrl}
+                    alt={category.name}
+                    className="object-cover w-full h-full transition-all duration-500 group-hover:scale-[1.05] group-hover:opacity-90"
+                    onError={e => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = `https://placehold.co/600x400/e2e8f0/334155?text=${category.name}`;
+                    }}
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0  bg-opacity-10 group-hover:bg-opacity-0 transition duration-300"></div>
+                </div>
+                <div className="p-4 text-center ">
+                  <span className="text-lg font-bold  tracking-wider uppercase transition duration-300 ">
+                    {category.name}
+                  </span>
+                </div>
+              </Link>
+            ))
+          ) : (
+            <p className=" col-span-full text-center py-10">
+              No categories found.
+            </p>
+          )}
         </div>
       </div>
     </section>

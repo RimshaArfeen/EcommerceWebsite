@@ -9,7 +9,7 @@ const WishListCard = ({ item, onRemove, onAddToCart }) => {
   const { id, title, price, imageUrl, stockStatus, isInStock } = item;
 
   return (
-    <div className="flex items-center p-4 sm:p-6  border-b transition-colors duration-200">
+    <div className="flex items-center p-4 sm:p-6  transition-colors duration-200">
       
       {/* 1. Item Image (Fixed Size) */}
       <div className="flex-shrink-0 mr-4">

@@ -1,27 +1,22 @@
-
-export const categoriesData = [
+export const categories = [
   {
-    title: "Hot Sauces",
-    image: "https://images.unsplash.com/photo-1607103057974-26946f103b95?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=870",
+    id: '1',
+    name: 'Fastfood',
+    imageUrl: 'https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?auto=format&fit=crop&q=80&w=815'
   },
   {
-    title: "Dried Peppers",
-    image: "https://images.unsplash.com/photo-1636477416806-41af16aaadf7?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=870",
+    id: '2',
+    name: 'Desi Tarka',
+    imageUrl: 'https://images.unsplash.com/photo-1716550781939-beb7d7247aae?auto=format&fit=crop&q=80&w=387'
   },
   {
-    title: "Chili Oils",
-    image: "https://images.unsplash.com/photo-1669385185718-7487c89c850a?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=870",
+    id: '3',
+    name: 'Starter',
+    imageUrl: 'https://www.cookwithnabeela.com/wp-content/uploads/2024/02/AlooSamosa3.webp'
   },
   {
-    title: "Spicy Snacks",
-    image: "https://images.unsplash.com/photo-1575919159574-e49dc9e1228f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=870",
-  },
-  {
-    title: "DIY Kits",
-    image: "https://images.unsplash.com/photo-1718114243715-8252d5382319?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=387",
-  },
-  {
-    title: "Spice Grinders",
-    image: "https://images.unsplash.com/photo-1568481276363-88d890339390?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=435",
+    id: '4',
+    name: 'Dessert/Shakes',
+    imageUrl: 'https://www.cookwithkushi.com/wp-content/uploads/2019/06/best_falooda_ice_cream_Dessert_drink_Indian.jpg'
   },
 ];

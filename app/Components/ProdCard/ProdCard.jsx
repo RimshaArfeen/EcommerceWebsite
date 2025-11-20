@@ -1,23 +1,37 @@
 
+//components/prodCard
 "use client"
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../globals.css"
 import { Heart, ShoppingBag } from "lucide-react";
-
+import AddCart from "../AddCart/page"
+import { useCart } from "@/app/context/CartContext";
+import WishlistBtn from "../WishlistBtn";
+import { useWishlist } from "@/app/context/LikeContext";
 
 export const ProdCard = ({ product }) => {
-
-  const { id, title, price, imageUrl, isNew, isFavorite } = product;
   const [itemQuantity, setItemQuantity] = useState(1)
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const { addToCart, cartItems } = useCart()
+  const { addToWishlist, likedItems } = useWishlist()
+
+  const { id, title, price, imageUrl, isNew, category } = product;
 
   // Placeholder handler functions
   const handleAddToCart = () => {
-    console.log(`Adding ${title} (ID: ${id}) to cart.`);
+    addToCart(product, itemQuantity);
   };
 
-  const handleToggleWishlist = () => {
-    console.log(`Toggling wishlist for ${title}. Current state: ${isFavorite}`);
-  };
+  const handle_wishlist = (params) => {
+    addToWishlist(product, itemQuantity)
+    setIsFavorite(!isFavorite);
+  }
+
+  useEffect(() => {
+    console.log("Cart Updated:", cartItems);
+    console.log("WishlIst Updated ", likedItems)
+  }, [cartItems]);
 
   const handleInc = () => {
     setItemQuantity(itemQuantity + 1)
@@ -25,10 +39,13 @@ export const ProdCard = ({ product }) => {
   const handleDec = () => {
     setItemQuantity(itemQuantity - 1)
   }
+
+  
   return (
-    <div className="group relative border rounded-xl shadow-md overflow-hidden hover:shadow-xl hover:-translate-y-1">
+    // Assume the component receives a 'category' prop (string) along with existing props
+    <div className="group relative border rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
       {/* Product Image Area */}
-      <div className="relative aspect-w-1 aspect-h-1 h-48 w-full overflow-hidden">
+      <div className="relative aspect-w-1 aspect-h-1 h-52 w-full overflow-hidden">
         <img
           src={imageUrl}
           alt={title}
@@ -40,37 +57,30 @@ export const ProdCard = ({ product }) => {
           loading="lazy"
         />
 
-        {/* New Badge */}
+        {/* New Badge (Existing) */}
         {isNew && (
-          <span className="absolute top-3 left-3 px-3 py-1 text-xs font-bold uppercase bg-gray-800 rounded-full">
+          <span className="absolute top-3 left-3 px-3 py-1 text-xs font-bold uppercase text-white bg-red-600 rounded-full z-10">
             New
           </span>
         )}
 
-        {/* Wishlist Icon */}
-        <button
-          onClick={handleToggleWishlist}
-          className={`absolute top-3 right-3 p-2 rounded-full transition-colors duration-300 hover:cursor-pointer ${isFavorite
-              ? "bg-red-500 text-white"
-              : "bg-white text-gray-400 hover:text-red-500 shadow-lg"
-            }`}
-          aria-label="Add to wishlist"
-        >
-          <Heart
-            className="w-5 h-5 hover:cursor-pointer"
-            fill={isFavorite ? "currentColor" : "none"}
-            strokeWidth={2}
-          />
-        </button>
+        {/* Wishlist Icon (Existing) */}
+        <WishlistBtn onClick={handle_wishlist}
+        isFavorite={isFavorite} />
       </div>
 
       {/* Product Details */}
       <div className="p-4 flex flex-col items-start">
+        {/* NEW: Category Badge */}
+        <span className="inline-block px-2 py-0.5 mb-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full transition-colors duration-200 hover:bg-gray-200">
+          {product.category?.name}
+        </span>
+
         <h3 className="text-lg font-semibold text-gray-900 leading-tight truncate w-full mb-1">
           {title}
         </h3>
 
-        <p className="text-xl font-bold text-red-600 mb-4">{price}</p>
+        <p className="text-xl font-bold text-red-600 mb-4">Rs. {price}</p>
 
         {/* Quantity Buttons */}
         <div className="flex items-center justify-between w-full mb-3">
@@ -78,9 +88,10 @@ export const ProdCard = ({ product }) => {
             onClick={handleDec}
             value={itemQuantity}
             className={`
-          ${itemQuantity <= 1 ? "bg-gray-200 to-black " : "bg-red-600 text-white"}
-          px-3 py-1 text-lg font-bold rounded-md transition hover:cursor-pointer"
+          ${itemQuantity <= 1 ? "bg-gray-400 text-gray-600 cursor-not-allowed" : "bg-red-600 text-white"}
+          px-3 py-1 text-lg font-bold rounded-md transition hover:bg-red-700 active:scale-95"
         aria-label="Decrease quantity`}
+            disabled={itemQuantity <= 1}
           >
             −
           </button>
@@ -88,7 +99,7 @@ export const ProdCard = ({ product }) => {
           <button
             onClick={handleInc}
             value={itemQuantity}
-            className="px-3 py-1 text-lg font-bold bg-red-600 rounded-md  transition hover:cursor-pointer"
+            className="px-3 py-1 text-lg font-bold text-white bg-red-600 rounded-md transition hover:bg-red-700 active:scale-95"
             aria-label="Increase quantity"
           >
             +
@@ -96,17 +107,91 @@ export const ProdCard = ({ product }) => {
         </div>
 
         {/* Add to Cart Button */}
-        <button
-          onClick={handleAddToCart}
-          className="w-full flex items-center justify-center px-4 py-2 text-sm font-semibold bg-red-600 rounded-lg shadow-md
-                 transition-all duration-300 hover:bg-red-700 active:scale-98 focus:outline-none focus:ring-4 focus:ring-red-300 hover:cursor-pointer"
-          aria-label={`Add ${title} to cart`}
-        >
-          <ShoppingBag className="w-4 h-4 mr-2" />
-          Add to Cart
-        </button>
+        <AddCart
+          onClick={handleAddToCart} />
       </div>
     </div>
+    // <div className="group relative border rounded-xl shadow-md overflow-hidden hover:shadow-xl hover:-translate-y-1">
+    //   {/* Product Image Area */}
+    //   <div className="relative aspect-w-1 aspect-h-1 h-48 w-full overflow-hidden">
+    //     <img
+    //       src={imageUrl}
+    //       alt={title}
+    //       className="w-full h-full object-cover transition-all hover:scale-105 duration-500"
+    //       onError={(e) => {
+    //         e.target.onerror = null;
+    //         e.target.src = "https://placehold.co/400x400/e2e8f0/334155?text=Spicy+Item";
+    //       }}
+    //       loading="lazy"
+    //     />
+
+    //     {/* New Badge */}
+    //     {isNew && (
+    //       <span className="absolute top-3 left-3 px-3 py-1 text-xs font-bold uppercase bg-gray-800 rounded-full">
+    //         New
+    //       </span>
+    //     )}
+
+    //     {/* Wishlist Icon */}
+    //     <button
+    //       onClick={handleToggleWishlist}
+    //       className={`absolute top-3 right-3 p-2 rounded-full transition-colors duration-300 hover:cursor-pointer ${isFavorite
+    //           ? "bg-red-500 text-white"
+    //           : "bg-white text-gray-400 hover:text-red-500 shadow-lg"
+    //         }`}
+    //       aria-label="Add to wishlist"
+    //     >
+    //       <Heart
+    //         className="w-5 h-5 hover:cursor-pointer"
+    //         fill={isFavorite ? "currentColor" : "none"}
+    //         strokeWidth={2}
+    //       />
+    //     </button>
+    //   </div>
+
+    //   {/* Product Details */}
+    //   <div className="p-4 flex flex-col items-start">
+    //     <h3 className="text-lg font-semibold text-gray-900 leading-tight truncate w-full mb-1">
+    //       {title}
+    //     </h3>
+
+    //     <p className="text-xl font-bold text-red-600 mb-4">{price}</p>
+
+    //     {/* Quantity Buttons */}
+    //     <div className="flex items-center justify-between w-full mb-3">
+    //       <button
+    //         onClick={handleDec}
+    //         value={itemQuantity}
+    //         className={`
+    //       ${itemQuantity <= 1 ? "bg-gray-200 to-black " : "bg-red-600 text-white"}
+    //       px-3 py-1 text-lg font-bold rounded-md transition hover:cursor-pointer"
+    //     aria-label="Decrease quantity`}
+    //       >
+    //         −
+    //       </button>
+    //       <span className="text-base font-semibold">{itemQuantity}</span>
+    //       <button
+    //         onClick={handleInc}
+    //         value={itemQuantity}
+    //         className="px-3 py-1 text-lg font-bold bg-red-600 rounded-md  transition hover:cursor-pointer"
+    //         aria-label="Increase quantity"
+    //       >
+    //         +
+    //       </button>
+    //     </div>
+
+    //     {/* Add to Cart Button */}
+    //     <button
+    //       onClick={handleAddToCart}
+    //       className="w-full flex items-center justify-center px-4 py-2 text-sm font-semibold bg-red-600 rounded-lg shadow-md
+    //              transition-all duration-300 hover:bg-red-700 active:scale-98 focus:outline-none focus:ring-4 focus:ring-red-300 hover:cursor-pointer"
+    //       aria-label={`Add ${title} to cart`}
+    //     >
+    //       <ShoppingBag className="w-4 h-4 mr-2" />
+    //       Add to Cart
+    //     </button>
+    //   </div>
+    // </div>
 
   );
 };

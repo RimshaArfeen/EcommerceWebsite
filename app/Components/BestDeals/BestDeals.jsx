@@ -6,12 +6,7 @@ import { dealData } from './dealsData';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-/**
- * Senior Next.js Developer / UI/UX Design: Best Deals Section (Card View)
- * This component displays a "Best Deal" in a card-like format, matching the provided image.
- * It features an image with a promotional tag, deal title, price, add-to-cart button,
- * and a favorite icon. Designed for simple, default color integration.
- */
+
 
 const DealCard = ({ idx, image, title, subtitle, tag, price }) => {
      const [favorite, isFavorite] = useState(false)
@@ -31,7 +26,7 @@ const DealCard = ({ idx, image, title, subtitle, tag, price }) => {
                className="relative flex  flex-row items-center  rounded-xl shadow-lg  border overflow-hidden p-4 md:p-6 w-[97%] max-w-2xl mx-auto h-64">
 
                {/* Left Section: Image with Tag */}
-               <div className="relative w-full md:w-1/2 mb-4 md:mb-0 md:mr-6">
+               <div className="relative w-full md:w-1/2 mb-4 md:mb-0 mr-6">
                     <img
                          src={image}
                          alt={title}
@@ -67,7 +62,7 @@ const DealCard = ({ idx, image, title, subtitle, tag, price }) => {
                            hover:bg-red-700 transition-colors duration-300 focus:outline-none focus:ring-4 focus:ring-red-300 active:scale-95"
                               aria-label={`Add ${title} to cart`}
                          >
-                              <ShoppingBag className="w-5 h-5 mr-2" />
+                              <ShoppingBag className="md:hidden lg:block w-5 h-5 mr-2" />
                               Add To Cart
                          </button>
 
@@ -85,46 +80,47 @@ const DealCard = ({ idx, image, title, subtitle, tag, price }) => {
 }
 
 const BestDeals = () => {
-const settings = {
-  dots: true,
-  infinite: true,
-  slidesToShow: 2,
-  slidesToScroll: 1,
-  autoplay: true,
-  speed: 1000,
-  autoplaySpeed: 2500,
-  cssEase: "linear",
-  responsive: [
-    {
-      breakpoint: 1040 , // medium screens (≤ 1024px)
-      settings: {
-        slidesToShow: 1,
-      },
-    },
-    {
-      breakpoint: 1039, // small screens (≤ 640px)
-      settings: {
-        slidesToShow: 1,
-      },
-    },
-  ],
-};
+     const settings = {
+          dots: true,
+          infinite: true,
+          slidesToScroll: 1,
+          autoplay: true,
+          speed: 1000,
+          autoplaySpeed: 2500,
+          cssEase: "linear",
+          slidesToShow: 2, // default for large screens
+          responsive: [
+               {
+                    breakpoint: 1024, // <= large screens (tablet)
+                    settings: {
+                         slidesToShow: 1, // 1 slide for medium/small screens
+                    },
+               },
+               {
+                    breakpoint: 640, // <= small screens (mobile)
+                    settings: {
+                         slidesToShow: 1, // still 1 slide
+                    },
+               },
+          ],
+     };
+
 
 
      return (
           <section className="py-24 font-sans">
                <div className="max-w-7xl mx-auto ">
 
-                   
-        <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-sm font-semibold uppercase tracking-widest text-gray-500">
-            Don't Miss Out!
-          </h2>
-          <p className="mt-2 text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
-            Today's Best Deals
-          </p>
-        </div>
-       
+
+                    <div className="text-center mb-8 md:mb-12">
+                         <h2 className="text-sm font-semibold uppercase tracking-widest text-gray-500">
+                              Don't Miss Out!
+                         </h2>
+                         <p className="mt-2 text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+                              Today's Best Deals
+                         </p>
+                    </div>
+
 
                     {/* Single Deal Card */}
                     <div className="slider-container">

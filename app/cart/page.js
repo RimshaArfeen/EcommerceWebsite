@@ -1,30 +1,15 @@
 "use client"
 import React, { useState } from 'react'
 import { CartItemCard, CartSummary } from '../Components/CartItemCard/CartItemCard';
-const mockCartItems = [
-     {
-          id: 'c1', title: 'Carolina Reaper Hot Sauce (5 oz)',
-          price: 15.99,
-          imageUrl: 'https://placehold.co/100x100/fee2e2/374151?text=Sauce',
-          quantity: 2, stock: 10
-     },
-     {
-          id: 'c2', title: 'Ghost Pepper Flakes (1 oz)',
-          price: 9.50,
-          imageUrl: 'https://placehold.co/100x100/fca5a5/374151?text=Flakes',
-          quantity: 1, stock: 5
-     },
-     {
-          id: 'c3', title: 'Spicy Peanut Brittle',
-          price: 6.00,
-          imageUrl: 'https://placehold.co/100x100/f87171/374151?text=Brittle',
-          quantity: 3, stock: 20
-     },
-];
-const page = () => {
-     const [cartItems] = React.useState(mockCartItems);
+import { useCart } from "@/app/context/CartContext";
+import { ShoppingBag } from 'lucide-react';
+import Link from 'next/link';
 
+
+const page = () => {
+     const {cartItems} = useCart();
      const isEmpty = cartItems.length === 0;
+     
 
      return (
           <section className="py-12 md:py-20  font-sans min-h-screen">
@@ -43,13 +28,13 @@ const page = () => {
                               <p className="text-gray-500 mb-6">
                                    Time to spice things up! Add some heat to your cart.
                               </p>
-                              <button
-                                   onClick={() => console.log("Navigate to All Products")}
+                              <Link
+                                   href="/allProds"
                                    className="inline-flex items-center px-6 py-3 text-sm font-semibold text-white bg-red-600 rounded-full shadow-md
                          hover:bg-red-700 transition-colors duration-300 active:scale-95"
                               >
                                    Start Shopping
-                              </button>
+                              </Link>
                          </div>
                     ) : (
                          /* Main Two-Column Layout (Cart Items on left, Summary on right) */

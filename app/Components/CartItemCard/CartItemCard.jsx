@@ -1,13 +1,14 @@
 
+"use client";
 import React from 'react'
 import { Minus, Plus , Trash2, ArrowRight , } from 'lucide-react';
 import Link from 'next/link';
-
+import "../../globals.css";
 
 //CartItemCard
 export const CartItemCard = ({ item }) => {
-  const { id, title, price, imageUrl, quantity } = item;
-  const itemSubtotal = (price * quantity).toFixed(2);
+  const { id, title, price, imageUrl, qty } = item;
+  const itemSubtotal = (price * qty).toFixed(2);
 
   // Placeholder actions for UI interaction (no real function logic)
   const handleUpdateQuantity = (newQty) => console.log(`Updating ${title} to ${newQty}`);
@@ -34,24 +35,24 @@ export const CartItemCard = ({ item }) => {
         </h3>
         
         <p className="text-sm   mb-2">
-          Unit Price: <span className="font-medium  ">${price.toFixed(2)}</span>
+          Unit Price: <span className="font-medium  ">Rs. {price.toFixed(2)}</span>
         </p>
 
         {/* Quantity Selector UI */}
         <div className="flex items-center space-x-2">
           <button
-            onClick={() => handleUpdateQuantity(quantity - 1)}
-            disabled={quantity <= 1}
+            onClick={() => handleUpdateQuantity(qty - 1)}
+            disabled={qty <= 1}
             className="p-1 border  rounded-md    transition-colors hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label="Decrease quantity"
           >
             <Minus className="w-4 h-4" />
           </button>
           <span className="w-8 text-center font-medium  ">
-            {quantity}
+            {qty}
           </span>
           <button
-            onClick={() => handleUpdateQuantity(quantity + 1)}
+            onClick={() => handleUpdateQuantity(qty + 1)}
             className="p-1 border  rounded-md    transition-colors hover:cursor-pointer"
             aria-label="Increase quantity"
           >
@@ -63,7 +64,7 @@ export const CartItemCard = ({ item }) => {
       {/* 3. Subtotal and Remove Action */}
       <div className="flex flex-col items-end justify-between h-24">
         <p className="text-xl font-bold text-red-600">
-          ${itemSubtotal}
+          Rs{itemSubtotal}
         </p>
 
         {/* Delete Icon */}
@@ -80,19 +81,20 @@ export const CartItemCard = ({ item }) => {
 };
 
 //CartSummary
-export const CartSummary = ({ items }) => {
-  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const shipping = subtotal > 50 ? 0.00 : 7.99; // Mock free shipping logic for UI display
+export const CartSummary = ({ item }) => {
+  const subtotal = Array.isArray(item) ? item.reduce((sum, item) => sum + item.price * item.qty, 0) : 0;
+
+  const shipping = subtotal > 999 ? 0.00 : 200; // Mock free shipping logic for UI display
   const total = subtotal + shipping;
 
   return (
-    <div className="sticky top-20  p-6 rounded-xl shadow-lg border ">
+    <div className="cart_summary sticky top-20  p-6 rounded-xl shadow-lg  ">
       <h2 className="text-2xl font-bold   mb-4 border-b pb-3">Order Summary</h2>
 
       {/* Price Details */}
       <div className="space-y-3  ">
         <div className="flex justify-between text-lg">
-          <span>Subtotal ({items.length} items)</span>
+          <span>Subtotal ({Array.isArray(item) ? item.length : 0} items)</span>
           <span className="font-medium  ">${subtotal.toFixed(2)}</span>
         </div>
 

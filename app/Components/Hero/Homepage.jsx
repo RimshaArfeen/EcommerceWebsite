@@ -1,4 +1,4 @@
-"use client"
+// "use client"
 import React from 'react';
 import SliderComponent from './SliderComponent';
 import Categories from '../Categories/Categories';
@@ -38,9 +38,9 @@ const Homepage = () => {
 
                     {/* Products Grid (User provided JSX structure) */}
                     {/* Note: The user provided a large vertical padding, which is kept here */}
-                    <div className="py-24 grid w-[95%] mx-auto sm:w-full sm:grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 md:gap-8">
-                         {mockProducts.slice(0, 8).map((product) => (
-                              <ProdCard key={product.id} product={product} />
+                    <div className="py-24 grid w-[95%] mx-auto sm:w-full sm:grid-cols-2 gap-6 md:grid-cols-3  xl:grid-cols-4 md:gap-8">
+                         {mockProducts.slice(0, 8).map((product, idx) => (
+                              <ProdCard key={idx} product={product} />
                          ))}
                     </div>
                </div>

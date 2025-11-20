@@ -2,7 +2,7 @@
 "use client"
 import React from 'react';
 import { Mail, Phone, MapPin, Facebook, Instagram, Twitter, Zap, ArrowRight, Shield, CreditCard } from 'lucide-react';
-
+import Link from 'next/link';
 // --- Sub-Component: Link Group ---
 // Reusable component for displaying vertical link columns
 const FooterLinkGroup = ({ title, links }) => (
@@ -54,7 +54,7 @@ const NewsletterSignup = () => (
       <input
         type="email"
         placeholder="Enter your email"
-        className="flex-grow p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-gray-800 focus:border-gray-800 text-sm"
+        className="flex-grow p-3 border border-gray-300 rounded-lg  focus:ring-gray-800 focus:border-gray-800 text-sm"
       />
       <button
         type="submit"
@@ -93,18 +93,20 @@ const Footer = () => {
   return (
     <footer className="bg-white border-t border-gray-200 font-sans mt-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        
+
         {/* Top Section: Grid Layout for Links and Newsletter */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-8 lg:gap-12 pb-10 border-b border-gray-200">
-          
+
           {/* Column 1: Brand & Social */}
           <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <Zap className="w-8 h-8 text-red-600" />
-              <span className="text-2xl font-bold tracking-tight text-gray-900">
-                SPICYBAZAAR.
-              </span>
+            <div className="">
+              <Link href="/" className="text-4xl font-logo my-2 font-extrabold tracking-wide">
+                {/* Using a color variable for the brand name to ensure it pops */}
+                <span style={{ color: 'var(--color-cayenne)' }}>SPICY</span>
+                <span style={{ color: 'var(--color-saffron)' }}>BAZAAR</span>
+              </Link>
             </div>
+
             <p className="text-sm text-gray-500 mb-4">
               Fueling your passion for heat, one drop at a time.
             </p>
@@ -124,7 +126,7 @@ const Footer = () => {
 
         {/* Bottom Section: Contact, Payment & Copyright */}
         <div className="pt-8 space-y-8 lg:space-y-0 lg:flex lg:justify-between lg:items-end">
-          
+
           {/* Contact Information */}
           <div className="space-y-2 text-sm text-gray-600">
             <h4 className="font-semibold text-gray-800 mb-2">Get in Touch</h4>
@@ -141,7 +143,7 @@ const Footer = () => {
               <span>100 Scoville Lane, Fire City, CA 90210</span>
             </div>
           </div>
-          
+
           {/* Payment Icons and Security Badges (Trust Elements) */}
           <div className="space-y-3">
             <div className="flex items-center space-x-2 text-xs text-gray-500">
@@ -151,8 +153,8 @@ const Footer = () => {
             <div className="flex space-x-3">
               {/* UX: Use grayscale placeholder SVGs for payment methods */}
               <CreditCard className="w-8 h-6 text-gray-300" />
-              <svg className="w-8 h-6 text-gray-300" viewBox="0 0 24 24" fill="currentColor"><path d="M21.93 7.84L12 11.2 2.07 7.84A1 1 0 0 1 2 7V4a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v3a1 1 0 0 1-.07.84zM12 21a9 9 0 0 0 9-9h-2a7 7 0 0 1-7 7V21zM3 12a9 9 0 0 0 9 9v-2a7 7 0 0 1-7-7H3zM12 3v2a7 7 0 0 1 7 7h2a9 9 0 0 0-9-9zM11 15v-6h2v6h-2z"/></svg>
-              <svg className="w-8 h-6 text-gray-300" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.83 7.82l-4.75 4.75a.5.5 0 0 1-.71 0l-2.75-2.75a.5.5 0 0 1 0-.71l.71-.71a.5.5 0 0 1 .71 0l2.04 2.04 4.04-4.04a.5.5 0 0 1 .71 0l.71.71a.5.5 0 0 1 0 .71z"/></svg>
+              <svg className="w-8 h-6 text-gray-300" viewBox="0 0 24 24" fill="currentColor"><path d="M21.93 7.84L12 11.2 2.07 7.84A1 1 0 0 1 2 7V4a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v3a1 1 0 0 1-.07.84zM12 21a9 9 0 0 0 9-9h-2a7 7 0 0 1-7 7V21zM3 12a9 9 0 0 0 9 9v-2a7 7 0 0 1-7-7H3zM12 3v2a7 7 0 0 1 7 7h2a9 9 0 0 0-9-9zM11 15v-6h2v6h-2z" /></svg>
+              <svg className="w-8 h-6 text-gray-300" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.83 7.82l-4.75 4.75a.5.5 0 0 1-.71 0l-2.75-2.75a.5.5 0 0 1 0-.71l.71-.71a.5.5 0 0 1 .71 0l2.04 2.04 4.04-4.04a.5.5 0 0 1 .71 0l.71.71a.5.5 0 0 1 0 .71z" /></svg>
             </div>
           </div>
 
@@ -161,8 +163,8 @@ const Footer = () => {
             <p>&copy; {new Date().getFullYear()} SPICYBAZAAR. All rights reserved.</p>
             <div className="flex justify-start lg:justify-end space-x-4">
               {legalLinks.map((link, index) => (
-                <a 
-                  key={index} 
+                <a
+                  key={index}
                   href={link.href}
                   className="hover:text-gray-700 transition-colors"
                   onClick={(e) => e.preventDefault()}

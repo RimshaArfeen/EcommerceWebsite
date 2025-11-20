@@ -1,35 +1,47 @@
 
-import React from 'react'
-import { ProdCard } from '../Components/ProdCard/ProdCard';
-import { mockProducts } from '../foodItems';
+//app/allProds/page.js
+"use client";
 
-const page = () => {
+import React from "react";
+import { useProducts } from "../context/ProdContext";
+import { useSearchParams } from "next/navigation";
+import { ProdCard } from "../Components/ProdCard/ProdCard";
 
-    
+const Page = () => {
+     const items = useProducts();
+     const searchParams = useSearchParams();
+     const category = searchParams.get("categorySlug");
 
+     const filtered = category
+          ? items.filter(p => p.category?.toLowerCase() === category.toLowerCase())
+          : items;
      return (
-          <section className="py-12 md:py-20 px-6 lg:px-20  font-sans min-h-screen">
+          <section className="py-12 md:py-20 px-6 lg:px-20 min-h-screen">
                <div className="max-w-7xl mx-auto">
 
-                    {/* Section Header */}
                     <div className="text-center mb-10 md:mb-14">
                          <h2 className="text-sm font-semibold uppercase tracking-widest text-gray-500">
                               Our Full Collection
                          </h2>
-                         <p className="mt-2 text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight">
+                         <p className="mt-2 text-4xl sm:text-5xl font-extrabold text-gray-900">
                               All Items
                          </p>
                     </div>
 
-                    {/* Products Grid */}
-                    <div className="grid w-[95%] mx-auto sm:w-full sm:grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 md:gap-8">
-                         {mockProducts.map((product) => (
-                              <ProdCard key={product.id} product={product} />
-                         ))}
+                    <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+                         {filtered.length > 0 ? (
+                              filtered.map(product => (
+                                   <ProdCard key={product.id} product={product} />
+                              ))
+                         ) : (
+                              <p className="mt-2 text-xl font-bold text-gray-900">
+                                   No Products found
+                              </p>
+                         )}
                     </div>
                </div>
           </section>
      );
-}
+};
 
-export default page
+export default Page;

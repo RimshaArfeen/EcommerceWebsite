@@ -3,10 +3,7 @@ import "./globals.css";
 import Navbar from "./Components/Navbar/Navbar";
 import MainNavbar from "./Components/Navbar/MainNavbar";
 import Footer from "./Components/Footer/Footer";
-import { SessionProvider } from "next-auth/react";
-import { ProdProvider } from "./context/ProdContext";
-import { CartProvider } from "./context/CartContext";
-import { WishListProvider } from "./context/LikeContext";
+import Providers from "./providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,21 +22,13 @@ export const metadata = {
 
 export default function RootLayout({ children, session }) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        
-        <SessionProvider session={session}>
-          <ProdProvider>
-            <CartProvider>
-              <WishListProvider>
-                <Navbar />
-                {children}
-                <Footer />
-              </WishListProvider>
-            </CartProvider>
-          </ProdProvider>
-        </SessionProvider>
-
+   <html lang="en" className=" dark">
+      <body>
+        <Providers>
+          <Navbar />
+          {children}
+          <Footer />
+          </Providers>
       </body>
     </html>
   );

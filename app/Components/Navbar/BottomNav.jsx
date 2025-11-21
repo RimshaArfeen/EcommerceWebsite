@@ -15,28 +15,15 @@ import {
   User,
   MessageCircle,
 } from 'lucide-react';
+import { useSession } from 'next-auth/react';
+import { useEffect } from 'react';
+import "../../globals.css";
 
-/**
- * Interface for the nested links (the sub-menus).
- * @typedef {object} NavItem
- * @property {string} name - Display name of the link.
- * @property {string} href - Destination URL.
- * @property {LucideIcon} [icon] - Optional icon for sub-links.
- * @property {NavItem[]} [subLinks] - Array of nested links for dropdown.
- */
-
-/**
- * A reusable component for a single navigation item, handling dropdown logic.
- * @param {object} props
- * @param {string} props.name - The display name of the link.
- * @param {string} props.href - The link URL.
- * @param {LucideIcon} props.icon - The main Lucide React icon.
- * @param {NavItem[]} [props.subLinks] - Optional array of sub-links for a dropdown menu.
- */
 const NavLink = ({ name, href, icon: Icon, subLinks }) => {
-  // Simple state to control menu visibility on hover (desktop)
-  // and click (if necessary, though hover is primary for desktop nav)
   const [isOpen, setIsOpen] = useState(false);
+
+
+
 
   // Determine the color of the text (inherits from parent 'nav')
   // We use the 'a' selector in globals.css for text color on hover
@@ -59,7 +46,7 @@ const NavLink = ({ name, href, icon: Icon, subLinks }) => {
 
       {/* Dropdown Menu (Sub-links) */}
       {subLinks && isOpen && (
-        <div 
+        <div
           className="dropdowns opacity-85 absolute top-full mt-0.5 w-48 rounded-lg shadow-xl p-2 z-50 border"
         >
           {subLinks.map((subLink) => (
@@ -86,6 +73,13 @@ const NavLink = ({ name, href, icon: Icon, subLinks }) => {
 const BottomNav = () => {
 
   const [toggle, setToggle] = useState(false)
+  const [isLogin, setIsLogin] = useState(false)
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    setIsLogin(status === "authenticated");
+  }, [status]);
+  
   const navigationItems = [
     { name: 'Home', href: '/', icon: Home },
     {
@@ -105,7 +99,9 @@ const BottomNav = () => {
         { name: 'Cart', href: '/cart', icon: ShoppingBag },
         { name: 'Wishlist', href: '/wishlist', icon: Heart },
         { name: 'Checkout', href: '/checkout', icon: CreditCard },
-        { name: 'My Account', href: '/account', icon: User },
+        isLogin
+          ? { name: 'My Account', href: '/account', icon: User }
+          : { name: 'Login', href: '/login', icon: User },
       ],
     },
     {
@@ -122,37 +118,37 @@ const BottomNav = () => {
 
   return (
     <>
-    <nav
-      aria-label="Secondary site navigation"
-      // Use nav2 class to pick up specific styles from globals.css
-      className="hidden md:block bottom-nav w-full  shadow-lg sticky top-0 z-40"
-    >
-      <div className="container mx-auto flex items-center justify-between h-10 px-4 sm:px-6 lg:px-8">
-        
-        {/* Left Section: Main Links */}
-        <div className="flex space-x-2 h-full">
-          {navigationItems.map((item) => (
-            <NavLink
-              key={item.name}
-              name={item.name}
-              href={item.href}
-              icon={item.icon}
-              subLinks={item.subLinks}
-            />
-          ))}
-        </div>
+      <nav
+        aria-label="Secondary site navigation"
+        // Use nav2 class to pick up specific styles from globals.css
+        className="hidden md:block bottom-nav w-full  shadow-lg sticky top-0 z-40"
+      >
+        <div className="container mx-auto flex items-center justify-between h-10 px-4 sm:px-6 lg:px-8">
 
-        {/* Right Section: Contact Number/Utility */}
-        <div className="flex items-center text-sm font-bold tracking-wide">
-          {/* Using Warm Saffron for the number to suggest easy contact/urgency */}
-          <Phone size={18} className="mr-2" style={{ color: 'var(--color-saffron)' }} />
-          <span style={{ color: 'var(--color-saffron)' }}>
-            +1 (800) 555-SPICE
-          </span>
+          {/* Left Section: Main Links */}
+          <div className="flex space-x-2 h-full">
+            {navigationItems.map((item) => (
+              <NavLink
+                key={item.name}
+                name={item.name}
+                href={item.href}
+                icon={item.icon}
+                subLinks={item.subLinks}
+              />
+            ))}
+          </div>
+
+          {/* Right Section: Contact Number/Utility */}
+          <div className="flex items-center text-sm font-bold tracking-wide">
+            {/* Using Warm Saffron for the number to suggest easy contact/urgency */}
+            <Phone size={18} className="mr-2" style={{ color: 'var(--color-saffron)' }} />
+            <span style={{ color: 'var(--color-saffron)' }}>
+              +1 (800) 555-SPICE
+            </span>
+          </div>
         </div>
-      </div>
-    </nav>
-    
+      </nav>
+
     </>
   );
 };

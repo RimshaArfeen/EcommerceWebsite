@@ -1,3 +1,4 @@
+
 import React from "react";
 import { ProdCard } from "../../Components/ProdCard/ProdCard";
 
@@ -6,7 +7,7 @@ export default async function Page({ params }) {
   const { slug: categorySlug } = await params; // ✅
 
   const res = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/products?category=${categorySlug}`,
+    `/api/products?category=${categorySlug}`,
     { cache: "no-store" }
   );
 

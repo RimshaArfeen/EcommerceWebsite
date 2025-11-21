@@ -61,10 +61,10 @@ const TopNavbar = () => {
           <UtilityLink href="/about-us" icon={Info}>
             About Us
           </UtilityLink>
-          <UtilityLink href="/delivery" icon={Truck}>
+          <UtilityLink href="/terms_conditions#shipping" icon={Truck}>
             Free Delivery
           </UtilityLink>
-          <UtilityLink href="/returns" icon={Undo2}>
+          <UtilityLink href="/terms_conditions#returns" icon={Undo2}>
             Return Policy
           </UtilityLink>
         </div>

@@ -4,6 +4,7 @@ import React from 'react'
 import { CartSummary } from '../Components/CartItemCard/CartItemCard'
 import { CartItemCard } from '../Components/CartItemCard/CartItemCard'
 import { useCart } from '../context/CartContext';
+import Link from 'next/link';
 
 const page = () => {
      const { cartItems } = useCart();
@@ -32,7 +33,7 @@ const page = () => {
                                         <div className="grid sm:grid-cols-2 gap-4">
                                              <div>
                                                   <label htmlFor="street" className="block text-sm font-medium mb-1">Street Address</label>
-                                                  <input type="text" id="street" className="w-full p-3 border rounded-lg focus:ring-2" placeholder="1Gulistan-e-Johar" />
+                                                  <input type="text" id="street" className="w-full p-3 border rounded-lg focus:ring-2" placeholder="Gulistan-e-Johar block-20" />
                                              </div>
                                              <div>
                                                   <label htmlFor="city" className="block text-sm font-medium mb-1">City</label>
@@ -58,36 +59,44 @@ const page = () => {
 
                               <section className="mb-10 p-6 border rounded-lg shadow-sm">
                                    <h2 className="text-3xl font-bold mb-6">2. Payment Method</h2>
-                                   <div className="flex space-x-3 mb-4">
-                                        <span aria-hidden="true" className="text-2xl">💳</span>
-                                        <span aria-hidden="true" className="text-2xl">🔒</span>
-                                        <span className="text-sm font-medium self-center">All payments are secure and encrypted.</span>
+
+                                   {/* Radio Button for COD selection */}
+                                   <div className="cart_summary p-4 rounded-lg flex items-start space-x-4 transition-all">
+                                        <input
+                                             type="radio"
+                                             id="payment-cod"
+                                             name="payment-method"
+                                             value="cod"
+                                             checked
+                                             readOnly // Assuming COD is the only option and is pre-selected
+                                             className="mt-1 h-5 w-5 text-green-600 border-gray-300 focus:ring-green-500"
+                                        />
+                                        <div className="flex-1">
+                                             <label htmlFor="payment-cod" className="text-lg font-semibold text-gray-900 dark:text-white">
+                                                  Cash On Delivery (COD)
+                                             </label>
+                                             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 leading-relaxed">
+                                                  <span className="font-medium">Pay for your order in cash</span> when the delivery agent arrives at your specified address.
+                                                  Please ensure you have the exact amount ready.
+                                             </p>
+                                        </div>
+                                        <span aria-hidden="true" className="text-3xl self-center">💵</span>
                                    </div>
-                                   <form className="space-y-4">
-                                        <div>
-                                             <label htmlFor="cardNumber" className="block text-sm font-medium mb-1">Card Number</label>
-                                             <input type="text" id="cardNumber" className="w-full p-3 border rounded-lg focus:ring-2" placeholder="XXXX XXXX XXXX XXXX" />
-                                        </div>
-                                        <div className="grid sm:grid-cols-3 gap-4">
-                                             <div className="sm:col-span-2">
-                                                  <label htmlFor="expiry" className="block text-sm font-medium mb-1">Expiration Date (MM/YY)</label>
-                                                  <input type="text" id="expiry" className="w-full p-3 border rounded-lg focus:ring-2" placeholder="MM/YY" />
-                                             </div>
-                                             <div>
-                                                  <label htmlFor="cvc" className="block text-sm font-medium mb-1">CVC</label>
-                                                  <input type="text" id="cvc" className="w-full p-3 border rounded-lg focus:ring-2" placeholder="123" />
-                                             </div>
-                                        </div>
-                                   </form>
+
+                                   {/* Security Note - Modified for COD */}
+                                   <div className="flex items-center space-x-3 mt-6 text-gray-400 dark:text-gray-400">
+                                        <span aria-hidden="true" className="text-2xl">📦</span>
+                                        <span className="text-sm font-medium">Your order will be processed immediately upon confirmation. No sensitive payment details are collected here.</span>
+                                   </div>
                               </section>
 
                               <section className="mb-10 p-6 border rounded-lg shadow-sm">
                                    <h2 className="text-3xl font-bold mb-6">3. Review and Complete</h2>
                                    <p className="mb-6 text-lg">
-                                        By clicking "Place Order," you agree to our Terms and Conditions.
+                                        By clicking <span className=' font-semibold'>Place Order</span>, you agree to our <Link href="/terms_conditions" className="hover:cursor-pointer hover:underline">Terms and Conditions</Link>.
                                    </p>
 
-                                   <button type="submit" className="btn-cta w-full py-4 text-xl font-bold uppercase rounded-lg shadow-xl transition duration-300 hover:opacity-90">
+                                   <button type="submit" className="btn-cta w-full py-4 text-xl font-bold uppercase rounded-lg shadow-xl transition duration-300 hover:opacity-90 hover:cursor-pointer">
                                         Place Order Now
                                    </button>
                               </section>

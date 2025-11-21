@@ -18,9 +18,9 @@ export async function GET(request, { params }) {
     }
 
     return NextResponse.json(products, { status: 200 });
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
+  } catch (err) {
+   console.error("API error:", err);
+   return NextResponse.json([], { status: 200 });
+}
 }
 

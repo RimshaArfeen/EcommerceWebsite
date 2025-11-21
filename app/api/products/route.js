@@ -1,25 +1,5 @@
 
-
-// import { NextResponse } from "next/server";
-// import { prisma } from "@/lib/prisma";
-
-// export async function GET(req) {
-//   try {
-//     const products = await prisma.product.findMany(
-//       {include : {category : true}}
-//     );
-//     return NextResponse.json(products , {status : 200});
-
-    
-//   } catch (error) {
-//     console.log("Error while fetching products", error);
-//     return NextResponse.json(
-//       { error: "Cant fetch products" },
-//       { status: 500 }
-//     );
-//   }
-// }
-
+//app/api/products/route.js
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
@@ -45,10 +25,8 @@ export async function GET(req) {
 
     return NextResponse.json(allProducts, { status: 200 });
   } catch (err) {
-    console.error("Product fetch error:", err);
-    return NextResponse.json(
-      { error: "Cannot fetch products" },
-      { status: 500 }
-    );
+   console.error("API error:", err);
+   return NextResponse.json([], { status: 200 });
+
   }
 }

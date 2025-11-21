@@ -71,15 +71,15 @@ const NewsletterSignup = () => (
 // --- Main Footer Component ---
 const Footer = () => {
   const quickLinks = [
-    { label: 'Shop All Sauces', href: '/shop' },
+    { label: 'Shop All Sauces', href: '/allProds' },
     { label: 'Heat Scale Guide', href: '/heat-guide' },
-    { label: 'Our Story', href: '/about' },
+    { label: 'Our Story', href: '/about-us' },
     { label: 'Customer Reviews', href: '/reviews' },
   ];
 
   const helpLinks = [
-    { label: 'Shipping & Delivery', href: '/shipping' },
-    { label: 'Returns & Exchanges', href: '/returns' },
+    { label: 'Shipping & Delivery', href: '/terms_conditions#shipping' },
+    { label: 'Returns & Exchanges', href: '/terms_conditions#returns' },
     { label: 'FAQ', href: '/faq' },
     { label: 'Contact Us', href: '/contact' },
   ];

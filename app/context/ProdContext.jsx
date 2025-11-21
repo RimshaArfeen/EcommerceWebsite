@@ -1,22 +1,38 @@
 // context/ProdContext.js (or wherever it is)
 
 "use client";
-import { createContext, useContext } from "react";
 
-// Initialize with a meaningful default value (e.g., null)
-// so consumers know the difference between uninitialized and empty data,
-// but keep it [] for your current structure.
-const ProdContext = createContext([]); 
+import { createContext, useContext, useState, useEffect } from "react";
 
-export function FetchProducts({ items, children }) {
-  // 💡 FIX: Initialize the context value directly with the 'items' prop.
-  // This ensures the value is set correctly on the server render 
-  // and retained during client hydration.
+const ProdContext = createContext([]);
+
+export function ProdProvider({ children }) {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        const res = await fetch("/api/products");
+        const data = await res.json();
+        setItems(data || []);
+      } catch (err) {
+        console.error("Product Fetch Error:", err);
+        setItems([]);
+      }
+    }
+
+    loadProducts();
+  }, []);
+
   return (
-    <ProdContext.Provider value={items}> 
+    <ProdContext.Provider value={items}>
       {children}
     </ProdContext.Provider>
   );
+}
+
+export function useProducts() {
+  return useContext(ProdContext);
 }
 
 // Renamed for clarity, but your original function name is fine.

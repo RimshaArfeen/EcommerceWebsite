@@ -1,15 +1,31 @@
 
+
+// app/allProds/[slug]/page.js
+export const dynamic = "force-dynamic";
+
 import React from "react";
 import { ProdCard } from "../../Components/ProdCard/ProdCard";
 
 export default async function Page({ params }) {
-  // unwrap params
-  const { slug: categorySlug } = await params; // ✅
+  const categorySlug = params.slug;
 
-  const res = await fetch(
-    `/api/products?category=${categorySlug}`,
-    { cache: "no-store" }
-  );
+  if (!categorySlug) {
+    return (
+      <section className="py-12 min-h-screen">
+        <p>No category selected.</p>
+      </section>
+    );
+  }
+
+  // Use absolute URL for server-side fetch
+  const baseUrl = process.env.NEXT_URL || "http://localhost:3000";
+  const res = await fetch(`${baseUrl}/api/products?category=${categorySlug}`, {
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    return <p>Failed to fetch products</p>;
+  }
 
   const data = await res.json();
 
@@ -25,10 +41,10 @@ export default async function Page({ params }) {
           </p>
         </div>
 
-        {data.length === 0 && <p>No products found.</p>}
+        {!data?.length && <p>No products found.</p>}
 
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {data.map(product => (
+          {data.map((product) => (
             <ProdCard key={product.id} product={product} />
           ))}
         </div>

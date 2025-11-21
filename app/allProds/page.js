@@ -1,3 +1,5 @@
+
+// app/allProds/page.js
 "use client";
 
 import React, { Suspense } from "react";
@@ -12,11 +14,10 @@ function AllProdsContent() {
   const searchParams = useSearchParams();
   const category = searchParams.get("categorySlug");
 
+  // Correct filtering using category.slug
   const filtered = category
     ? items.filter(
-        p =>
-          p.category &&
-          p.category.toLowerCase() === category.toLowerCase()
+        (p) => p.category && p.category.slug.toLowerCase() === category.toLowerCase()
       )
     : items;
 
@@ -28,15 +29,13 @@ function AllProdsContent() {
             Our Full Collection
           </h2>
           <p className="mt-2 text-4xl sm:text-5xl font-extrabold text-gray-900">
-            All Items
+            {category ? category : "All Items"}
           </p>
         </div>
 
         <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
           {filtered?.length ? (
-            filtered.map((product) => (
-              <ProdCard key={product.id} product={product} />
-            ))
+            filtered.map((product) => <ProdCard key={product.id} product={product} />)
           ) : (
             <p className="mt-2 text-xl font-bold text-gray-900">
               No Products found

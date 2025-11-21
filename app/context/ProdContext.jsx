@@ -1,3 +1,4 @@
+// app/context/ProdContext.js
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
 
@@ -15,11 +16,7 @@ export function ProdProvider({ children }) {
     load();
   }, []);
 
-  return (
-    <ProdContext.Provider value={{ products }}>
-      {children}
-    </ProdContext.Provider>
-  );
+  return <ProdContext.Provider value={products}>{children}</ProdContext.Provider>;
 }
 
 export function useProducts() {

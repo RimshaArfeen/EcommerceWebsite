@@ -7,9 +7,14 @@ import Link from 'next/link';
 
 
 const page = () => {
-     const {cartItems} = useCart();
+     const { cartItems, removeFromCart, updateQty } = useCart();
      const isEmpty = cartItems.length === 0;
-     
+     console.log("Cart Items and Keys:", cartItems.map(item => ({ title: item.name, id: item._id })));
+     const RemoveItemCart = (_id) => {
+          removeFromCart(_id);
+     }
+     console.log(cartItems)
+
 
      return (
           <section className="py-12 md:py-20  font-sans min-h-screen">
@@ -42,14 +47,16 @@ const page = () => {
 
                               {/* Left Column: Cart Items List */}
                               <div className="lg:col-span-2 border border-gray-200 rounded-xl overflow-hidden shadow-lg">
-                                   {cartItems.map((item) => (
-                                        <CartItemCard key={item.id} item={item} />
+                                   {cartItems.map((item, idx) => (
+                                        <CartItemCard key={item._id || idx} item={item}
+                                             onRemove={RemoveItemCart}
+                                             onQtyChange={updateQty} />
                                    ))}
                               </div>
 
                               {/* Right Column: Order Summary */}
                               <div className="lg:col-span-1">
-                                   <CartSummary items={cartItems} />
+                                   <CartSummary items={[...cartItems]} />
                               </div>
                          </div>
                     )}

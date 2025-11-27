@@ -20,6 +20,10 @@ export const WishListProvider = ({ children }) => {
     });
   };
 
+  const removeFromWishlist = (id) => {
+  setLikedItems((prev) => prev.filter((item) => item.id !== id));
+};
+
   // Load from localStorage on first render
   useEffect(() => {
     const stored = localStorage.getItem("likedItems");
@@ -35,7 +39,7 @@ export const WishListProvider = ({ children }) => {
   }, [likedItems]);
 
   return (
-    <LikeContext.Provider value={{ likedItems, addToWishlist, total_items }}>
+    <LikeContext.Provider value={{ likedItems, addToWishlist,removeFromWishlist, total_items }}>
       {children}
     </LikeContext.Provider>
   );

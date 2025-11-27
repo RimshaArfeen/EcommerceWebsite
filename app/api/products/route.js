@@ -32,24 +32,24 @@
 // }
 
 // app/api/products/route.js
+
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import {prisma} from "@/lib/prisma";
 
 export async function GET(req) {
   try {
-    const url = req?.url ? new URL(req.url) : null;
-    const categorySlug = url?.searchParams?.get("category") || null;
+    const { searchParams } = new URL(req.url);
+    const categorySlug = searchParams.get("category");
 
     let products;
 
     if (categorySlug) {
-      // Filter by category slug
       products = await prisma.product.findMany({
-        where: { category: { slug: categorySlug } },
+          where: { categorySlug: categorySlug },
+
         include: { category: true },
       });
     } else {
-      // Fetch all products
       products = await prisma.product.findMany({
         include: { category: true },
       });
@@ -58,6 +58,9 @@ export async function GET(req) {
     return NextResponse.json(products, { status: 200 });
   } catch (err) {
     console.error("API error:", err);
-    return NextResponse.json(err, { status: 500 });
+    return NextResponse.json(
+      { error: "Server Error", details: err.message },
+      { status: 500 }
+    );
   }
 }

@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@layer base { 
+@layer base {
   :root {
     /* Assuming these fonts are loaded via Next.js or similar mechanism */
     --font-logo: var(--font-allura);
@@ -21,7 +21,7 @@
     font-family: var(--font-body), serif;
   }
 }
-
+ 
 /* ===============================
     Global Color Variables (Spicy Palette)
     =============================== */
@@ -119,23 +119,28 @@ html.dark body {
   background: var(--color-bg-dark);
   color: var(--color-text-dark);
 }
-.cart_summary{
+
+.primary_bg  {
   background-color: var(--color-bg-light-mid-nav);
   color: var(--color-text-light);
 }
-html.dark body .cart_summary{
+
+html.dark body .primary_bg  {
   background-color: var(--color-bg-dark-mid-nav);
   color: var(--color-text-dark);
 }
+
 /* Nav Styles */
 body .top-nav,
 body nav.top-nav {
   background-color: var(--color-bg-light-top-nav);
   color: #FFF8F0;
 }
-.mainHeading{
-  color :#FFB300
+
+.mainHeading {
+  color: #FFB300
 }
+
 .top-nav a,
 html.dark body .top-nav a {
   color: #FFF8F0;
@@ -342,7 +347,7 @@ html.dark body .btn-primary:focus {
 
 /* CTA Button (Primary style, using Warm Saffron) */
 .btn-cta {
-  background-color: var(--color-cta-light);
+  background-color: var(--color-cta-dark);
   color: var(--color-muted-brown);
   /* Dark text on bright Saffron for contrast */
   font-weight: 700;
@@ -357,7 +362,8 @@ html.dark body .btn-cta {
 .btn-cta:focus {
   /* Darker Saffron on hover for feedback */
   background-color: #e69a00;
-  opacity: 1;
+  color: black;
+  font-size: larger;
   /* Override default opacity rule for better control */
 }
 
@@ -371,4 +377,28 @@ html.dark body .btn-cta {
 
 html.dark body .dropdowns {
   background-color: var(--color-bg-dark)
+}
+
+
+html.dark .modal-container {
+  background: var(--color-bg-dark) !important;
+  color: var(--color-text-dark) !important;
+  border-color: var(--color-border-dark) !important;
+}
+
+html.dark .modal-heading {
+  color: var(--color-heading-dark) !important;
+}
+
+html.dark .modal-subheading {
+  color: var(--color-subheading-dark) !important;
+}
+
+html.dark .modal-btn {
+  background: var(--color-cta-dark) !important;
+  color: var(--color-text-dark) !important;
+}
+html.dark .modal-btn:hover {
+  background: #e69a00 !important;
+  color: black !important;
 }

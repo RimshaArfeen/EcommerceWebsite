@@ -7,8 +7,9 @@ import React from "react";
 import { ProdCard } from "../../Components/ProdCard/ProdCard";
 
 export default async function Page({ params }) {
-  const categorySlug = params.slug;
-
+  const resolved = await params;     // ← FIX
+  const categorySlug = resolved.slug;
+  
   if (!categorySlug) {
     return (
       <section className="py-12 min-h-screen">

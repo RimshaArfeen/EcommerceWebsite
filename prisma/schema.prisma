@@ -58,9 +58,17 @@ model VerificationToken {
 }
 
 model Order {
-  id         String      @id @default(auto()) @map("_id") @db.ObjectId
-  userId     String      @db.ObjectId
-  user       User        @relation(fields: [userId], references: [id])
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+
+  fullName String
+  email    String
+  phone    String
+
+  addressId String?  @db.ObjectId
+  address   Address? @relation("AddressOrders", fields: [addressId], references: [id])
+
   orderItems OrderItem[]
   totalPrice Float
   status     OrderStatus @default(PENDING)
@@ -117,6 +125,7 @@ model Address {
   postalCode String
   country    String
   createdAt  DateTime @default(now())
+  orders     Order[]  @relation("AddressOrders")
 }
 
 enum OrderStatus {

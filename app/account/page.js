@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { useSession, signOut } from "next-auth/react"; // ✅ Simplified import
-import { User, ShoppingBag, Home, LogOut, ChevronRight, Mail, } from "lucide-react"; // ✅ make sure names match exactly
+import { useSession, signOut } from "next-auth/react"; 
+import { User, ShoppingBag, Home, LogOut, ChevronRight, Mail, } from "lucide-react";
 import { Locate } from "lucide-react";
 import OrderHistory from "../Components/AccountPage/OrderHistory";
 import ProfileSection from "../Components/AccountPage/ProfileSection";
@@ -42,7 +42,7 @@ export const LeftSideBar = ({ onSelect }) => {
                               <button
                                    key={index}
                                    onClick={(e) => { onSelect(item.title) }}
-                                   className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 cursor-pointer"
+                                   className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-gray-50/10 cursor-pointer"
                               >
                                    <div className="flex items-center space-x-2">
                                         <Icon size={16} />  {/* render the icon here */}

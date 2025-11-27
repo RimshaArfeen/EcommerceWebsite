@@ -1,100 +1,95 @@
 
+//app/Components/CartItemCard/CartItemCard.jsx
 "use client";
-import React from 'react'
+import React, {useState , useEffect} from 'react'
 import { Minus, Plus , Trash2, ArrowRight , } from 'lucide-react';
 import Link from 'next/link';
 import "../../globals.css";
 
 //CartItemCard
-export const CartItemCard = ({ item }) => {
-  const { id, title, price, imageUrl, qty } = item;
+export const CartItemCard = ({ item, onRemove, onQtyChange }) => {
+  const { _id, title, price, imageUrl, qty } = item;
+
+  const handleUpdateQuantity = (newQty) => {
+    if (newQty < 1) return;
+    onQtyChange(_id, newQty);
+  };
+
   const itemSubtotal = (price * qty).toFixed(2);
 
-  // Placeholder actions for UI interaction (no real function logic)
-  const handleUpdateQuantity = (newQty) => console.log(`Updating ${title} to ${newQty}`);
-  const handleRemove = () => console.log(`Removing ${title}`);
-
   return (
-    <div className="flex items-start p-4 border-b transition-colors duration-200">
-      
-      {/* 1. Image */}
-      <div className=" mr-4">
-        <img
-          src={imageUrl}
-          alt={title}
-          className="w-24 h-24 object-cover rounded-lg border "
-          onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/100x100/e2e8f0/334155?text=Item"; }}
-          loading="lazy"
-        />
-      </div>
+   <div className="flex items-start py-4 border-b last:border-b-0 transition-colors duration-200 hover:shadow-sm px-4">
+  
+  {/* 1. Image Area */}
+  <img 
+    src={imageUrl} 
+    alt={title}
+    className="w-24 h-24 object-cover rounded-lg border mr-4" 
+  />
 
-      {/* 2. Details and Quantity */}
-      <div className="flex-grow min-w-0 pr-4">
-        <h3 className="text-lg font-semibold   mb-1 leading-snug">
-          {title}
-        </h3>
-        
-        <p className="text-sm   mb-2">
-          Unit Price: <span className="font-medium  ">Rs. {price.toFixed(2)}</span>
-        </p>
-
-        {/* Quantity Selector UI */}
-        <div className="flex items-center space-x-2">
-          <button
-            onClick={() => handleUpdateQuantity(qty - 1)}
-            disabled={qty <= 1}
-            className="p-1 border  rounded-md    transition-colors hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-            aria-label="Decrease quantity"
-          >
-            <Minus className="w-4 h-4" />
-          </button>
-          <span className="w-8 text-center font-medium  ">
-            {qty}
-          </span>
-          <button
-            onClick={() => handleUpdateQuantity(qty + 1)}
-            className="p-1 border  rounded-md    transition-colors hover:cursor-pointer"
-            aria-label="Increase quantity"
-          >
-            <Plus className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
-      
-      {/* 3. Subtotal and Remove Action */}
-      <div className="flex flex-col items-end justify-between h-24">
-        <p className="text-xl font-bold text-red-600">
-          Rs{itemSubtotal}
-        </p>
-
-        {/* Delete Icon */}
-        <button
-          onClick={handleRemove}
-          className="p-2   rounded-full hover:opacity-90 hover:text-red-600 transition-colors duration-300 hover:cursor-pointer"
-          aria-label={`Remove ${title} from cart`}
-        >
-          <Trash2 className="w-5 h-5" />
-        </button>
-      </div>
+  {/* 2. Content & Quantity (Flexible Grow Area) */}
+  <div className="flex-grow min-w-0 pr-4"> 
+    <h3 className="text-lg font-semibold mb-2">{title}</h3>
+    <h5 className="text-md  mb-2">Rs {price} each</h5>
+    {/* Quantity Controls */}
+    <div className="flex items-center space-x-3"> 
+      <button 
+        onClick={() => handleUpdateQuantity(qty - 1)}
+        className="px-2 py-1  border rounded-md  hover:bg-gray-600/10 hover:cursor-pointer transition" 
+        aria-label="Decrease quantity"
+      >
+        −
+      </button>
+      <span className="w-6 text-center font-medium">{qty}</span>
+      <button 
+        onClick={() => handleUpdateQuantity(qty + 1)}
+        className="px-2 py-1 border rounded-md  hover:bg-gray-600/10 hover:cursor-pointer transition" 
+        aria-label="Increase quantity"
+      >
+        +
+      </button>
     </div>
+  </div>
+
+  {/* 3. Price & Remove Button (Aligned Right/End) */}
+  <div className="flex flex-col items-end justify-between h-24">
+    <p className="text-xl font-bold text-red-600">Total: Rs {itemSubtotal}</p>
+    
+    <button 
+      className='p-2 rounded-full text-gray-400 hover:text-red-600 transition-colors'
+      onClick={() => onRemove(_id)}
+      aria-label={`Remove ${title} from cart`}
+    >
+      {/* Changed styling on Trash2 to ensure the icon itself is not the background color */}
+      <Trash2 className="w-5 h-5" /> 
+    </button>
+  </div>
+</div>
   );
 };
 
 //CartSummary
-export const CartSummary = ({ item }) => {
-  const subtotal = Array.isArray(item) ? item.reduce((sum, item) => sum + item.price * item.qty, 0) : 0;
+export const CartSummary = ({ items, onTotalChange }) => {
+  const subtotal = Array.isArray(items)
+    ? items.reduce((sum, item) => sum + item.price * item.qty, 0)
+    : 0;
 
-  const shipping = subtotal > 999 ? 0.00 : 200; // Mock free shipping logic for UI display
+  const shipping = subtotal > 999 ? 0 : 200;
   const total = subtotal + shipping;
 
+  // Send total to parent (but avoid infinite loops)
+  useEffect(() => {
+    if (onTotalChange) onTotalChange(total);
+  }, [total]);
+
   return (
-    <div className="cart_summary sticky top-20  p-6 rounded-xl shadow-lg  ">
+    <div className="primary_bg  sticky top-20  p-6 rounded-xl shadow-lg  ">
       <h2 className="text-2xl font-bold   mb-4 border-b pb-3">Order Summary</h2>
 
       {/* Price Details */}
       <div className="space-y-3  ">
         <div className="flex justify-between text-lg">
-          <span>Subtotal ({Array.isArray(item) ? item.length : 0} items)</span>
+          <span>Subtotal ({Array.isArray(items) ? items.length : 0} items)</span>
           <span className="font-medium  ">${subtotal.toFixed(2)}</span>
         </div>
 
@@ -114,7 +109,6 @@ export const CartSummary = ({ item }) => {
       {/* Checkout Button */}
       <Link
       href="/checkout"
-        onClick={() => console.log("Proceeding to Checkout UI")}
         className="mt-6 w-full flex items-center justify-center px-6 py-3 text-lg font-bold text-white bg-gray-800 hover:bg-gray-700 rounded-lg shadow-md
                    transition-all duration-300  focus:outline-none focus:ring-4 focus:ring-gray-300 active:scale-98 hover:cursor-pointer "
         aria-label="Proceed to Checkout"

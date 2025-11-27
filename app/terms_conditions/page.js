@@ -40,7 +40,7 @@ export default function Page() {
           
           {/* --- Left Column: Sticky Table of Contents (TOC) for Desktop --- */}
           <aside className=" lg:col-span-3 hidden lg:block">
-            <div className="cart_summary sticky top-20 p-5"> {/* Sticky position for TOC */}
+            <div className="primary_bg  sticky top-20 p-5"> {/* Sticky position for TOC */}
               <h3 className="text-lg font-bold mb-4 uppercase tracking-wider text-gray-500 dark:text-gray-400">
                 Table of Contents
               </h3>

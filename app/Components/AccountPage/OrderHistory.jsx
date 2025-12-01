@@ -10,7 +10,7 @@ import { formatDate } from '../../utils/index';
 
 // --- StatusBadge Component (Unchanged) ---
 const StatusBadge = ({ status }) => {
-  letclasses = '100  '; // Default background
+  let classes = 'bg-gray-100 text-gray-800'; // Default background
   switch (status) {
     case 'Delivered': classes = 'bg-green-100 text-green-800'; break;
     case 'Shipped': classes = 'bg-blue-100 text-blue-800'; break;

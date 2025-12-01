@@ -29,10 +29,10 @@
 
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth"; // <- correct import in v5
 import { authOptions } from "@/auth"; // your NextAuth config
 
-export async function GET(req) {
+export async function GET() {
      try {
           const session = await getServerSession(authOptions);
 
@@ -48,9 +48,10 @@ export async function GET(req) {
                },
           });
 
-          return NextResponse.json(orders || []);
+          return NextResponse.json(Array.isArray(orders) ? orders : []);
      } catch (error) {
           console.error("Error fetching orders:", error);
           return NextResponse.json({ message: error.message }, { status: 500 });
      }
 }
+

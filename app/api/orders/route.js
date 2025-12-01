@@ -4,25 +4,26 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 
-export async function GET() {
+export async function GET(request) {
      try {
-          const session = await auth();
+          const { searchParams } = new URL(request.url);
+          const userId = searchParams.get("userId");
+
+          if (!userId) {
+               return NextResponse.json({ error: "Missing userId" }, { status: 400 });
+          }
 
           const orders = await prisma.order.findMany({
-               where: {
-                    userId: session?.user?.id,
-               },
+               where: { userId },
                include: {
+                    orderItems: { include: { product: true } },
                     address: true,
-                    orderItems: {
-                         include: { product: true }
-                    }
-               }
+               },
           });
-          console.log("Session user: ", session?.user);
 
           return NextResponse.json(orders);
      } catch (error) {
-          return NextResponse.json(error.message, { status: 500 });
+          console.error("ORDER API ERROR:", error);
+          return NextResponse.json({ error: "Server error" }, { status: 500 });
      }
 }

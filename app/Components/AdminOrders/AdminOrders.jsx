@@ -83,7 +83,7 @@ const OrdersTable = ({showModal, setShowModal, selectedOrder, setSelectedOrder})
           const order = orders.find(o => o.id === orderId);
           setSelectedOrder(order);
      }
-     const isAllChecked = orders.every(order => checkedItems[order.id]);
+     const isAllChecked = (orders || []).every(order => checkedItems[order.id]);
 
      return (
           <div className=" primary_bg rounded-xl shadow-lg border overflow-x-auto">
@@ -111,7 +111,7 @@ const OrdersTable = ({showModal, setShowModal, selectedOrder, setSelectedOrder})
                          </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-500 ">
-                         {orders.map((order) => (
+                         {(orders || []).map((order) => (
                               <tr key={order.id} className="hover: transition-colors">
                                    {/* Checkbox Cell */}
                                    <td className="px-6 py-4 whitespace-nowrap">

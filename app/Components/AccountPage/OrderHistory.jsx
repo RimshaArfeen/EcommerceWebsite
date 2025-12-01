@@ -163,7 +163,7 @@ const OrderHistory = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
-                  {orders.map(order => (
+                  {(orders || []).map(order => (
                     <tr key={order.id} className="hover:50/10 transition-colors">
                       {/* Order ID: Clear Primary Identifier */}
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-indigo-700 flex items-center">

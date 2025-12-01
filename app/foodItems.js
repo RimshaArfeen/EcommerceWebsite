@@ -196,7 +196,7 @@ export const mockProducts = [
   {
     "title": "Chicken Haleem",
     "price": 1100,
-    "imageUrl": "https://www.licious.in/blog/wp-content/uploads/2022/04/Chicken-Haleem-Cooked-min-compressed-scaled.jpg",
+    "imageUrl": "https://www.licious.in//wp-content/uploads/2022/04/Chicken-Haleem-Cooked-min-compressed-scaled.jpg",
     "isNew": true,
     "isFavorite": true,
     "description": "Thick, savory porridge made from chicken, lentils, and wheat.",

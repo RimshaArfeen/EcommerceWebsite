@@ -84,7 +84,7 @@ const BottomNav = () => {
   useEffect(() => {
     setIsLogin(status === "authenticated");
   }, [status]);
-  
+
   const navigationItems = [
     { name: 'Home', href: '/', icon: Home },
     {
@@ -111,11 +111,11 @@ const BottomNav = () => {
     },
     {
       name: 'Blog',
-      href: '/blog',
+      href: '/',
       icon: BookOpen,
       subLinks: [
-        { name: 'Blog Overview', href: '/blog', icon: BookOpen },
-        { name: 'Blog Detail', href: '/blog/detail', icon: MessageCircle },
+        { name: 'Blog Overview', href: '/', icon: BookOpen },
+        { name: 'Blog Detail', href: '//detail', icon: MessageCircle },
       ],
     },
     {

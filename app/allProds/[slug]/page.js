@@ -9,12 +9,12 @@ import { ProdCard } from "../../Components/ProdCard/ProdCard";
 export default async function Page({ params }) {
   const resolved = await params;     // ← FIX
   const categorySlug = resolved.slug;
-  
+
   if (!categorySlug) {
     return (
       <section className="py-12 min-h-screen">
-        <p>No category selected.</p>
-      </section>
+        < p > No category selected.</p >
+      </section >
     );
   }
 
@@ -32,24 +32,27 @@ export default async function Page({ params }) {
 
   return (
     <section className="py-12 md:py-24 px-6 lg:px-20 min-h-screen">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-10 md:mb-14">
-          <h2 className="text-sm font-semibold uppercase tracking-widest text-gray-500">
+      < div className="max-w-7xl mx-auto" >
+        <div className="text-center mb-10 md:mb-14" >
+          <h2 className="text-sm font-semibold uppercase tracking-widest text-gray-500" >
             Our Full Collection
-          </h2>
-          <p className="mt-2 text-4xl sm:text-5xl font-extrabold uppercase text-gray-900">
+          </h2 >
+          <p className="mt-2 text-4xl sm:text-5xl font-extrabold uppercase text-gray-900" >
             {categorySlug}
-          </p>
-        </div>
+          </p >
+        </div >
 
-        {!data?.length && <p>No products found.</p>}
+        {!data?.length && <p>No products found.</p>
+        }
 
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {data.map((product) => (
-            <ProdCard key={product.id} product={product} />
-          ))}
-        </div>
-      </div>
-    </section>
+          {
+            data.map((product) => (
+              <ProdCard key={product.id} product={product} />
+            ))
+          }
+        </div >
+      </div >
+    </section >
   );
 }

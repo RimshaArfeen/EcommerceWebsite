@@ -1,8 +1,8 @@
 
 import React from 'react'
 import { CheckCircle, Clock, Truck, XCircle, Package } from 'lucide-react';
-const StatusBadge = ({status}) => {
-     let classes = 'bg-gray-100 text-gray-800'; // Default
+const StatusBadge = ({ status }) => {
+     letclasses = 'bg-gray-100 text-gray-800'; // Default
      let Icon = Clock;
 
      switch (status) {
@@ -28,10 +28,11 @@ const StatusBadge = ({status}) => {
 
 
      return (
-          <span className={`px-2 py-1 inline-flex text-xs leading-5 font-medium rounded-full ${classes} items-center space-x-1`}>
+          <span className={`px-2 py-1 inline-flex text-xs leading-5 font-medium rounded-full ${classes} items-center space-x-1`
+          }>
                <Icon className="w-3 h-3" />
                <span>{status}</span>
-          </span>
+          </span >
      );
 
 }

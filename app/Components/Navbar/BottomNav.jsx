@@ -32,7 +32,7 @@ const NavLink = ({ name, href, icon: Icon, subLinks }) => {
 
   // Determine the color of the text (inherits from parent 'nav')
   // We use the 'a' selector in globals.css for text color on hover
-  const textClass = "font-medium hover:text-[var(--color-saffron)]";
+  const textclass = "font-medium hover:text-[var(--color-saffron)]";
 
   return (
     <div
@@ -42,7 +42,7 @@ const NavLink = ({ name, href, icon: Icon, subLinks }) => {
     >
       <Link
         href={href}
-        className={`flex items-center gap-1 p-2 whitespace-nowrap transition-colors ${textClass}`}
+        className={`flex items-center gap-1 p-2 whitespace-nowrap transition-colors ${textclass}`}
       >
         {/* <Icon size={18} aria-hidden="true" /> */}
         <span className=" lg:inline">{name}</span>
@@ -50,24 +50,27 @@ const NavLink = ({ name, href, icon: Icon, subLinks }) => {
       </Link>
 
       {/* Dropdown Menu (Sub-links) */}
-      {subLinks && isOpen && (
-        <div
-          className="dropdowns opacity-85 absolute top-full mt-0.5 w-48 rounded-lg shadow-xl p-2 z-50 border"
-        >
-          {subLinks.map((subLink) => (
-            <Link
-              key={subLink.name}
-              href={subLink.href}
-              className={`flex items-center gap-2 p-2 rounded-md transition-colors text-sm ${textClass}`}
-              onClick={() => setIsOpen(false)} // Close on click
-            >
-              {subLink.icon && <subLink.icon size={16} />}
-              {subLink.name}
-            </Link>
-          ))}
-        </div>
-      )}
-    </div>
+      {
+        subLinks && isOpen && (
+          <div
+            className="dropdowns opacity-85 absolute top-full mt-0.5 w-48 rounded-lg shadow-xl p-2 z-50 border"
+          >
+            {subLinks.map((subLink) => (
+              <Link
+                key={subLink.name}
+                href={subLink.href}
+                className={`flex items-center gap-2 p-2 rounded-md transition-colors text-sm ${textclass}`}
+                onClick={() => setIsOpen(false)} // Close on click
+              >
+                {subLink.icon && <subLink.icon size={16} />}
+                {subLink.name}
+              </Link>
+            ))
+            }
+          </div >
+        )
+      }
+    </div >
   );
 };
 
@@ -125,9 +128,9 @@ const BottomNav = () => {
       subLinks: [
         { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
         { name: "Orders", href: "/admin/orders", icon: ShoppingCart },
-        { name: "Products", href: "/admin/products", icon: Package },
-        { name: "Users", href: "/admin/users", icon: Users },
-        { name: "Customers", href: "/admin/customers", icon: UserCircle },
+        { name: "Products", href: "/admin", icon: Package },
+        { name: "Users", href: "/admin", icon: Users },
+        { name: "Customers", href: "/admin", icon: UserCircle },
       ],
     },
     { name: 'Contact Us', href: '/contact', icon: Phone },
@@ -162,9 +165,9 @@ const BottomNav = () => {
             <span style={{ color: 'var(--color-saffron)' }}>
               +1 (800) 555-SPICE
             </span>
-          </div>
-        </div>
-      </nav>
+          </div >
+        </div >
+      </nav >
 
     </>
   );

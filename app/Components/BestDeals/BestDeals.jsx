@@ -38,24 +38,25 @@ const DealCard = ({ idx, image, title, subtitle, tag, price }) => {
                          <span className="absolute bottom-3 left-3 px-3 py-1 bg-red-600 text-xs font-semibold rounded-full shadow-md">
                               {tag}
                          </span>
-                    )}
-               </div>
+                    )
+                    }
+               </div >
 
                {/* Right Section: Details and Actions */}
-               <div className="flex-grow flex flex-col items-start justify-center w-full md:w-1/2">
-                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 leading-snug mb-1">
+               < div className="flex-grow flex flex-col items-start justify-center w-full md:w-1/2" >
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 leading-snug mb-1" >
                          {title}
-                    </h3>
-                    <p className="text-base text-gray-600 mb-4">
+                    </h3 >
+                    <p className="text-base text-gray-600 mb-4" >
                          {subtitle}
-                    </p>
+                    </p >
 
-                    <span className="text-2xl font-extrabold text-red-600 mb-4">
+                    <span className="text-2xl font-extrabold text-red-600 mb-4" >
                          {price}
-                    </span>
+                    </span >
 
                     {/* Action Buttons */}
-                    <div className="flex items-center w-full justify-between">
+                    < div className="flex items-center w-full justify-between" >
                          <button
                               onClick={() => handleAddToCart(id)}
                               className="flex items-center justify-center px-6 py-3 bg-red-600 text-white font-semibold rounded-full shadow-md
@@ -73,9 +74,9 @@ const DealCard = ({ idx, image, title, subtitle, tag, price }) => {
                          >
                               <Heart className="w-6 h-6" fill={isFavorite ? "currentColor" : "none"} />
                          </button>
-                    </div>
-               </div>
-          </div>
+                    </div >
+               </div >
+          </div >
      )
 }
 
@@ -109,21 +110,21 @@ const BestDeals = () => {
 
      return (
           <section className="py-24 font-sans">
-               <div className="max-w-7xl mx-auto ">
+               < div className="max-w-7xl mx-auto " >
 
 
-                    <div className="text-center mb-8 md:mb-12">
-                         <h2 className="text-sm font-semibold uppercase tracking-widest text-gray-500">
+                    <div className="text-center mb-8 md:mb-12" >
+                         <h2 className="text-sm font-semibold uppercase tracking-widest text-gray-500" >
                               Don't Miss Out!
-                         </h2>
-                         <p className="mt-2 text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+                         </h2 >
+                         <p className="mt-2 text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight" >
                               Today's Best Deals
-                         </p>
-                    </div>
+                         </p >
+                    </div >
 
 
                     {/* Single Deal Card */}
-                    <div className="slider-container">
+                    < div className="slider-container" >
                          <Slider {...settings}>
                               {dealData.map((deal, idx) => (
                                    <DealCard
@@ -137,9 +138,9 @@ const BestDeals = () => {
                               ))}
 
                          </Slider>
-                    </div>
-               </div>
-          </section>
+                    </div >
+               </div >
+          </section >
      );
 };
 

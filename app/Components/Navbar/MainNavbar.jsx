@@ -94,42 +94,42 @@ const MainNavbar = () => {
               <Search size={20} style={{ color: 'var(--color-muted-brown)' }} />
             </button>
           </form>
-        </div>
+        </div >
 
         {/* Right Section: User Icons and Theme Toggle */}
-        <div className="flex items-center space-x-4 order-4 ">
+        < div className="flex items-center space-x-4 order-4 " >
 
           {/* Wishlist Icon */}
-          <Link href="/wishlist"
-            className="relative inline-flex items-center">
+          < Link href="/wishlist"
+            className="relative inline-flex items-center" >
             <Heart className="w-6 h-6" />
-            <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full font-bold">
+            <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full font-bold" >
               {total_liked_items}
-            </span>
-          </Link>
+            </span >
+          </Link >
 
 
           {/* Cart Icon */}
-          <Link href="/cart"
-            className="relative inline-flex items-center">
+          < Link href="/cart"
+            className="relative inline-flex items-center" >
             <ShoppingCart className="w-6 h-6" />
-            <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full font-bold">
+            <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full font-bold" >
               {total_items}
-            </span>
-          </Link>
+            </span >
+          </Link >
 
           {/* Theme Toggle Button (New Addition) */}
-          <button
+          < button
             onClick={toggleTheme}
             aria-label={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             className="p-2 transition-transform duration-200 hover:scale-110 hover:opacity-80 rounded-full hover:cursor-pointer"
           >
             {isDark ? <Sun size={24} /> : <Moon size={24} />}
-          </button>
+          </button >
 
-        </div>
-      </div>
-    </nav>
+        </div >
+      </div >
+    </nav >
   );
 }
 

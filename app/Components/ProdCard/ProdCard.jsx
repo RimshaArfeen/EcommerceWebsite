@@ -19,18 +19,18 @@ export const ProdCard = ({ product }) => {
   const { _id, title, price, imageUrl, isNew, category } = product;
 
   // Placeholder handler functions
-const handleAddToCart = () => {
-  const normalized = {
-    ...product,
-    _id:
-      product._id ??
-      product.id ??
-      product.slug ??
-      product.title
-  };
+  const handleAddToCart = () => {
+    const normalized = {
+      ...product,
+      _id:
+        product._id ??
+        product.id ??
+        product.slug ??
+        product.title
+    };
 
-  addToCart(normalized, itemQuantity);
-};
+    addToCart(normalized, itemQuantity);
+  };
 
   const handle_wishlist = (params) => {
     addToWishlist(product, itemQuantity)
@@ -53,7 +53,7 @@ const handleAddToCart = () => {
   return (
     // Assume the component receives a 'category' prop (string) along with existing props
     <div
-     className="group relative border rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+      className="group relative border rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
       {/* Product Image Area */}
       <div className="relative aspect-w-1 aspect-h-1 h-52 w-full overflow-hidden">
         <img
@@ -72,28 +72,29 @@ const handleAddToCart = () => {
           <span className="absolute top-3 left-3 px-3 py-1 text-xs font-bold uppercase text-white bg-red-600 rounded-full z-10">
             New
           </span>
-        )}
+        )
+        }
 
         {/* Wishlist Icon (Existing) */}
         <WishlistBtn onClick={handle_wishlist}
           isFavorite={isFavorite} />
-      </div>
+      </div >
 
       {/* Product Details */}
-      <div className="p-4 flex flex-col items-start">
+      < div className="p-4 flex flex-col items-start" >
         {/* NEW: Category Badge */}
-        <span className="inline-block px-2 py-0.5 mb-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full transition-colors duration-200 hover:bg-gray-200">
+        < span className="inline-block px-2 py-0.5 mb-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full transition-colors duration-200 hover:bg-gray-200" >
           {product.category?.name}
-        </span>
+        </span >
 
-        <h3 className="text-lg font-semibold text-gray-900 leading-tight truncate w-full mb-1">
+        <h3 className="text-lg font-semibold text-gray-900 leading-tight truncate w-full mb-1" >
           {title}
-        </h3>
+        </h3 >
 
-        <p className="text-xl font-bold text-red-600 mb-4">Rs. {price}</p>
+        <p className="text-xl font-bold text-red-600 mb-4" > Rs. {price}</p >
 
         {/* Quantity Buttons */}
-        <div className="flex items-center justify-between w-full mb-3">
+        < div className="flex items-center justify-between w-full mb-3" >
           <button
             onClick={handleDec}
             value={itemQuantity}
@@ -105,7 +106,7 @@ const handleAddToCart = () => {
           >
             −
           </button>
-          <span className="text-base font-semibold">{itemQuantity}</span>
+          <span className="text-base font-semibold" > {itemQuantity}</span >
           <button
             onClick={handleInc}
             value={itemQuantity}
@@ -114,20 +115,20 @@ const handleAddToCart = () => {
           >
             +
           </button>
-        </div>
+        </div >
 
         {/* Add to Cart Button */}
-        <AddCart
+        < AddCart
           // onClick={() =>
           //   handleAddToCart({
           //     ...product,
           //     id: product.id || product._id || product.name,  // unique
           //   })
           // }
- onClick={handleAddToCart} />
-     
-      </div>
-    </div>
+          onClick={handleAddToCart} />
+
+      </div >
+    </div >
 
   );
 };

@@ -7,8 +7,8 @@ const WishListCard = ({ item, onRemove, onAddToCart }) => {
   const { id, title, price, imageUrl } = item;
 
   return (
-    <div 
-    className="flex items-center p-4 sm:p-6">
+    <div
+      className="flex items-center p-4 sm:p-6">
       <div className="mr-4">
         <img
           src={imageUrl}
@@ -17,12 +17,12 @@ const WishListCard = ({ item, onRemove, onAddToCart }) => {
         />
       </div>
 
-      <div className="flex-grow">
-        <h3 className="text-lg font-semibold truncate">{title}</h3>
-        <p className="text-xl font-bold text-red-600">Rs. {price}</p>
-      </div>
+      <div className="flex-grow" >
+        <h3 className="text-lg font-semibold truncate" > {title}</h3 >
+        <p className="text-xl font-bold text-red-600" > Rs. {price}</p >
+      </div >
 
-      <div className="flex items-center space-x-3 ml-4">
+      <div className="flex items-center space-x-3 ml-4" >
         <AddCart onClick={onAddToCart} />
 
         <button
@@ -31,8 +31,8 @@ const WishListCard = ({ item, onRemove, onAddToCart }) => {
         >
           <Trash2 className="w-4 h-4" />
         </button>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
 

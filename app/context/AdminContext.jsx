@@ -1,95 +1,50 @@
-"use client";
-import { createContext, useContext, useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { useMemo } from "react";
-import { DollarSign, ShoppingCart, Users } from "lucide-react";
 
+
+"use client";
+import { createContext, useContext, useState, useEffect, useMemo } from "react";
+import { useOrders } from "./OrderContext";
+import { DollarSign, ShoppingCart, Users } from "lucide-react";
 
 const AdminContext = createContext();
 
 export function AdminProvider({ children }) {
-     const [orders, setOrders] = useState([]);
-     const { data: session } = useSession();
+     const { orders } = useOrders();
 
-      useEffect(() => {
-        const fetchOrders = async () => {
-          try {
-            const res = await fetch('/api/orders?userId=someUserId');
-            const data = await res.json();
-            // Assuming data is an array of objects
-            setOrders(data || []);
-          } catch (err) {
-            console.error("Error fetching orders:", err);
-          }
-        };
-        fetchOrders();
-      }, [session]);
-
-      const metrics = useMemo(() => {
-          const totalSales = orders.reduce((sum, order) => sum + order.totalPrice, 0);
+     const metrics = useMemo(() => {
+          const safeOrders = Array.isArray(orders) ? orders : [];
+          const totalSales = safeOrders.reduce((sum, o) => sum + (o.totalPrice || 0), 0);
           const today = new Date().toDateString();
-          const ordersToday = orders.filter(order => new Date(order.createdAt).toDateString() === today).length;
-          const uniqueCustomers = new Set(orders.map(order => order.userId)).size;
+          const ordersToday = safeOrders.filter(o => new Date(o.createdAt).toDateString() === today).length;
+          const uniqueCustomers = new Set(safeOrders.map(o => o.userId)).size;
 
           return [
-               {
-                    id: 'sales',
-                    title: 'Total Sales (30d)',
-                    value: `$${totalSales.toLocaleString()}`,
-                    icon: DollarSign,
-                    statusColor: 'text-green-600 bg-green-50',
-               },
-               {
-                    id: 'orders',
-                    title: 'Orders Today',
-                    value: ordersToday.toString(),
-                    icon: ShoppingCart,
-                    statusColor: 'text-gray-600 bg-gray-50',
-               },
-               {
-                    id: 'customers',
-                    title: 'New Customers',
-                    value: uniqueCustomers.toString(),
-                    icon: Users,
-                    statusColor: 'text-blue-600 bg-blue-50',
-               },
+               { id: "sales", title: "Total Sales (30d)", value: `$${totalSales.toLocaleString()}`, icon: DollarSign, statusColor: "text-green-600 bg-green-50" },
+               { id: "orders", title: "Orders Today", value: ordersToday.toString(), icon: ShoppingCart, statusColor: "text-gray-600 bg-gray-50" },
+               { id: "customers", title: "New Customers", value: uniqueCustomers.toString(), icon: Users, statusColor: "text-blue-600 bg-blue-50" },
           ];
      }, [orders]);
 
      const topSKUs = useMemo(() => {
+          const safeOrders = Array.isArray(orders) ? orders : [];
           const revenueMap = {};
-          for (const order of orders) {
-               for (const item of order.orderItems) {
+
+          safeOrders.forEach(order => {
+               (order.orderItems || []).forEach(item => {
                     const p = item.product;
-
-                    if (!revenueMap[p.id]) {
-                         revenueMap[p.id] = { name: p.title, revenue: 0 };
-                    }
-
-                    revenueMap[p.id].revenue += p.price * item.quantity;
-               }
-          }
+                    if (!p) return;
+                    if (!revenueMap[p.id]) revenueMap[p.id] = { name: p.title, revenue: 0 };
+                    revenueMap[p.id].revenue += (p.price || 0) * (item.quantity || 0);
+               });
+          });
 
           return Object.values(revenueMap)
                .sort((a, b) => b.revenue - a.revenue)
-               .map((item, index) => ({
-                    rank: index + 1,
-                    name: item.name,
-                    revenue: `$${item.revenue}`,
-               }));
-     }
+               .map((item, index) => ({ rank: index + 1, name: item.name, revenue: `$${item.revenue}` }));
+     }, [orders]);
 
-          , [orders])
-
-     return (
-          <AdminContext.Provider value={{ orders , metrics , topSKUs}}>
-               {children}
-          </AdminContext.Provider>
-     );
+     return <AdminContext.Provider value={{ orders, metrics, topSKUs }}>{children}</AdminContext.Provider>;
 }
-
 
 export function useAdmin() {
      return useContext(AdminContext);
 }
-

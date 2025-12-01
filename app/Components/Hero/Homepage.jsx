@@ -28,26 +28,28 @@ const Homepage = () => {
                          <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
                               Featured Heat
                          </h2>
-                         <div className="">
+                         <div className="" >
                               {/* Button/Link styled to look like a link */}
-                              <Link
+                              < Link
                                    href="/allProds"
-                                   className="text-lg font-semibold text-black hover:text-gray-700 transition-colors hover:cursor-pointer flex items-center">
-                                   View all products <ChevronRight className="w-4 h-4 ml-1" />
-                              </Link>
-                         </div>
-                    </div>
+                                   className="text-lg font-semibold text-black hover:text-gray-700 transition-colors hover:cursor-pointer flex items-center" >
+                                   View all products < ChevronRight className="w-4 h-4 ml-1" />
+                              </Link >
+                         </div >
+                    </div >
 
                     {/* Products Grid (User provided JSX structure) */}
                     {/* Note: The user provided a large vertical padding, which is kept here */}
                     <div className="py-24 grid w-[95%] mx-auto sm:w-full sm:grid-cols-2 gap-6 md:grid-cols-3  xl:grid-cols-4 md:gap-8">
-                         {products.slice(0, 8).map((product, idx) => (
-                              <ProdCard key={idx} product={product} />
-                         ))}
-                    </div>
-               </div>
-               </div>
+                         {
+                              products.slice(0, 8).map((product, idx) => (
+                                   <ProdCard key={idx} product={product} />
+                              ))
+                         }
+                    </div >
+               </div >
+          </div >
      );
 };
 
-               export default Homepage;
+export default Homepage;

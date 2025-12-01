@@ -1,29 +1,56 @@
-
 // app/api/orders/route.js
+// import { NextResponse } from "next/server";
+// import { prisma } from "@/lib/prisma";
+
+// export async function GET(request) {
+//      try {
+//           const { searchParams } = new URL(request.url);
+//           const userId = searchParams.get("userId");
+
+//           if (!userId) {
+//                return NextResponse.json({ error: "Missing userId" }, { status: 400 });
+//           }
+
+//           const orders = await prisma.order.findMany({
+//                where: { userId },
+//                include: {
+//                     orderItems: { include: { product: true } },
+//                     address: true,
+//                },
+//                orderBy: { createdAt: "desc" },
+//           });
+
+//           return NextResponse.json(orders || []);
+//      } catch (error) {
+//           console.error("Orders API Error:", error);
+//           return NextResponse.json({ error: "Server error" }, { status: 500 });
+//      }
+// }
+
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/auth";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/auth"; // your NextAuth config
 
-export async function GET(request) {
+export async function GET(req) {
      try {
-          const { searchParams } = new URL(request.url);
-          const userId = searchParams.get("userId");
+          const session = await getServerSession(authOptions);
 
-          if (!userId) {
-               return NextResponse.json({ error: "Missing userId" }, { status: 400 });
+          if (!session?.user?.id) {
+               return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
           }
 
           const orders = await prisma.order.findMany({
-               where: { userId },
+               where: { userId: session.user.id },
                include: {
-                    orderItems: { include: { product: true } },
                     address: true,
+                    orderItems: { include: { product: true } },
                },
           });
 
-          return NextResponse.json(orders);
+          return NextResponse.json(orders || []);
      } catch (error) {
-          console.error("ORDER API ERROR:", error);
-          return NextResponse.json({ error: "Server error" }, { status: 500 });
+          console.error("Error fetching orders:", error);
+          return NextResponse.json({ message: error.message }, { status: 500 });
      }
 }

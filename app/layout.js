@@ -21,13 +21,13 @@ export const metadata = {
 
 export default function RootLayout({ children, session }) {
   return (
-   <html lang="en" className=" dark">
+    <html lang="en" className=" dark">
       <body>
         <Providers>
           <Navbar />
           {children}
           <Footer />
-          </Providers>
+        </Providers>
       </body>
     </html>
   );

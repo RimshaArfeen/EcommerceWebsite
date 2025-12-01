@@ -69,6 +69,7 @@ export const CartItemCard = ({ item, onRemove, onQtyChange }) => {
 };
 
 //CartSummary
+
 export const CartSummary = ({ items, onTotalChange }) => {
   const subtotal = Array.isArray(items)
     ? items.reduce((sum, item) => sum + item.price * item.qty, 0)
@@ -77,52 +78,53 @@ export const CartSummary = ({ items, onTotalChange }) => {
   const shipping = subtotal > 999 ? 0 : 200;
   const total = subtotal + shipping;
 
-  // Send total to parent (but avoid infinite loops)
   useEffect(() => {
     if (onTotalChange) onTotalChange(total);
-  }, [total]);
+  }, [total, onTotalChange]);
 
   return (
-    <div  className = "primary_bg  sticky top-20  p-6 rounded-xl shadow-lg  ">
-      < h2  className="text-2xl font-bold   mb-4 border-b pb-3" > Order Summary</h2 >
+    <div className="primary_bg sticky top-20 p-6 rounded-xl shadow-lg">
+      <h2 className="text-2xl font-bold mb-4 border-b pb-3">Order Summary</h2>
 
-    {/* Price Details */ }
-    < div  className="space-y-3  " >
-      <div  className="flex justify-between text-lg" >
+      {/* Price Details */}
+      <div className="space-y-3">
+        <div className="flex justify-between text-lg">
           <span>Subtotal ({Array.isArray(items) ? items.length : 0} items)</span>
-          <span  className="font-medium  " > ${ subtotal.toFixed(2) }</span >
-        </div >
+          <span className="font-medium">${subtotal.toFixed(2)}</span>
+        </div>
 
-  <div  className="flex justify-between" >
+        <div className="flex justify-between">
           <span>Shipping Estimate</span>
-          <span  className={`font-medium ${shipping === 0 ? 'text-green-600' : ' '}`}>
-            {shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}
+          <span className={`font-medium ${shipping === 0 ? "text-green-600" : ""}`}>
+            {shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}
           </span>
-        </div >
+        </div>
 
-  <div  className="flex justify-between pt-4 border-t " >
-    <span  className="text-xl font-bold" > Order Total</span >
-      <span  className="text-2xl font-extrabold text-red-600" > ${ total.toFixed(2) }</span >
-        </div >
-      </div >
+        <div className="flex justify-between pt-4 border-t">
+          <span className="text-xl font-bold">Order Total</span>
+          <span className="text-2xl font-extrabold text-red-600">
+            ${total.toFixed(2)}
+          </span>
+        </div>
+      </div>
 
-  {/* Checkout Button */ }
-  < Link
-href = "/checkout"
-  className = "mt-6 w-full flex items-center justify-center px-6 py-3 text-lg font-bold text-white bg-gray-800 hover:bg-gray-700 rounded-lg shadow-md
-transition - all duration - 300  focus: outline - none focus: ring - 4 focus: ring - gray - 300 active: scale - 98 hover: cursor - pointer "
-aria - label="Proceed to Checkout"
-  >
-  Proceed to Checkout
-    < ArrowRight  className="w-5 h-5 ml-2" />
-      </Link >
+      {/* Checkout Button */}
+      <Link
+        href="/checkout"
+        aria-label="Proceed to Checkout"
+        className={`
+          mt-6 w-full flex items-center justify-center px-6 py-3 text-lg font-bold
+          text-white bg-gray-800 hover:bg-gray-700 rounded-lg shadow-md
+          transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-gray-300
+          active:scale-95 cursor-pointer
+        `}
+      >
+        Proceed to Checkout
+        <ArrowRight className="w-5 h-5 ml-2" />
+      </Link>
 
-  <p  className="text-center text-xs   mt-4" >
-    Shipping calculated at checkout.
-      </p >
-    </div >
+      <p className="text-center text-xs mt-4">Shipping calculated at checkout.</p>
+    </div>
   );
 };
-
-
 

@@ -14,6 +14,11 @@ import {
   CreditCard,
   User,
   MessageCircle,
+  LayoutDashboard,
+  ShoppingCart,
+  Package,
+  Users,
+  UserCircle
 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
@@ -111,6 +116,18 @@ const BottomNav = () => {
       subLinks: [
         { name: 'Blog Overview', href: '/blog', icon: BookOpen },
         { name: 'Blog Detail', href: '/blog/detail', icon: MessageCircle },
+      ],
+    },
+    {
+      name: "Admin Dashboard",
+      href: "/admin",
+      icon: LayoutDashboard,
+      subLinks: [
+        { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
+        { name: "Orders", href: "/admin/orders", icon: ShoppingCart },
+        { name: "Products", href: "/admin/products", icon: Package },
+        { name: "Users", href: "/admin/users", icon: Users },
+        { name: "Customers", href: "/admin/customers", icon: UserCircle },
       ],
     },
     { name: 'Contact Us', href: '/contact', icon: Phone },

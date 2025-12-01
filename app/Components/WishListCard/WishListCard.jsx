@@ -27,7 +27,7 @@ const WishListCard = ({ item, onRemove, onAddToCart }) => {
 
         <button
           onClick={onRemove}
-          className="p-3 bg-red-700 text-white rounded-full hover:bg-red-800"
+          className="p-2.5 bg-red-700 text-white rounded-lg hover:bg-red-800"
         >
           <Trash2 className="w-4 h-4" />
         </button>

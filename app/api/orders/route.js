@@ -1,31 +1,28 @@
 
+// app/api/orders/route.js
 import { NextResponse } from "next/server";
-import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 
-export async function GET(request) {
-
+export async function GET() {
      try {
+          const session = await auth();
 
           const orders = await prisma.order.findMany({
                where: {
-                    userId: (await auth())?.user?.id || null,
+                    userId: session?.user?.id,
                },
                include: {
                     address: true,
                     orderItems: {
-                         include: {
-                              product: true
-                         }
+                         include: { product: true }
                     }
                }
           });
-          console.log("Orders ", orders)
-          return NextResponse.json(orders, { status: 200 });
+          console.log("Session user: ", session?.user);
 
+          return NextResponse.json(orders);
      } catch (error) {
           return NextResponse.json(error.message, { status: 500 });
      }
-
 }

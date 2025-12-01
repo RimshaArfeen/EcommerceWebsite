@@ -17,7 +17,6 @@ const Page = () => {
   const isEmpty = cartItems.length === 0;
 
   const handleClick = async (e) => {
-    e.preventDefault();
     setLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
@@ -186,7 +185,6 @@ const Page = () => {
                   {/* SUBMIT BUTTON – MUST BE INSIDE FORM */}
                   <button
                     type="submit"
-                    onClick={handleClick}
                     className="btn-cta w-full py-4 text-xl font-bold uppercase rounded-lg shadow-xl hover:opacity-90 flex items-center justify-center"
                     disabled={loading}
                   >

@@ -1,4 +1,5 @@
-// "use client"
+
+"use client"
 import React from 'react';
 import SliderComponent from './SliderComponent';
 import Categories from '../Categories/Categories';
@@ -7,10 +8,11 @@ import { ProdCard } from '../ProdCard/ProdCard';
 import { mockProducts } from '@/app/foodItems';
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
-
+import { useProducts } from '@/app/context/ProdContext';
 
 const Homepage = () => {
 
+     const products = useProducts();
      return (
           // Full viewport height container with the background image
 
@@ -39,7 +41,7 @@ const Homepage = () => {
                     {/* Products Grid (User provided JSX structure) */}
                     {/* Note: The user provided a large vertical padding, which is kept here */}
                     <div className="py-24 grid w-[95%] mx-auto sm:w-full sm:grid-cols-2 gap-6 md:grid-cols-3  xl:grid-cols-4 md:gap-8">
-                         {mockProducts.slice(0, 8).map((product, idx) => (
+                         {products.slice(0, 8).map((product, idx) => (
                               <ProdCard key={idx} product={product} />
                          ))}
                     </div>

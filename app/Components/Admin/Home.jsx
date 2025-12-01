@@ -62,10 +62,7 @@ const Home = () => {
                          </div >
                     </section >
 
-                    {/* Placeholder for future sections or footer */}
-                    < footer className="mt-16 text-center text-sm text-gray-400 border-t pt-8" >
-                         Spicy Bazaar Admin Console & copy; 2024
-                    </footer >
+                  
                </div >
           </div >
      )

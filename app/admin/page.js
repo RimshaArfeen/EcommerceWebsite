@@ -6,7 +6,6 @@ const page = () => {
      return (
          <>    
          <Home />
-         This admin dashboard is under maintenance. Please check back later.
          </>
      );
 }

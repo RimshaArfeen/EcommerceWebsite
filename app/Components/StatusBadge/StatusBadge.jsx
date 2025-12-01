@@ -2,7 +2,7 @@
 import React from 'react'
 import { CheckCircle, Clock, Truck, XCircle, Package } from 'lucide-react';
 const StatusBadge = ({ status }) => {
-     letclasses = 'bg-gray-100 text-gray-800'; // Default
+     let classes = 'bg-gray-100 text-gray-800'; // Default
      let Icon = Clock;
 
      switch (status) {

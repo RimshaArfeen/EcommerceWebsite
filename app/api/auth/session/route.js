@@ -1,7 +1,10 @@
+
+// app/api/auth/session/route.js
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-     const session = await auth(); // Auth.js v5 server-side session fetch
+     const session = await auth();
      return NextResponse.json(session);
 }
+

@@ -11,29 +11,17 @@ export function OrderProvider({ children }) {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        // 1. Get user session from custom endpoint
-        const sessionRes = await fetch("/api/auth/session", {
-          credentials: "include",
-        });
+        const res = await fetch("/api/orders", { credentials: "include" });
 
-        const session = await sessionRes.json();
-
-        // If user is not logged in → no orders
-        if (!session?.user?.id) {
+        if (!res.ok) {
           setOrders([]);
           setLoading(false);
           return;
         }
 
-        // 2. Fetch orders using the userId
-        const res = await fetch(
-          `/api/orders?userId=${session.user.id}`,
-          { credentials: "include" }
-        );
-
         const data = await res.json();
 
-        // Ensure data is an array before setting
+        // API returns array directly
         setOrders(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Error loading orders:", error);

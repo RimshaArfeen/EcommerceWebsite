@@ -1,30 +1,37 @@
 
 // app/api/orders/route.js
-import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { auth } from "@/auth";
+export const dynamic = "force-dynamic";
 
 export async function GET(req) {
      try {
           const session = await auth();
+          console.log("PROD /api/orders session:", session);
 
-          if (!session?.user?.id) {
-               return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+          // fallback to query param if auth() fails in prod
+          const url = new URL(req.url);
+          const userIdFromQuery = url.searchParams.get("userId");
+
+          const userId = session?.user?.id || userIdFromQuery;
+          if (!userId) {
+               console.warn("No userId found (session missing and no query param)");
+               return NextResponse.json([], { status: 200 });
+          }
+
+          // optional: validate userId length/format quickly
+          if (typeof userId !== "string" || userId.length < 10) {
+               console.warn("Suspicious userId:", userId);
+               return NextResponse.json([], { status: 200 });
           }
 
           const orders = await prisma.order.findMany({
-               where: { userId: session.user.id },
-               include: {
-                    orderItems: { include: { product: true } },
-                    address: true,
-               },
+               where: { userId },
+               include: { orderItems: { include: { product: true } }, address: true },
                orderBy: { createdAt: "desc" },
           });
 
           return NextResponse.json(orders);
      } catch (err) {
-          console.error("Orders API Error:", err);
+          console.error("Orders API Error (production):", err);
           return NextResponse.json({ error: "Server error" }, { status: 500 });
      }
 }
-

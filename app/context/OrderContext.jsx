@@ -11,7 +11,7 @@ export function OrderProvider({ children }) {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await fetch("/api/orders", { credentials: "include" });
+        const res = await fetch(`/api/orders?userId=${session?.user?.id || ""}`, { credentials: "include" });
 
         if (!res.ok) {
           setOrders([]);

@@ -16,14 +16,14 @@ const Page = () => {
   const [loading, setLoading] = useState(false);
   const isEmpty = cartItems.length === 0;
 
-  const handleClick = async (e) => {
-    setLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+  // const handleClick = async (e) => {
+  //   setLoading(true);
+  //   await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    setLoading(false);
-    alert("Order Placed Successfully!");
-    clearCart();
-  };
+  //   setLoading(false);
+  //   alert("Order Placed Successfully!");
+  //   clearCart();
+  // };
 
   if (isEmpty) {
     return (
@@ -49,7 +49,13 @@ const Page = () => {
               <h2 className="text-3xl font-bold mb-6" > 1. Shipping Information</h2 >
 
               {/* FORM START */}
-              < form action={createInvoice} className="space-y-4" >
+              < form action={async (formData) => {
+                setLoading(true);
+                await createInvoice(formData);
+                setLoading(false);
+                clearCart();
+              }}
+                className="space-y-4" >
                 <div>
                   <label className="block text-sm font-medium mb-1">
                     Full Name

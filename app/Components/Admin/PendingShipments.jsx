@@ -1,11 +1,10 @@
 
 import React from 'react'
 import { Truck, ChevronRight } from 'lucide-react';
-import { useOrders } from '../../context/OrderContext';
 import { formatDate } from '@/app/utils';
-
+import { useAdmin } from '@/app/context/AdminContext';
 const PendingShipments = () => {
-     const { orders } = useOrders();
+     const { customersOrders } = useAdmin();
 
      return (
           <div className=" p-6 rounded-xl shadow-lg border border-gray-100 h-full">
@@ -21,7 +20,7 @@ const PendingShipments = () => {
 
                <div className="space-y-3" >
                     {
-                         orders.filter(order => order.status.toLowerCase() === 'pending').map((shipment) => (
+                         customersOrders.filter(order => order.status.toLowerCase() === 'pending').map((shipment) => (
                               <div key={shipment.id} className="p-3  rounded-lg flex justify-between items-center hover:0 transition-colors">
                                    <div>
                                         <p className="text-sm font-medium text-gray-800">Order #{shipment.id}</p>

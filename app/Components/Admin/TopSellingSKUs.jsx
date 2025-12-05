@@ -4,7 +4,7 @@ import { TrendingUp } from 'lucide-react';
 import { useAdmin } from '@/app/context/AdminContext';
 
 
-const TopSellingSKUs = () => {
+const TopSellingProducts = () => {
      const { topSKUs } = useAdmin();
      // console.log("Top SKUs:", topSKUs);
 
@@ -13,7 +13,7 @@ const TopSellingSKUs = () => {
                < div className="flex justify-between items-center mb-6 border-b pb-3" >
                     <h3 className="text-xl font-bold text-gray-900 flex items-center" >
                          <TrendingUp className="w-6 h-6 mr-2 text-green-600" />
-                         Top - Selling SKUs
+                         Top - Selling Products
                     </h3 >
                     <a href="#" className="text-sm font-semibold text-black hover:text-gray-700 transition-colors cursor-not-allowed">
                          Report
@@ -44,4 +44,4 @@ const TopSellingSKUs = () => {
      )
 }
 
-export default TopSellingSKUs
+export default TopSellingProducts

@@ -3,10 +3,9 @@
 import React from 'react'
 import { ListChecks, Search, ChevronDown, Eye, X } from 'lucide-react';
 import StatusBadge from '../StatusBadge/StatusBadge.jsx';
-import { useOrders } from '@/app/context/OrderContext.jsx';
 import { formatDate } from '@/app/utils/index';
 import { OrderItemCard } from '../AccountPage/OrderHistory.jsx';
-
+import { useAdmin } from '@/app/context/AdminContext.jsx';
 
 
 /**
@@ -59,10 +58,10 @@ const BulkActionsBar = () => {
 
 
 const OrdersTable = ({ showModal, setShowModal, selectedOrder, setSelectedOrder }) => {
-     const { orders } = useOrders();
+     const { customersOrders } = useAdmin();
      // State to simulate check status for UI demonstration
      const [checkedItems, setCheckedItems] = React.useState({});
-     const safeOrders = Array.isArray(orders) ? orders : [];
+     const safeOrders = Array.isArray(customersOrders) ? customersOrders : [];
 
      // Function to handle individual checkbox change
      const handleCheckChange = (id) => {
@@ -84,10 +83,10 @@ const OrdersTable = ({ showModal, setShowModal, selectedOrder, setSelectedOrder 
      };
      const handleOrderDetails = (orderId) => {
           setShowModal(true);
-          const order = orders.find(o => o.id === orderId);
+          const order = customersOrders.find(o => o.id === orderId);
           setSelectedOrder(order);
      }
-     const isAllChecked = (orders || []).every(order => checkedItems[order.id]);
+     const isAllChecked = (customersOrders || []).every(order => checkedItems[order.id]);
 
      return (
           <div className=" primary_bg rounded-xl shadow-lg border overflow-x-auto">
@@ -165,7 +164,7 @@ const OrdersTable = ({ showModal, setShowModal, selectedOrder, setSelectedOrder 
 };
 
 const AdminOrders = () => {
-     const { orders } = useOrders();
+     const { customersOrders } = useAdmin();
      const [showModal, setShowModal] = React.useState(false);
      const [selectedOrder, setSelectedOrder] = React.useState(null);
      const closeModal = () => {

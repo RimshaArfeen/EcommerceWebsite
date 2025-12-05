@@ -128,9 +128,9 @@ const BottomNav = () => {
       subLinks: [
         { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
         { name: "Orders", href: "/admin/orders", icon: ShoppingCart },
-        { name: "Products", href: "/admin", icon: Package },
-        { name: "Users", href: "/admin", icon: Users },
-        { name: "Customers", href: "/admin", icon: UserCircle },
+        { name: "Products", href: "/admin/adminProducts", icon: Package },
+        { name: "Users", href: "/admin/users", icon: Users },
+        { name: "Customers", href: "/admin/customers", icon: UserCircle },
       ],
     },
     { name: 'Contact Us', href: '/contact', icon: Phone },

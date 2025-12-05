@@ -105,7 +105,12 @@
   /* This is now handled by the gradient-heading class below, keeping for legacy structure */
   --color-main-heading: var(--color-saffron);
 }
-
+.headings_on_red_bg {
+  color: #FFB300;
+}
+.bg-red{
+  background-color: #A32412;
+}
 /* ===============================
     Base Theme Application
     =============================== */

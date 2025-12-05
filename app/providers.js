@@ -6,6 +6,8 @@ import { CartProvider } from "./context/CartContext";
 import { WishListProvider } from "./context/LikeContext";   
 import { OrderProvider } from "./context/OrderContext";
 import { AdminProvider } from "./context/AdminContext";
+import { CustomerProvider } from "./context/CustomerContext";
+
 export default function Providers({ children }) {
   return (
     <SessionProvider>
@@ -14,7 +16,11 @@ export default function Providers({ children }) {
           <WishListProvider>
             <OrderProvider>
               <AdminProvider>
+               <CustomerProvider>
+
                 {children}
+               </CustomerProvider>
+
               </AdminProvider>
             </OrderProvider>
           </WishListProvider>

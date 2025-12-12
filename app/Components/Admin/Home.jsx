@@ -11,8 +11,16 @@ import { useAdmin } from '@/app/context/AdminContext';
 const Home = () => {
      const { orders, metrics } = useAdmin();
      // console.log("Orders in Home:", orders);
-     // console.log("Total sale " , metrics)
-
+     const metricsArray = [
+          { id: 1, title: "Total Orders", value: metrics.totalOrders },
+          { id: 2, title: "Total Sales (30 Days)", value: metrics.totalSalesLast30Days },
+          { id: 3, title: "Orders Today", value: metrics.ordersToday },
+          { id: 4, title: "New Customers", value: metrics.newCustomersLast30Days },
+          { id: 5, title: "Pending Shipments", value: metrics.pendingShipments },
+          { id: 6, title: "Total Products", value: metrics.totalProducts },
+          { id: 7, title: "Low Stock Products", value: metrics.lowStockCount }
+     ];
+     console.log("Metric Array", metricsArray)
      return (
           <div className="min-h-screen font-sans p-4 sm:p-8 lg:p-12">
                < div className="max-w-7xl mx-auto" >
@@ -23,23 +31,25 @@ const Home = () => {
                               Admin Dashboard
                          </h1 >
                          <p className="text-gray-500 mt-2 text-lg" >
-                              Welcome back to Spicy Bazaar.Here is your operational snapshot.
+                              Welcome back to Spicy Bazaar. Here is your operational snapshot.
                          </p >
                     </header >
 
                     {/* --- SECTION 1: Key Metrics (3-column grid) --- */}
                     < section className="grid grid-cols-1 gap-6 md:grid-cols-3 mb-12" >
-                         {
-                              metrics.map((metric) => (
+                         {metrics.totalOrders ? (
+                              metricsArray.map(metric => (
                                    <MetricCard
                                         key={metric.id}
                                         title={metric.title}
                                         value={metric.value}
-                                        icon={metric.icon}
-                                        statusColor={metric.statusColor}
+                                        // icon={metric.icon}
+                                        // statusColor={metric.statusColor}
                                    />
                               ))
-                         }
+                         ) : (
+                              <p>Loading metrics...</p>
+                         )}
                     </section >
 
                     {/* --- SECTION 2: Operational Data (2-column responsive grid) --- */}
@@ -51,18 +61,17 @@ const Home = () => {
                          </div >
 
                          {/* Column 2: Top Selling SKUs */}
-                         < div className="lg:col-span-1" >
+                         {/* < div className="lg:col-span-1" >
                               <TopSellingSKUs />
                          </div >
 
                          {/* Column 2: Pending Shipments (Stretches across both columns on mobile/tablet, single on desktop) */}
-                         {/* Adjusted to be its own row for better vertical flow */}
                          <div className="lg:col-span-2">
                               <PendingShipments />
-                         </div >
+                         </div > 
                     </section >
 
-                  
+
                </div >
           </div >
      )

@@ -17,7 +17,8 @@ const ProductsTable = ({ products, query, pageNo }) => {
      // UI only: state to simulate sorting
      const [sortKey, setSortKey] = React.useState('title');
      const [sortDirection, setSortDirection] = React.useState('asc');
-
+     const [editingId, setEditingId] = React.useState(null); // currently editing product
+     const [newPrice, setNewPrice] = React.useState("");      // new price input
      // Headers updated based on the user's provided list
      const headers = [
           { key: 'image', label: 'Product' },
@@ -25,6 +26,30 @@ const ProductsTable = ({ products, query, pageNo }) => {
           { key: 'status', label: 'Status' },
           { key: 'actions', label: 'Actions', align: 'text-center' },
      ];
+
+     const handleEditProduct = (product) => {
+          setEditingId(product.id);
+          setNewPrice(product.price); // populate input with current price
+     };
+
+     const handleSavePrice = async (productId) => {
+          try {
+               const res = await fetch(`/api/admin/products/${productId}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ price: Number(newPrice) }),
+               });
+
+               if (!res.ok) throw new Error("Failed to update price");
+
+               alert("Price updated!");
+               setEditingId(null);
+          } catch (err) {
+               console.error(err);
+               alert("Error updating price");
+          }
+     };
+   
 
      const handleSort = (key) => {
           if (key === sortKey) {
@@ -40,6 +65,12 @@ const ProductsTable = ({ products, query, pageNo }) => {
           if (key !== sortKey) return null;
           return sortDirection === 'asc' ? <ChevronDown className="w-3 h-3 rotate-180" /> : <ChevronDown className="w-3 h-3" />;
      };
+
+     const handleDeleteProduct = (productId) => {
+          console.log("Delete product with ID:", productId);
+          // API Delete Logic
+     }
+
 
      return (
           <div className="primary_bg  rounded-xl shadow-lg border  overflow-x-auto">
@@ -83,9 +114,32 @@ const ProductsTable = ({ products, query, pageNo }) => {
                                              </td>
 
                                              {/* Price */}
-                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-bold  text-right">
-                                                  ${product.price.toFixed(2)}
-                                             </td>
+                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-right">
+                  {editingId === product.id ? (
+                    <div className="flex items-center space-x-2 justify-end">
+                      <input
+                        type="number"
+                        value={newPrice}
+                        onChange={(e) => setNewPrice(e.target.value)}
+                        className="w-20 p-1 rounded border text-right"
+                      />
+                      <button
+                        onClick={() => handleSavePrice(product.id)}
+                        className="px-2 py-1 bg-green-600 text-white rounded hover:bg-green-700"
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={() => setEditingId(null)}
+                        className="px-2 py-1 bg-gray-500 text-white rounded hover:bg-gray-600"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  ) : (
+                    `$${product.price.toFixed(2)}`
+                  )}
+                </td>
 
                                              {/* Status (Hardcoded as Active for UI example) */}
                                              <td className="px-6 py-4 whitespace-nowrap text-sm">
@@ -101,7 +155,8 @@ const ProductsTable = ({ products, query, pageNo }) => {
                                                        <button
                                                             className="text-blue-500 hover:text-blue-600 hover:cursor-pointer p-2 rounded-full transition-colors group hover:bg-blue-50"
                                                             title="Edit Product"
-                                                            onClick={() => console.log(`Edit product ${product.id}`)}
+                                                            onClick={() => handleEditProduct(product)}
+                  
                                                        >
                                                             <Edit className="w-5 h-5" />
                                                        </button>
@@ -110,7 +165,7 @@ const ProductsTable = ({ products, query, pageNo }) => {
                                                        <button
                                                             className="text-red-500 hover:text-red-600 hover:cursor-pointer p-2 rounded-full transition-colors group hover:bg-red-50"
                                                             title="Delete Product"
-                                                            onClick={() => console.log(`Delete product ${product.id}`)}
+                                                            onClick={() => handleDeleteProduct(product.id)}
                                                        >
                                                             <Trash className="w-5 h-5" />
                                                        </button>
@@ -140,9 +195,32 @@ const ProductsTable = ({ products, query, pageNo }) => {
                                              </td>
 
                                              {/* Price */}
-                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-bold  text-right">
-                                                  ${product.price.toFixed(2)}
-                                             </td>
+                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-right">
+                  {editingId === product.id ? (
+                    <div className="flex items-center space-x-2 justify-end">
+                      <input
+                        type="number"
+                        value={newPrice}
+                        onChange={(e) => setNewPrice(e.target.value)}
+                        className="w-20 p-1 rounded border text-right"
+                      />
+                      <button
+                        onClick={() => handleSavePrice(product.id)}
+                        className="px-2 py-1 bg-green-600 text-white rounded hover:bg-green-700"
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={() => setEditingId(null)}
+                        className="px-2 py-1 bg-gray-500 text-white rounded hover:bg-gray-600"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  ) : (
+                    `$${product.price.toFixed(2)}`
+                  )}
+                </td>
 
                                              {/* Status (Hardcoded as Active for UI example) */}
                                              <td className="px-6 py-4 whitespace-nowrap text-sm">
@@ -158,7 +236,7 @@ const ProductsTable = ({ products, query, pageNo }) => {
                                                        <button
                                                             className="text-blue-500 hover:text-blue-600 hover:cursor-pointer p-2 rounded-full transition-colors group hover:bg-blue-50"
                                                             title="Edit Product"
-                                                            onClick={() => console.log(`Edit product ${product.id}`)}
+                                                            onClick={()=> handleEditProduct(product.id)}
                                                        >
                                                             <Edit className="w-5 h-5" />
                                                        </button>
@@ -167,7 +245,7 @@ const ProductsTable = ({ products, query, pageNo }) => {
                                                        <button
                                                             className="text-red-500 hover:text-red-600 hover:cursor-pointer p-2 rounded-full transition-colors group hover:bg-red-50"
                                                             title="Delete Product"
-                                                            onClick={() => console.log(`Delete product ${product.id}`)}
+                                                            onClick={() => handleDeleteProduct(product.id)}
                                                        >
                                                             <Trash className="w-5 h-5" />
                                                        </button>

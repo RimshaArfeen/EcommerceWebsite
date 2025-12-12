@@ -4,7 +4,7 @@ import { Truck, ChevronRight } from 'lucide-react';
 import { formatDate } from '@/app/utils';
 import { useAdmin } from '@/app/context/AdminContext';
 const PendingShipments = () => {
-     const { customersOrders } = useAdmin();
+     const { pendingShipments } = useAdmin();
 
      return (
           <div className=" p-6 rounded-xl shadow-lg border border-gray-100 h-full">
@@ -20,8 +20,8 @@ const PendingShipments = () => {
 
                <div className="space-y-3" >
                     {
-                         customersOrders.filter(order => order.status.toLowerCase() === 'pending').map((shipment) => (
-                              <div key={shipment.id} className="p-3  rounded-lg flex justify-between items-center hover:0 transition-colors">
+                         pendingShipments.map((shipment) => (
+                              <div key={shipment.id} className="p-3 tracking-wide  rounded-lg flex justify-between items-center hover:0 transition-colors">
                                    <div>
                                         <p className="text-sm font-medium text-gray-800">Order #{shipment.id}</p>
                                         <p className="text-xs text-gray-500">

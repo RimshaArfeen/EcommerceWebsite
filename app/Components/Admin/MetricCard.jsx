@@ -1,15 +1,15 @@
 
 import React from 'react'
 
-const MetricCard = ({ title, value, icon: Icon, statusColor }) => {
+const MetricCard = ({ title, value}) => {
 
      return (
           <div className="primary_bg p-6 rounded-xl shadow-lg transition-shadow hover:shadow-xl">
                < div className="flex justify-between items-start" >
                     <p className="text-sm font-medium text-gray-500" > {title}</p >
-                    <div className={`p-2 rounded-full ${statusColor}`}>
+                    {/* <div className={`p-2 rounded-full ${statusColor}`}>
                          <Icon className="w-5 h-5" />
-                    </div>
+                    </div> */}
                </div >
 
                <div className="mt-4" >

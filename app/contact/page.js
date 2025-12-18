@@ -51,9 +51,9 @@ const Contact = () => {
               </div >
             </div >
 
-            <div className="p-6 border-l-4 border-red-600 bg-red-50/50 rounded-lg" >
-              <div className="flex items-center text-gray-900 font-semibold mb-2" >
-                <Clock className="w-5 h-5 mr-3 text-red-600" />
+            <div className="primary_bg p-6 border-l-4 border-red-800  rounded-lg" >
+              <div className="flex items-center text-gray-400 font-semibold mb-2" >
+                <Clock className="w-5 h-5 mr-3 text-red-800" />
                 Operating Hours
               </div >
               <p className="text-gray-700 text-sm" >
@@ -104,7 +104,7 @@ const Contact = () => {
 
               <button
                 type="submit"
-                className="bg-gray-900 w-full flex justify-center items-center py-3 px-4 text-lg font-bold rounded-xl text-white 0 hover 0 transition-all duration-300 shadow-lg"
+                className="btn-cta w-full flex justify-center items-center py-3 px-4 text-lg font-bold rounded-xl text-white 0 hover 0 transition-all duration-300 shadow-lg"
               >
                 Send Message
                 <Send className="w-5 h-5 ml-2" />

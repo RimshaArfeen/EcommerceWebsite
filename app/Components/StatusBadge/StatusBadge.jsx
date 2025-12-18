@@ -28,7 +28,7 @@ const StatusBadge = ({ status }) => {
 
 
      return (
-          <span className={`px-2 py-1 inline-flex text-xs leading-5 font-medium rounded-full ${classes} items-center space-x-1`
+          <span className={`ml-2 px-2 py-1 inline-flex text-xs leading-5 font-medium rounded-full ${classes} items-center space-x-1`
           }>
                <Icon className="w-3 h-3" />
                <span>{status}</span>

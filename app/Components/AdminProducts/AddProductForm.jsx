@@ -1,7 +1,7 @@
+
 import React from 'react';
 import { X } from 'lucide-react';
 import "../../globals.css";
-// NOTE: Assuming createInvoice action is correct for product creation based on form fields.
 import { createInvoice } from "@/app/actions/createInvoice";
 
 // Reusing InputField and TextareaField components for consistency and simplicity.
@@ -50,7 +50,7 @@ const TextareaField = ({ label, id, name, placeholder, required = true }) => (
 const AddProductForm = ({ onClose }) => {
      return (
           // Main container: min-height is 60vh, relative for absolute positioning of close button
-          <div className="primary_bg min-h-[70vh] max-h-[90vh] w-full md:w-3/4 lg:w-1/3 p-4 md:p-6 rounded-xl relative shadow-2xl">
+          <div className="primary_bg min-h-[70vh] max-h-[90vh] w-full md:w-3/4 lg:w-2/5 p-4 md:p-6 rounded-xl relative shadow-2xl">
 
                {/* Floating Close Button */}
                <button
@@ -68,7 +68,7 @@ const AddProductForm = ({ onClose }) => {
                <form
                     action={createInvoice}
                     // Set max height to slightly less than 60vh to account for header/footer padding and allow scrolling
-                    className="w-full space-y-3 overflow-y-auto max-h-[calc(70vh-7rem)] md:max-h-[calc(70vh-8rem)] pr-2"
+                    className="w-full space-y-3 overflow-y-auto scrollbar-colored max-h-[calc(70vh-7rem)] md:max-h-[calc(70vh-8rem)] pr-2"
                >
 
                     {/* Product Title - Single Column */}
@@ -148,12 +148,7 @@ const AddProductForm = ({ onClose }) => {
                     <input type="hidden" name="createdAt" value={new Date().toISOString()} />
                     <input type="hidden" name="updatedAt" value={new Date().toISOString()} />
 
-                    {/* Buttons - Placed outside the scrolling area (visually at the bottom) */}
-                    {/* NOTE: Placing buttons here is good for UX, but technically they are inside the form tag. 
-                       If the form content is scrolled, these buttons will scroll with it. 
-                       For a fixed footer, the form would need restructuring, but to adhere to fitting in 60vh, 
-                       we keep them here for now, minimizing the space above them.
-                    */}
+
                     <div className="flex justify-end gap-3 pt-3 border-t mt-3 border-gray-200 sticky bottom-0 primary_bg">
                          <button
                               onClick={onClose}

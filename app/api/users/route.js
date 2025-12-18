@@ -6,6 +6,8 @@ export async function GET() {
      try {
           const customers = await prisma.user.findMany({
                include: {
+                    addresses: true,
+                    wishlist: true,
                     orders: {
                          include: {
                               orderItems: {
@@ -14,9 +16,8 @@ export async function GET() {
                                    }
                               }
                          }
-                    },
-                    addresses: true,
-                    wishlist: true,
+                    }
+                   
                   
                }
           });

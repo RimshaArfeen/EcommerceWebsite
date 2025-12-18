@@ -68,38 +68,63 @@ const OrderCard = ({ order, openModal }) => (
 );
 
 // --- NEW Component: OrderItemCard (Defined above) ---
-export const OrderItemCard = ({ item }) => (
-  <div className="flex space-x-4 p-3 rounded-lg border border-gray-200">
+// export const OrderItemCard = ({ item }) => (
+//   <div className="flex space-x-4 p-3 rounded-lg border border-gray-200">
 
-    {/* Product Image Container */}
-    < div className="flex-shrink-0 w-1/5 max-w-[80px] aspect-square overflow-hidden rounded-md" >
-      <img
-        src={item.product.imageUrl}
-        alt={item.product.title}
-        className="object-cover w-full h-full"
-      />
-    </div >
+//     {/* Product Image Container */}
+//     < div className="flex-shrink-0 w-1/5 max-w-[80px] aspect-square overflow-hidden rounded-md" >
+//       <img
+//         src={item.product?.imageUrl || item.product?.imgUrl}
+//         alt={item.product?.title || "N/A"}
+//         className="object-cover w-full h-full"
+//       />
+//     </div >
 
-    {/* Product Details */}
-    < div className="flex-grow space-y-1" >
-      <p className="font-semibold text-base" > {item.product.title}</p >
-      <p className="text-sm tracking-wide  " > {item.product.description}</p >
-      <p className="text-sm font-medium  " >
-        Qty: <span className="font-bold">{item.quantity}</span >
-      </p >
-    </div >
+//     {/* Product Details */}
+//     < div className="flex-grow space-y-1" >
+//       <p className="font-semibold text-base" > {item.product?.title || "N/A"}</p >
+//       <p className="text-sm tracking-wide  " > {item.product?.description || "N/A"}</p >
+//       <p className="text-sm font-medium  " >
+//         Qty: <span className="font-bold">{item.quantity || "N/A"}</span >
+//       </p >
+//     </div >
 
-    {/* Price */}
-    < div className="flex-shrink-0 text-right" >
-      <p className="font-bold text-lg  " >
-        ${item.product.price}
-      </p >
-      <p className="text-xs  " >
-        Total: ${item.product.price * item.quantity}
-      </p >
-    </div >
-  </div >
-);
+//     {/* Price */}
+//     < div className="flex-shrink-0 text-right" >
+//       <p className="font-bold text-lg  " >
+//         ${item.product?.price || "N/A"}
+//       </p >
+//       <p className="text-xs  " >
+//         Total: ${item.product?.price * item.quantity || "N/A"}
+//       </p >
+//     </div >
+//   </div >
+// );
+
+// OrderItemCard.jsx
+export const OrderItemCard = ({ item }) => {
+  const product = item.product ?? item.bestDeal; // pick whichever exists
+  return (
+    <div className="flex space-x-4 p-3 rounded-lg border border-gray-200">
+      <div className="flex-shrink-0 w-1/5 max-w-[80px] aspect-square overflow-hidden rounded-md">
+        <img
+          src={product?.imageUrl || "/placeholder.png"}
+          alt={product?.title || "Item removed"}
+          className="object-cover w-full h-full"
+        />
+      </div>
+      <div className="flex-grow space-y-1">
+        <p className="font-semibold text-base">{product?.title || "Item removed"}</p>
+        <p className="text-sm">{product?.description || "No description"}</p>
+        <p className="text-sm font-medium">Qty: <span className="font-bold">{item.quantity}</span></p>
+      </div>
+      <div className="flex-shrink-0 text-right">
+        <p className="font-bold text-lg">${product?.price || 0}</p>
+        <p className="text-xs">Total: ${(product?.price || 0) * item.quantity}</p>
+      </div>
+    </div>
+  );
+};
 
 
 // --- Main Component: OrderHistory (Modified Modal) ---
@@ -108,6 +133,7 @@ const OrderHistory = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const { orders } = useOrders();
+  console.log("Order CLien", orders)
   const safeOrders = Array.isArray(orders) ? orders : [];
 
   const openModal = (order) => {
@@ -154,7 +180,7 @@ const OrderHistory = () => {
         < div className="hidden lg:block rounded-xl shadow-xl border border-gray-100 overflow-hidden " >
           {/* --- Desktop View (lg and above) --- */}
           < div className="hidden lg:block rounded-xl shadow-xl border border-gray-100 overflow-hidden primary_bg " >
-            <div className="overflow-x-auto" >
+            <div className="overflow-x-auto scrollbar-colored" >
               <table className="min-w-full divide-y divide-gray-600" >
                 <thead className="800/20" >
                   <tr>
@@ -281,7 +307,7 @@ const OrderHistory = () => {
                 Items Purchased
               </h3 >
 
-              <div className="space-y-3 overflow-y-auto pr-2 flex-grow" >
+              <div className="space-y-3 overflow-y-auto scrollbar-colored pr-2 flex-grow" >
                 {
                   selectedOrder.orderItems.map((item) => (
                     <OrderItemCard key={item.id} item={item} />

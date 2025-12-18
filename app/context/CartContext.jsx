@@ -1,4 +1,3 @@
-
 "use client";
 import React, { createContext, useContext, useState, useEffect } from "react";
 
@@ -7,37 +6,23 @@ const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
-  // Normalize product so each one ALWAYS has _id
-  // const normalizeProduct = (product) => ({
-  //   ...product,
-  //   _id:
-  //     product._id ??
-  //     product.id ??
-  //     product.slug ??
-  //     product.title // fallback to name/title if needed
-  // });
-  const normalizeProduct = (product) => {
-  if (!product._id) {
-    throw new Error(
-      "Product _id is missing. Cannot add to cart without a valid ObjectId."
-    );
-  }
-  return { ...product, _id: product._id };
-};
+  // normalize product id
+  const normalizeProduct = (product) => ({
+    ...product,
+    _id: product._id ?? product.id ?? product.slug,
+  });
 
-
-  // Add to cart
   const addToCart = (product, qty = 1) => {
     const normalized = normalizeProduct(product);
 
     setCartItems((prev) => {
-      const exists = prev.find((item) => item._id === normalized._id);
+      const exists = prev.find((i) => i._id === normalized._id);
 
       if (exists) {
-        return prev.map((item) =>
-          item._id === normalized._id
-            ? { ...item, qty: item.qty + qty }
-            : item
+        return prev.map((i) =>
+          i._id === normalized._id
+            ? { ...i, qty: i.qty + qty }
+            : i
         );
       }
 
@@ -46,32 +31,29 @@ export const CartProvider = ({ children }) => {
   };
 
   const removeFromCart = (_id) => {
-    setCartItems((prev) => prev.filter((item) => item._id !== _id));
+    setCartItems((prev) => prev.filter((i) => i._id !== _id));
   };
 
-  const updateQty = (_id, newQty) => {
+  const updateQty = (_id, qty) => {
     setCartItems((prev) =>
-      prev.map((item) =>
-        item._id === _id ? { ...item, qty: newQty } : item
-      )
+      prev.map((i) => (i._id === _id ? { ...i, qty } : i))
     );
   };
-const clearCart = () => setCartItems([]);
 
-  // Load cart
+  const clearCart = () => setCartItems([]);
+
   useEffect(() => {
     const stored = localStorage.getItem("cart");
     if (stored) setCartItems(JSON.parse(stored));
   }, []);
 
-  // Save cart
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, updateQty , clearCart }}
+      value={{ cartItems, addToCart, removeFromCart, updateQty, clearCart }}
     >
       {children}
     </CartContext.Provider>

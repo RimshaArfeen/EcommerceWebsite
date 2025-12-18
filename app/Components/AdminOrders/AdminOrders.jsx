@@ -17,56 +17,42 @@ import { useAdmin } from '@/app/context/AdminContext.jsx';
 /**
  * Bulk Actions Bar with placeholder dropdowns (Updated for dark theme).
  */
-const BulkActionsBar = () => {
-     // State to simulate selection count for UI display purposes only
-     const [selectedCount, setSelectedCount] = React.useState(2);
+const BulkActionsBar = ({ selectedIds }) => {
+     const [action, setAction] = React.useState("");
 
-     // Check if items are selected for conditional styling
-     const isSelected = selectedCount > 0;
+     const applyBulkAction = async () => {
+          await fetch("/api/admin/orders/bulk", {
+               method: "PUT",
+               headers: { "Content-Type": "application/json" },
+               body: JSON.stringify({
+                    orderIds: selectedIds,
+                    status: action
+               })
+          });
+
+          alert("Bulk update done");
+     };
 
      return (
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 primary_bg rounded-xl shadow-lg border mb-6">
+          <>
+               <select
+                    className=' primary_bg text-lg p-2 mb-4 rounded-lg border hover:cursor-pointer transition-all duration-200 hover:opacity-90'
+                    onChange={e => setAction(e.target.value)}>
+                    <option className=' text-sm' value="">Select Action</option>
+                    <option className=' text-sm' value="PROCESSING">Processing</option>
+                    <option className=' text-sm' value="SHIPPED">Shipped</option>
+                    <option className=' text-sm' value="DELIVERED">Delivered</option>
+                    <option className=' text-sm' value="CANCELLED">Cancelled</option>
+               </select>
 
-               {/* Left: Bulk Actions Dropdown */}
-               <div className="flex items-center space-x-4 mb-4 sm:mb-0">
-                    <ListChecks className="w-6 h-6 text-[#FFB300]" />
-
-                    {/* Selection Count Button */}
-                    <button
-                         className={`flex items-center space-x-1 px-4 py-2 text-sm font-bold rounded-lg transition-colors 
-                                   ${isSelected
-                                   ? 'bg-[#FFB300] text-[#181A20] hover:bg-yellow-500' // Highlight when selected
-                                   : 'bg-[#374151] text-[#F3F4F6] border border-[#4B5563] cursor-not-allowed'
-                              }`}
-                         disabled={!isSelected}
-                    >
-                         <span className="text-base">{selectedCount} Selected</span>
-                         <ChevronDown className="w-4 h-4 ml-1" />
-                    </button>
-
-                    {/* Placeholder action button, only visible when items are selected */}
-                    {
-                         isSelected && (
-                              <button
-                                   className="px-4 py-2 text-sm font-bold rounded-lg bg-[#A32412]  hover:bg-red-800 transition-colors shadow-lg cursor-not-allowed"
-                                   disabled
-                              >
-                                   Apply Bulk Action
-                              </button>
-                         )
-                    }
-               </div>
-
-               {/* Right: Search Input */}
-               <div className="w-full sm:w-64 relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 " />
-                    <input
-                         type="text"
-                         placeholder="Search orders, customers, or ID..."
-                         className="w-full pl-10 pr-4 py-2 text-sm bg-[#37415149]  border border-[#4B5563] rounded-lg focus:ring-[#FFB300] focus:border-[#FFB300] transition-all placeholder-[#9CA3AF]"
-                    />
-               </div>
-          </div>
+               <button
+                    className='bg-red headings_on_red_bg text-lg py-2 px-4 hover:cursor-pointer mb-4 mx-3 rounded-lg transition-all duration-200 hover:opacity-90'
+                    disabled={!selectedIds.length || !action}
+                    onClick={applyBulkAction}
+               >
+                    Apply
+               </button>
+          </>
      );
 };
 
@@ -74,38 +60,36 @@ const BulkActionsBar = () => {
 /**
  * Orders Table component (Updated for dark theme and tighter spacing).
  */
-const OrdersTable = ({ showModal, setShowModal, selectedOrder, setSelectedOrder, updatedStatus }) => {
+const OrdersTable = ({ showModal, setShowModal, selectedOrder, setSelectedOrder, selectedIds, setSelectedIds }) => {
      const { orders } = useAdmin();
      const [checkedItems, setCheckedItems] = React.useState({});
      const safeOrders = Array.isArray(orders) ? orders : [];
 
      const handleCheckChange = (id) => {
-          setCheckedItems(prev => ({
-               ...prev,
-               [id]: !prev[id],
-          }));
+          setSelectedIds(prev =>
+               prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+          );
      };
 
      const handleSelectAll = (e) => {
-          const isChecked = e.target.checked;
-          const newCheckedState = safeOrders.reduce((acc, order) => {
-               acc[order.id] = isChecked;
-               return acc;
-          }, {});
-          setCheckedItems(newCheckedState);
+          if (e.target.checked) {
+               setSelectedIds(safeOrders.map(o => o.id));
+          } else {
+               setSelectedIds([]);
+          }
      };
+
+     const isAllChecked =
+          safeOrders.length > 0 && selectedIds.length === safeOrders.length;
 
      const handleOrderDetails = (orderId) => {
           setShowModal(true);
           const order = orders.find(o => o.id === orderId);
           setSelectedOrder(order);
      }
-     // Ensure safeOrders is used for `every` check
-     const isAllChecked = safeOrders.length > 0 && safeOrders.every(order => checkedItems[order.id]);
-
 
      return (
-          <div className="primary_bg rounded-xl shadow-2xl shadow-black/50 border border-[#374151] overflow-x-auto">
+          <div className="primary_bg rounded-xl shadow-2xl shadow-black/50 border  overflow-x-auto scrollbar-colored">
                <table className="min-w-full divide-y divide-[#581205]">
                     <thead className="primary_bg">
                          <tr>
@@ -131,19 +115,20 @@ const OrdersTable = ({ showModal, setShowModal, selectedOrder, setSelectedOrder,
                               }
                          </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#374151] text-[#F3F4F6]">
+                    <tbody className="divide-y ">
                          {
                               safeOrders?.filter(order => order.status === 'PENDING')
                                    .map((order) => (
                                         // Use a slightly different background on hover for visual feedback
-                                        <tr key={order.id} className="hover:bg-[#2A2E35] transition-colors">
+                                        <tr key={order.id} className="hover:bg-[#352b2a1f] transition-colors">
                                              {/* Checkbox Cell */}
                                              <td className="px-6 py-3 whitespace-nowrap">
                                                   <input
                                                        type="checkbox"
-                                                       checked={!!checkedItems[order.id]}
+                                                       checked={selectedIds.includes(order.id)}
                                                        onChange={() => handleCheckChange(order.id)}
-                                                       className="rounded text-[#FFB300] border-[#4B5563] focus:ring-[#FFB300] bg-gray-700"
+                                                       className="rounded text-[#FFB300] border-[#4B5563] focus:ring-[#FFB300] bg-gray-700
+                                                       hover:cursor-pointer"
                                                   />
                                              </td>
                                              {/* Order ID */}
@@ -190,6 +175,7 @@ const AdminOrders = () => {
      const [showModal, setShowModal] = React.useState(false);
      const [selectedOrder, setSelectedOrder] = React.useState(null);
      const [updatedStatus, setUpdatedStatus] = React.useState("");
+     const [selectedIds, setSelectedIds] = React.useState([]);
 
      const closeModal = () => {
           setShowModal(false);
@@ -198,7 +184,7 @@ const AdminOrders = () => {
      const handleUpdateStatusChange = (orderId, newStatus) => {
           setUpdatedStatus(newStatus);
      };
-   
+
      const handleSaveStatus = async (orderId) => {
           try {
                const res = await fetch(`/api/admin/orders/${orderId}`, {
@@ -233,12 +219,16 @@ const AdminOrders = () => {
                     </header>
 
                     {/* Bulk Actions and Search Bar */}
-                    <BulkActionsBar />
-
+                    <BulkActionsBar selectedIds={selectedIds} />
                     {/* Orders List / Table */}
-                    <OrdersTable showModal={showModal} setShowModal={setShowModal} selectedOrder={selectedOrder} setSelectedOrder={setSelectedOrder}
-                         updatedStatus = {updatedStatus} 
-                         />
+                    <OrdersTable
+                         showModal={showModal}
+                         setShowModal={setShowModal}
+                         selectedOrder={selectedOrder}
+                         setSelectedOrder={setSelectedOrder}
+                         updatedStatus={updatedStatus}
+                         selectedIds={selectedIds}
+                         setSelectedIds={setSelectedIds} />
 
                     {/* Pagination Placeholder (Updated for dark theme) */}
                     <div className="mt-8 flex justify-center">
@@ -263,11 +253,11 @@ const AdminOrders = () => {
                {showModal && selectedOrder && (
                     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
                          {/* Modal container updated to dark background and more shadow */}
-                         <div className="bg-[#20232A] w-full max-w-xl rounded-xl shadow-2xl shadow-black/80 p-6 relative flex flex-col max-h-[90vh]">
+                         <div className="primary_bg w-full max-w-xl rounded-xl shadow-2xl shadow-black/80 p-6 relative flex flex-col max-h-[90vh]">
 
                               {/* Modal Header */}
                               <div
-                                   className="pb-3 mb-4 flex justify-between items-center border-b border-[#374151]"
+                                   className="pb-3 mb-4 flex justify-between items-center border-b "
                               >
                                    <h2
                                         className="text-2xl font-bold text-[#FFB300]"
@@ -286,7 +276,7 @@ const AdminOrders = () => {
 
                               {/* General Order Info */}
                               <div
-                                   className="grid grid-cols-2 gap-y-2 gap-x-4 text-sm mb-6 pb-4 border-b border-[#374151]"
+                                   className="grid grid-cols-2 gap-y-2 gap-x-4 text-sm mb-6 pb-4 border-b "
                               >
                                    <p>
                                         <span className="font-semibold text-[#A32412]">
@@ -320,14 +310,14 @@ const AdminOrders = () => {
                               </div>
 
                               {/* Update Status Section - Improved styling */}
-                              <div className="mb-6 bg-[#2A2E35] p-4 rounded-lg border border-[#374151]">
+                              <div className="bg-red mb-6 p-4 rounded-lg border ">
                                    <label className="block text-base font-bold mb-2 text-[#FFB300]">
                                         Update Order Status
                                    </label>
 
                                    <div className="flex space-x-3 items-end">
                                         <select
-                                             className="flex-grow p-2 border border-[#4B5563] rounded-lg bg-[#374151]  focus:ring-[#FFB300] focus:border-[#FFB300] transition-all"
+                                             className="primary_bg flex-grow p-2 border rounded-lg  focus:ring-[#FFB300] focus:border-[#FFB300] transition-all"
                                              defaultValue={selectedOrder.status}
                                              onChange={(e) => handleUpdateStatusChange(selectedOrder.id, e.target.value)}
                                         >
@@ -340,7 +330,7 @@ const AdminOrders = () => {
                                         </select>
 
                                         <button
-                                             className="px-4 py-2 bg-green-600  rounded-lg hover:bg-green-700 transition font-semibold shadow-md"
+                                             className="px-4 py-2 bg-[#FFB300] rounded-lg hover:bg-green-700 transition font-semibold shadow-md"
                                              onClick={() => {
                                                   handleSaveStatus(selectedOrder.id);
                                              }}
@@ -358,7 +348,7 @@ const AdminOrders = () => {
                               </h3>
 
                               {/* Scrollable list container */}
-                              <div className="space-y-3 overflow-y-auto pr-2 flex-grow custom-scrollbar" >
+                              <div className="space-y-3 overflow-y-auto scrollbar-colored pr-2 flex-grow custom-scrollbar" >
                                    {/* Note: OrderItemCard needs to support a dark background if it contains its own background */}
                                    {
                                         selectedOrder.orderItems.map((item) => (

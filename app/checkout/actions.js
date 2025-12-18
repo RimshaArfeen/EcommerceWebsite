@@ -4,6 +4,7 @@
 
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { sendOrderConfirmedEmail } from "@/lib/sendOrderEmail";
 
 export async function createInvoice(formData) {
   const session = await auth();
@@ -60,6 +61,13 @@ export async function createInvoice(formData) {
       },
     },
   });
+  
+  await sendOrderConfirmedEmail({
+    email: data.email,
+    orderId: order.id,
+    total: total,
+  });
 
   return { success: true, orderId: order.id };
 }
+

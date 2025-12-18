@@ -114,7 +114,7 @@ export const CartSummary = ({ items, onTotalChange }) => {
         aria-label="Proceed to Checkout"
         className={`
           mt-6 w-full flex items-center justify-center px-6 py-3 text-lg font-bold
-          text-white bg-gray-800 hover:bg-gray-700 rounded-lg shadow-md
+          primary_bg headings_on_red_bg btn-cta rounded-lg shadow-md
           transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-gray-300
           active:scale-95 cursor-pointer
         `}

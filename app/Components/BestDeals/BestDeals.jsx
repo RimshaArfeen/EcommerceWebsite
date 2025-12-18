@@ -7,80 +7,114 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+const DealCard = ({ id, imgUrl, title, subtitle, tag, price }) => {
+     const [isFavorite, setIsFavorite] = useState(false);
+     // const { addToCart } = useCart();
+     // const { addToWishlist, likedItems } = useWishlist()
 
-const DealCard = ({ idx, image, title, subtitle, tag, price }) => {
-     const [favorite, isFavorite] = useState(false)
+     // // const handleAddToCart = () => {
+     // //      addToCart(
+     // //           {
+     // //                _id: id,          // 👈 IMPORTANT
+     // //                title,
+     // //                subtitle,
+     // //                price,
+     // //                imgUrl,
+     // //                tag
+     // //           },
+     // //           1
+     // //      );
+     // // };
 
-     const handleAddToCart = (dealId) => {
-          console.log(`Added deal ${dealId} to cart!`);
-          // Implement your cart logic here (e.g., dispatching an action to a Redux store or updating context)
-     };
+     // // DealCard.jsx
+     // const handleAddToCart = () => {
+     //      addToCart({
+     //           _id: id,        // deal ID
+     //           bestDealId: id, // important for order storage
+     //           type: "bestDeal",
+     //           title,
+     //           subtitle,
+     //           price,
+     //           imgUrl,
+     //           tag,
+     //      }, 1);
+     // };
 
-     const handleToggleFavorite = (dealId) => {
-          console.log(`Toggled favorite for deal ${dealId}`);
-          // Implement favorite toggle logic here (e.g., updating user preferences)
-     };
+     // const handle_wishlist = (params) => {
+     //      addToWishlist({
+     //           _id: id,          // 👈 IMPORTANT
+     //           title,
+     //           subtitle,
+     //           price,
+     //           imgUrl,
+     //           tag
+     //      }, 1)
+     //      setIsFavorite(!isFavorite);
+     // }
+
+
      return (
-          <div
-               key={idx}
-               className="relative flex  flex-row items-center  rounded-xl shadow-lg  border overflow-hidden p-4 md:p-6 w-[97%] max-w-2xl mx-auto h-64">
-
-               {/* Left Section: Image with Tag */}
-               <div className="relative w-full md:w-1/2 mb-4 md:mb-0 mr-6">
-                    <img
-                         src={image}
-                         alt={title}
-                         className="w-full h-48  object-cover rounded-lg"
-                         onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/300x300/e2e8f0/334155?text=Image"; }}
-                         loading="lazy"
-                    />
+          <div className=" mx-4 relative flex rounded-xl shadow-lg border p-4 h-fit">
+               <div className=" w-1/2 mr-6">
+                    <img src={imgUrl} alt={title} className="h-48 object-cover w-full   transition-all duration-500 group-hover:scale-[1.05] group-hover:opacity-90" />
                     {tag && (
-                         <span className="absolute bottom-3 left-3 px-3 py-1 bg-red-600 text-xs font-semibold rounded-full shadow-md">
+                         <span className="absolute top-6 left-6 bg-red-600 px-3 py-1 text-xs rounded-full">
                               {tag}
                          </span>
-                    )
-                    }
-               </div >
+                    )}
+               </div>
 
-               {/* Right Section: Details and Actions */}
-               < div className="flex-grow flex flex-col items-start justify-center w-full md:w-1/2" >
-                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 leading-snug mb-1" >
-                         {title}
-                    </h3 >
-                    <p className="text-base text-gray-600 mb-4" >
-                         {subtitle}
-                    </p >
+               <div className="flex flex-col justify-center w-1/2">
+                    <h3 className="text-xl font-bold ">{title}</h3>
+                    <p className="text-gray-600">{subtitle}</p>
 
-                    <span className="text-2xl font-extrabold text-red-600 mb-4" >
-                         {price}
-                    </span >
+                    <span className="text-2xl font-bold text-red-600">
+                         Rs. {price}
+                    </span>
 
-                    {/* Action Buttons */}
-                    < div className="flex items-center w-full justify-between" >
+                    <div className="flex justify-between mt-4">
                          <button
-                              onClick={() => handleAddToCart(id)}
-                              className="flex items-center justify-center px-6 py-3 bg-red-600 text-white font-semibold rounded-full shadow-md
-                           hover:bg-red-700 transition-colors duration-300 focus:outline-none focus:ring-4 focus:ring-red-300 active:scale-95"
-                              aria-label={`Add ${title} to cart`}
+                              className="w-full flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-red-600 rounded-lg shadow-md
+      transition-all duration-300 hover:bg-red-700 active:scale-98 focus:outline-none focus:ring-4 focus:ring-red-300 hover:cursor-pointer"
                          >
-                              <ShoppingBag className="md:hidden lg:block w-5 h-5 mr-2" />
-                              Add To Cart
+                              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                   <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                                   <line x1="3" y1="6" x2="21" y2="6" />
+                                   <path d="M16 10a4 4 0 0 1-8 0" />
+                              </svg>
+                              Add to Cart
                          </button>
-
                          <button
-                              onClick={() => handleToggleFavorite(id)}
-                              className="p-3 text-gray-400 rounded-full hover:  hover:text-red-500 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-gray-300"
-                              aria-label="Add to favorites"
+                              className={`absolute top-3 right-3 p-2 rounded-full transition-colors duration-300 hover:cursor-pointer z-10 ${isFavorite
+                                   ? "bg-red-500 text-white" // <-- **Turns RED when true**
+                                   : "bg-white text-gray-400 hover:text-red-500 shadow-lg"
+                                   }`}
+                              aria-label="Add to wishlist"
                          >
-                              <Heart className="w-6 h-6" fill={isFavorite ? "currentColor" : "none"} />
+                              {/* Heart icon SVG */}
+                              <svg
+                                   xmlns="http://www.w3.org/2000/svg"
+                                   className="w-5 h-5"
+                                   viewBox="0 0 24 24"
+                                   fill={isFavorite ? "currentColor" : "none"} // <-- **Fills the heart when true**
+                                   stroke="currentColor"
+                                   strokeWidth="2"
+                                   strokeLinecap="round"
+                                   strokeLinejoin="round"
+                              >
+                                   <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                              </svg>
                          </button>
-                    </div >
-               </div >
-          </div >
-     )
-}
+                    </div>
+               </div>
+          </div>
+     );
+};
+
 
 const BestDeals = () => {
+
+
      const settings = {
           dots: true,
           infinite: true,
@@ -106,8 +140,6 @@ const BestDeals = () => {
           ],
      };
 
-
-
      return (
           <section className="py-24 font-sans">
                < div className="max-w-7xl mx-auto " >
@@ -126,10 +158,11 @@ const BestDeals = () => {
                     {/* Single Deal Card */}
                     < div className="slider-container" >
                          <Slider {...settings}>
-                              {dealData.map((deal, idx) => (
+                              {dealData.map((deal) => (
                                    <DealCard
-                                        key={idx}
-                                        image={deal.image}
+                                        key={deal.id}
+                                        id={deal.id}
+                                        imgUrl={deal.imgUrl}
                                         title={deal.title}
                                         subtitle={deal.subtitle}
                                         price={deal.price}

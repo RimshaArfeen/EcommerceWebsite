@@ -8,6 +8,8 @@ export const AdminProvider = ({ children }) => {
      const [metrics, setMetrics] = useState({});
      const [orders, setOrders] = useState([]);
      const [pendingShipments, setPendingShipments] = useState([]);
+     const [topSelling, setTopSelling] = useState([]);
+
      // Fetch metrics from API
      const fetchMetrics = async () => {
           const res = await fetch("/api/admin/metrics");
@@ -28,14 +30,23 @@ export const AdminProvider = ({ children }) => {
           setPendingShipments(data.pendingShipments);
      };
 
+     const fetchTOPSKUs = async () => {
+          const res = await fetch("/api/admin/top-selling");
+          const data = await res.json();
+          setTopSelling(data);
+     };
+
      useEffect(() => {
           fetchMetrics();
           fetchOrders();
           fetchPendingShipments();
+          fetchTOPSKUs();
+          const interval = setInterval(fetchTOPSKUs, 15000); // every 15s
+          return () => clearInterval(interval);
      }, []);
 
      return (
-          <AdminContext.Provider value={{ metrics, orders, pendingShipments, fetchMetrics, fetchOrders, fetchPendingShipments }}>
+          <AdminContext.Provider value={{ metrics, orders, pendingShipments, fetchMetrics, fetchOrders, fetchPendingShipments, topSelling, fetchTOPSKUs }}>
                {children}
           </AdminContext.Provider>
      );

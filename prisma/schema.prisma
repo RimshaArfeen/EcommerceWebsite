@@ -8,21 +8,21 @@ datasource db {
 }
 
 model User {
-  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
-  email         String?    @unique
+  email         String?   @unique
   emailVerified DateTime?
   image         String?
 
   // NEW
-  role          String? @default("customer") // customer | admin
-  createdAt     DateTime? @default(now())
+  role      String?   @default("customer") // customer | admin
+  createdAt DateTime? @default(now())
 
-  orders        Order[]
-  addresses     Address[]
-  wishlist      Wishlist[]
-  accounts      Account[]
-  sessions      Session[]
+  orders    Order[]
+  addresses Address[]
+  wishlist  Wishlist[]
+  accounts  Account[]
+  sessions  Session[]
 }
 
 model Account {
@@ -63,64 +63,83 @@ model VerificationToken {
 }
 
 model Order {
-  id         String        @id @default(auto()) @map("_id") @db.ObjectId
-  userId     String        @db.ObjectId
-  user       User          @relation(fields: [userId], references: [id])
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
 
-  fullName   String
-  email      String
-  phone      String
+  fullName String
+  email    String
+  phone    String
 
-  addressId  String?       @db.ObjectId
-  address    Address?      @relation("AddressOrders", fields: [addressId], references: [id])
+  addressId String?  @db.ObjectId
+  address   Address? @relation("AddressOrders", fields: [addressId], references: [id])
 
   orderItems OrderItem[]
   totalPrice Float
-  status     OrderStatus   @default(PENDING)
-  createdAt  DateTime      @default(now())
+  status     OrderStatus @default(PENDING)
+  createdAt  DateTime    @default(now())
 }
 
 model OrderItem {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  orderId   String  @db.ObjectId
-  productId String  @db.ObjectId
-  order     Order   @relation(fields: [orderId], references: [id])
-  product   Product @relation(fields: [productId], references: [id])
-  quantity  Int     @default(1)
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  orderId    String  @db.ObjectId
+  productId  String? @db.ObjectId
+  bestDealId String? @db.ObjectId
+
+  order    Order     @relation(fields: [orderId], references: [id])
+  product  Product?  @relation(fields: [productId], references: [id])
+  bestDeal BestDeal? @relation("BestDealOrderItems", fields: [bestDealId], references: [id])
+
+  quantity Int @default(1)
+}
+
+model BestDeal {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  subtitle   String
+  price      Float
+  imgUrl     String
+  tag        String?
+  isFavorite Boolean @default(false)
+
+  orderItems OrderItem[] @relation("BestDealOrderItems")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Product {
-  id           String    @id @default(auto()) @map("_id") @db.ObjectId
-  title        String
-  description  String?
-  price        Float
-  imageUrl     String 
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String?
+  price       Float
+  imageUrl    String
 
   categoryId   String?   @db.ObjectId
   category     Category? @relation(fields: [categoryId], references: [id])
   categorySlug String?
 
   // NEW
-  stock        Int? @default(0)
-  isDeleted    Boolean? @default(false)
-  createdAt    DateTime? @default(now())
-  updatedAt    DateTime? @updatedAt
+  stock     Int?      @default(0)
+  isDeleted Boolean?  @default(false)
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 
   orderItems OrderItem[]
   wishlist   Wishlist[]
 }
 
 model Category {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  name      String    @unique
-  imageUrl  String?
-  slug      String?
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  name     String  @unique
+  imageUrl String?
+  slug     String?
 
   // NEW
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 
-  products  Product[]
+  products Product[]
 }
 
 model Wishlist {
@@ -132,9 +151,9 @@ model Wishlist {
 }
 
 model Address {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId     String   @db.ObjectId
-  user       User     @relation(fields: [userId], references: [id])
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
 
   line1      String
   line2      String?
@@ -144,7 +163,7 @@ model Address {
   country    String
   createdAt  DateTime @default(now())
 
-  orders     Order[]  @relation("AddressOrders")
+  orders Order[] @relation("AddressOrders")
 }
 
 enum OrderStatus {

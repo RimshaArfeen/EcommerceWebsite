@@ -232,7 +232,7 @@ const Page = () => {
 
               <CartSummary items={cartItems} onTotalChange={setTotal} />
 
-              <div className="mt-6 space-y-3 max-h-60 overflow-y-auto pr-2" >
+              <div className="mt-6 space-y-3 max-h-60 overflow-y-auto scrollbar-colored pr-2" >
                 <h3 className="text-xl font-semibold mb-3" > Items Included:</h3 >
 
                 {

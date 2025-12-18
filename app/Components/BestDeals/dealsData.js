@@ -1,32 +1,48 @@
 
 
 import Burger_rolls from "../../Images/Burger_rolls.png"
-export const dealData = [
-  {
-    id: 'deal-1',
-    title: "2B2B DEAL 1",
-    subtitle: "2 Large Plate Biryani + Drink",
-    price: "Rs. 1,000.00",
-    image: "https://i.pinimg.com/736x/6b/95/47/6b954767fc591e4ef9bc900e7acd9408.jpg",
-    tag: "New Flavours",
-    isFavorite: false,
-  },
-  {
-    id: 'deal-2',
-    title: "Cheesy Combo",
-    subtitle: "2 Beef Burgers + 2 Paratha roll + 1 small fries",
-    price: "Rs. 2,499.00",
-    image: Burger_rolls,
-    tag: "Hot Deal",
-    isFavorite: false,
-  },
-  {
-    id: 'deal-3',
-    title: "Family Feast",
-    subtitle: "2 Large Pizzas + 2 0.5L Drink",
-    price: "Rs. 2,799.00",
-    image: "https://stuffypizza.com.pk/wp-content/uploads/2025/10/Deal-1.png",
-    tag: "Best Seller",
-    isFavorite: false,
-  },
-];
+export const dealData =
+  [
+    {
+      title: "Choco Lava Cake",
+      subtitle: "Warm chocolate cake with molten center",
+      price: "1450",
+      imgUrl: "https://i.pinimg.com/736x/b0/47/18/b04718dca1190d9798e344d5e4fea43d.jpg",
+      tag: "Dessert",
+      isFavorite: false,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: "2B2B Meal",
+      subtitle: "2 Large Plate Biryani + Drink",
+      price: "1,000",
+      imgUrl: "https://i.pinimg.com/1200x/d4/43/4f/d4434fa1c67acd990a86bc2cb6b618d9.jpg",
+      tag: "Fast Food",
+      isFavorite: false,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: "Desi Tarka Platter",
+      subtitle: "Chicken Karahi + Naan + 1L Drink",
+      price: "1,799",
+      imgUrl: "https://i.pinimg.com/736x/0a/15/cc/0a15cc930d6fd807bfa8f24a4e1d7f5e.jpg",
+      tag: "Desi Tarka",
+      isFavorite: false,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      title: "Dubai Viral Paratha Smash Burger",
+      subtitle: "3 Dubai Viral Paratha Smash Burger",
+      price: "2,499",
+      imgUrl: "https://i.pinimg.com/736x/71/21/d3/7121d3c33999ec54cf6de9a12b8d51f0.jpg",
+      tag: "Fast Food",
+      isFavorite: false,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+  ]
+
+

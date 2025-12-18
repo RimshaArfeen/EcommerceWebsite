@@ -5,8 +5,8 @@ import { useAdmin } from '@/app/context/AdminContext';
 
 
 const TopSellingProducts = () => {
-     const { topSKUs } = useAdmin();
-     // console.log("Top SKUs:", topSKUs);
+     const { topSelling } = useAdmin();
+     console.log("Top SKUs:", topSelling);
 
      return (
           <div className="p-6 rounded-xl shadow-lg border border-gray-100">
@@ -15,9 +15,7 @@ const TopSellingProducts = () => {
                          <TrendingUp className="w-6 h-6 mr-2 text-green-600" />
                          Top - Selling Products
                     </h3 >
-                    <a href="#" className="text-sm font-semibold text-black hover:text-gray-700 transition-colors cursor-not-allowed">
-                         Report
-                    </a>
+                   
                </div >
 
                <table className="min-w-full divide-y divide-gray-200" >
@@ -28,16 +26,21 @@ const TopSellingProducts = () => {
                               <th className="py-2 text-right" > Revenue(30d)</th >
                          </tr >
                     </thead >
-                    <tbody className="divide-y divide-gray-100  p-3" >
-                         {
-                              topSKUs.map((sku) => (
-                                   <tr key={sku.rank} className="hover:bg-red-950/20 transition-colors duration-200 hover:p-2 rounded-lg">
-                                        <td className="py-3 font-semibold dark:text-gray-300">{sku.rank}</td>
-                                        <td className="py-3 text-sm dark:text-gray-500" > {sku.name}</td >
-                                        <td className="py-3 text-sm font-bold dark:text-gray-300 text-right" > {sku.revenue}</td >
-                                   </tr >
-                              ))
-                         }
+                    <tbody className="divide-y divide-red-900/50  p-3 space-y-3.5" >
+                         {topSelling.map((sku, index) => (
+                              <tr key={sku.productId}>
+                                   <td>{index + 1}</td>
+
+                                   <td>
+                                        {sku.product?.title ?? "Product deleted"}
+                                   </td>
+
+                                   <td className="text-right">
+                                        Rs. {sku.revenue.toLocaleString()}
+                                   </td>
+                              </tr>
+                         ))}
+
                     </tbody >
                </table >
           </div >

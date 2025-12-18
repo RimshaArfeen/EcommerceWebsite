@@ -1,8 +1,10 @@
 
+
 "use server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-
+ 
+//For Creating Product
 export async function createInvoice(formData) {
      const session = await auth();
 
@@ -27,4 +29,58 @@ export async function createInvoice(formData) {
      });
 
      return prod;
+}
+
+//For deleting Product Admin
+export async function deleteProduct(prodId) {
+     const session = await auth();
+
+     if (session?.user?.role !== "admin") {
+          throw new Error("Not authenticated as Admin");
+     }
+
+     await prisma.product.delete({
+          where: { id: prodId },
+     });
+
+     return true;
+}
+
+//For adding User Admin
+export async function handleAddUser(formData) {
+     const session = await auth();
+
+     if (session?.user?.role !== "admin") {
+          throw new Error("Not authenticated as Admin");
+     }
+
+     const data = {
+          name: formData.get("name"),
+          email: formData.get("email"),
+          role: formData.get("role"),
+         
+     };
+
+     console.log("New User Data:", data);
+
+     const newUser = await prisma.user.create({
+          data
+     });
+
+     return newUser;
+}
+
+//For deleting User Admin
+export async function deleteUserAction(userId) {
+     const session = await auth();
+
+     if (session?.user?.role !== "admin") {
+          throw new Error("Not authenticated as Admin");
+     }
+
+     await prisma.user.delete({
+          where: { id: userId },
+     });
+
+     return true;
 }

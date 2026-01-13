@@ -1,12 +1,11 @@
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
+import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { ShoppingBag } from 'lucide-react';
 import "../../globals.css"
 
-// Mock data (Keeping this separate is good practice)
 const slides = [
   {
     title: "Ignite Your Taste Buds",

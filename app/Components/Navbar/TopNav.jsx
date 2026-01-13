@@ -9,6 +9,7 @@ import {
   Undo2,
   HelpCircle,
   User,
+  LogIn,
   Icon as LucideIcon, // Use 'Icon' type for the component prop
 } from 'lucide-react';
 
@@ -76,7 +77,7 @@ const TopNavbar = () => {
           </UtilityLink>
           {
             !isLogin ? (
-              <UtilityLink href="/login" icon={User}>
+              <UtilityLink href="/login" icon={LogIn}>
                 Login/Register
               </UtilityLink>
 

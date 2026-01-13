@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import {
   Home,
@@ -13,7 +13,6 @@ import {
   Heart,
   CreditCard,
   User,
-  MessageCircle,
   LayoutDashboard,
   ShoppingCart,
   Package,
@@ -79,97 +78,79 @@ const NavLink = ({ name, href, icon: Icon, subLinks }) => {
  * It uses the 'nav2' style defined in globals.css for visual distinction.
  */
 const BottomNav = () => {
-
-  const [toggle, setToggle] = useState(false)
-  const [isLogin, setIsLogin] = useState(false)
   const { data: session, status } = useSession();
+  const isLogin = status === "authenticated";
 
-  useEffect(() => {
-    setIsLogin(status === "authenticated");
-  }, [status]);
+  // Use useMemo to recalculate navigation items only when session/login status changes
+  const navigationItems = useMemo(() => {
+    const items = [
+      { name: 'Home', href: '/', icon: Home },
+      {
+        name: 'Shop',
+        href: '/allProds',
+        icon: Store,
+        subLinks: [
+          { name: 'Shop Grid', href: '/allProds', icon: Store },
+          { name: 'Shop Detail', href: '/allProds', icon: ShoppingBag },
+        ],
+      },
+      {
+        name: 'Pages',
+        href: '#',
+        icon: LayoutGrid,
+        subLinks: [
+          { name: 'Cart', href: '/cart', icon: ShoppingBag },
+          { name: 'Wishlist', href: '/wishlist', icon: Heart },
+          { name: 'Checkout', href: '/checkout', icon: CreditCard },
+          isLogin
+            ? { name: 'My Account', href: '/account', icon: User }
+            : { name: 'Login', href: '/login', icon: User },
+        ],
+      },
+    ];
 
-  const navigationItems = [
-    { name: 'Home', href: '/', icon: Home },
-    {
-      name: 'Shop',
-      href: '/allProds',
-      icon: Store,
-      subLinks: [
-        { name: 'Shop Grid', href: '/allProds', icon: Store },
-        { name: 'Shop Detail', href: '/allProds', icon: ShoppingBag },
-      ],
-    },
-    {
-      name: 'Pages',
-      href: '#', // Placeholder for a main page link
-      icon: LayoutGrid,
-      subLinks: [
-        { name: 'Cart', href: '/cart', icon: ShoppingBag },
-        { name: 'Wishlist', href: '/wishlist', icon: Heart },
-        { name: 'Checkout', href: '/checkout', icon: CreditCard },
-        isLogin
-          ? { name: 'My Account', href: '/account', icon: User }
-          : { name: 'Login', href: '/login', icon: User },
-      ],
-    },
-    {
-      name: 'Blog',
-      href: '/',
-      icon: BookOpen,
-      subLinks: [
-        { name: 'Blog Overview', href: '/', icon: BookOpen },
-        { name: 'Blog Detail', href: '//detail', icon: MessageCircle },
-      ],
-    },
-    {
-      name: "Admin Dashboard",
-      href: "/admin",
-      icon: LayoutDashboard,
-      subLinks: [
-        { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
-        { name: "Orders", href: "/admin/orders", icon: ShoppingCart },
-        { name: "Products", href: "/admin/adminProducts", icon: Package },
-        { name: "Users", href: "/admin/users", icon: Users },
-        { name: "Customers", href: "/admin/customers", icon: UserCircle },
-      ],
-    },
-    { name: 'Contact Us', href: '/contact', icon: Phone },
-  ];
+    // Debugging: Check if role is appearing now
+    console.log("Current User Role:", session?.user?.role);
+
+    if (session?.user?.role === "admin") {
+      items.push({
+        name: "Admin Dashboard",
+        href: "/admin",
+        icon: LayoutDashboard,
+        subLinks: [
+          { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
+          { name: "Orders", href: "/admin/orders", icon: ShoppingCart },
+          { name: "Products", href: "/admin/adminProducts", icon: Package },
+          { name: "Users", href: "/admin/users", icon: Users },
+          { name: "Customers", href: "/admin/customers", icon: UserCircle },
+        ],
+      });
+    }
+
+    items.push({ name: 'Contact Us', href: '/contact', icon: Phone });
+    return items;
+  }, [session, isLogin]);
 
   return (
-    <>
-      <nav
-        aria-label="Secondary site navigation"
-        // Use nav2 class to pick up specific styles from globals.css
-        className="hidden md:block bottom-nav w-full  shadow-lg sticky top-0 z-40"
-      >
-        <div className="container mx-auto flex items-center justify-between h-10 px-4 sm:px-6 lg:px-8">
-
-          {/* Left Section: Main Links */}
-          <div className="flex space-x-2 h-full">
-            {navigationItems.map((item) => (
-              <NavLink
-                key={item.name}
-                name={item.name}
-                href={item.href}
-                icon={item.icon}
-                subLinks={item.subLinks}
-              />
-            ))}
-          </div>
-
-          {/* Right Section: Contact Number/Utility */}
-          <div className="flex items-center text-sm font-bold tracking-wide">
-            {/* Using Warm Saffron for the number to suggest easy contact/urgency */}
-            <Phone size={18} className="mr-2" style={{ color: 'var(--color-saffron)' }} />
-            <span style={{ color: 'var(--color-saffron)' }}>
-              +1 (800) 555-SPICE
-            </span>
-          </div >
-        </div >
-      </nav >
-
-    </>
+    <nav className="hidden md:block bottom-nav w-full shadow-lg sticky top-0 z-40">
+      <div className="container mx-auto flex items-center justify-between h-10 px-4 sm:px-6 lg:px-8">
+        <div className="flex space-x-2 h-full">
+          {navigationItems.map((item) => (
+            <NavLink
+              key={item.name}
+              name={item.name}
+              href={item.href}
+              icon={item.icon}
+              subLinks={item.subLinks}
+            />
+          ))}
+        </div>
+        <div className="flex items-center text-sm font-bold tracking-wide">
+          <Phone size={18} className="mr-2" style={{ color: 'var(--color-saffron)' }} />
+          <span style={{ color: 'var(--color-saffron)' }}>+1 (800) 555-SPICE</span>
+        </div>
+      </div>
+    </nav>
   );
 };
 

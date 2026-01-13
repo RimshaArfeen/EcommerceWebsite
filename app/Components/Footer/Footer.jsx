@@ -3,6 +3,7 @@
 import React from 'react';
 import { Mail, Phone, MapPin, Facebook, Instagram, Twitter, Zap, ArrowRight, Shield, CreditCard } from 'lucide-react';
 import Link from 'next/link';
+import Spinner from '../Spinner/Spinner';
 // --- Sub-Component: Link Group ---
 // Reusable component for displaying vertical link columns
 const FooterLinkGroup = ({ title, links }) => (
@@ -17,7 +18,7 @@ const FooterLinkGroup = ({ title, links }) => (
             <a
               href={link.href}
               className="text-gray-600 hover:text-gray-900 transition-colors duration-200 text-sm"
-              onClick={(e) => e.preventDefault()} // UX: Placeholder action
+               // UX: Placeholder action
             >
               {link.label}
             </a>
@@ -61,7 +62,7 @@ const NewsletterSignup = () => (
       <button
         type="submit"
         className="flex items-center justify-center p-3 text-white bg-gray-800 rounded-lg hover:bg-gray-900 transition-colors"
-        onClick={(e) => e.preventDefault()}
+        
         aria-label="Subscribe to newsletter"
       >
         <ArrowRight className="w-5 h-5" />
@@ -87,9 +88,9 @@ const Footer = () => {
   ];
 
   const legalLinks = [
-    { label: 'Privacy Policy', href: '/privacy' },
-    { label: 'Terms of Service', href: '/terms' },
-    { label: 'Cookie Policy', href: '/cookies' },
+    { label: 'Privacy Policy', href: '/terms_conditions#privacy' },
+    { label: 'Terms of Service', href: '/terms_conditions#intro' },
+    { label: 'Cookie Policy', href: '/terms_conditions#cookies' },
   ];
 
   return (
@@ -98,15 +99,15 @@ const Footer = () => {
 
         {/* Top Section: Grid Layout for Links and Newsletter */}
         < div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-8 lg:gap-12 pb-10 border-b border-gray-200" >
-
+<Spinner/>
           {/* Column 1: Brand & Social */}
           < div >
             <div className="" >
-              <Link href="/" className="text-4xl font-logo my-2 font-extrabold tracking-wide">
+              <a href="/" className="text-4xl font-logo my-2 font-extrabold tracking-wide">
                 {/* Using a color variable for the brand name to ensure it pops */}
                 <span style={{ color: 'var(--color-cayenne)' }}>SPICY</span>
                 <span style={{ color: 'var(--color-saffron)' }}>BAZAAR</span>
-              </Link>
+              </a>
             </div >
 
             <p className="text-sm text-gray-500 mb-4" >
@@ -170,7 +171,7 @@ const Footer = () => {
                     key={index}
                     href={link.href}
                     className="hover:text-gray-700 transition-colors"
-                    onClick={(e) => e.preventDefault()}
+                    
                   >
                     {link.label}
                   </a>

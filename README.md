@@ -23,4 +23,3 @@ Spicy Bazaar is a modern, full-stack e-commerce food delivery platform designed 
 
 Spicy Bazaar blends elegant design, smooth performance, and real-time functionality—creating a digital food marketplace that’s as bold and vibrant as your favorite spices.
 
-

@@ -1,292 +1,151 @@
 
-// //components/prodCard
-// "use client" 
-// import React, { useState, useEffect } from "react";
-// import "../../globals.css"
-// import { Heart, ShoppingBag } from "lucide-react";
-// import AddCart from "../AddCart/page"
-// import { useCart } from "@/app/context/CartContext";
-// import WishlistBtn from "../WishlistBtn";
-// import { useWishlist } from "@/app/context/LikeContext";
-
-// export const ProdCard = ({ product }) => {
-//   const [itemQuantity, setItemQuantity] = useState(1)
-//   const [isFavorite, setIsFavorite] = useState(false);
-
-//   const { addToCart, cartItems } = useCart()
-//   const { addToWishlist, likedItems } = useWishlist()
-
-//   const { _id, title, price, imageUrl, isNew, category} = product;
-
-//   // Placeholder handler functions
-//   const handleAddToCart = () => {
-//     const normalized = {
-//       ...product,
-//       _id:
-//         product._id ??
-//         product.id ??
-//         product.slug ??
-//         product.title
-//     };
-
-//     addToCart(normalized, itemQuantity);
-//   };
-
-//   const handle_wishlist = (params) => {
-//     addToWishlist(product, itemQuantity)
-//     setIsFavorite(!isFavorite);
-//   }
-
-//   useEffect(() => {
-//     console.log("Cart Updated:", cartItems);
-//     console.log("WishlIst Updated ", likedItems)
-//   }, [cartItems]);
-
-//   const handleInc = () => {
-//     setItemQuantity(itemQuantity + 1)
-//   }
-//   const handleDec = () => {
-//     setItemQuantity(itemQuantity - 1)
-//   }
-
-
-//   return (
-//     <div
-//       className="group relative border rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-//       {/* Product Image Area */}
-//       <div className="relative aspect-w-1 aspect-h-1 h-52 w-full overflow-hidden">
-//         <img
-//           src={imageUrl}
-//           alt={title}
-//           className="w-full h-full object-cover transition-all hover:scale-105 duration-500"
-//           onError={(e) => {
-//             e.target.onerror = null;
-//             e.target.src = "https://placehold.co/400x400/e2e8f0/334155?text=Spicy+Item";
-//           }}
-//           loading="lazy"
-//         />
-
-//         {/* New Badge (Existing) */}
-//         {isNew && (
-//           <span className="absolute top-3 left-3 px-3 py-1 text-xs font-bold uppercase text-white bg-red-600 rounded-full z-10">
-//             New
-//           </span>
-//         )
-//         }
-
-//         {/* Wishlist Icon (Existing) */}
-//         <WishlistBtn onClick={handle_wishlist}
-//           isFavorite={isFavorite} />
-//       </div >
-
-//       {/* Product Details */}
-//       < div className="p-4 flex flex-col items-start" >
-//         {/* NEW: Category Badge */}
-//         < span className="inline-block px-2 py-0.5 mb-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full transition-colors duration-200 hover:bg-gray-200" >
-//           {product.category?.name}
-//         </span >
-
-//         <h3 className="text-lg font-semibold text-gray-900 leading-tight truncate w-full mb-1" >
-//           {title}
-//         </h3 >
-
-//         <p className="text-xl font-bold text-red-600 mb-4" > Rs. {price}</p >
-
-//         {/* Quantity Buttons */}
-//         < div className="flex items-center justify-between w-full mb-3" >
-//           <button
-//             onClick={handleDec}
-//             value={itemQuantity}
-//             className={`
-//           ${itemQuantity <= 1 ? "bg-gray-400 text-gray-600 cursor-not-allowed" : "bg-red-600 text-white"}
-//           px-3 py-1 text-lg font-bold rounded-md transition hover:bg-red-700 active:scale-95"
-//         aria-label="Decrease quantity`}
-//             disabled={itemQuantity <= 1}
-//           >
-//             −
-//           </button>
-//           <span className="text-base font-semibold" > {itemQuantity}</span >
-//           <button
-//             onClick={handleInc}
-//             value={itemQuantity}
-//             className="px-3 py-1 text-lg font-bold text-white bg-red-600 rounded-md transition hover:bg-red-700 active:scale-95"
-//             aria-label="Increase quantity"
-//           >
-//             +
-//           </button>
-//         </div >
-
-//         {/* Add to Cart Button */}
-//         < AddCart
-//           // onClick={() =>
-//           //   handleAddToCart({
-//           //     ...product,
-//           //     id: product.id || product._id || product.name,  // unique
-//           //   })
-//           // }
-//           onClick={handleAddToCart} />
-
-//       </div >
-//     </div >
-
-//   );
-// };
-
-// components/prodCard
-"use client"
-import React, { useState, useEffect } from "react";
-import "../../globals.css"
-import { Heart, ShoppingBag } from "lucide-react";
-import AddCart from "../AddCart/page"
-import { useCart } from "@/app/context/CartContext";
+"use client";
+import React, { useState } from "react";
+import { Heart, ShoppingBag, Plus, Minus, Flame, Eye } from "lucide-react";
+import AddCart from "../AddCart/page";
+import WishListCard from "../WishListCard/WishListCard";
 import WishlistBtn from "../WishlistBtn";
+import { useCart } from "@/app/context/CartContext";
 import { useWishlist } from "@/app/context/LikeContext";
 
-export const ProdCard = ({ product }) => {
-  const [itemQuantity, setItemQuantity] = useState(1)
+
+/**
+ * ProdCard Component
+ * Senior UI/UX Design focusing on a premium, tactile ecommerce experience.
+ */
+export const ProdCard = ({ product = {} }) => {
+  // Destructure with defaults to prevent crashes if product is undefined
+  const {
+    title = "Signature Hot Sauce",
+    price = "0.00",
+    imageUrl = "",
+    isNew = true,
+    category = { name: "Artisan Spice" },
+    description = "A perfect blend of heat and flavor, crafted for the true spice enthusiast.",
+    heat = 3
+  } = product;
+
+  const [itemQuantity, setItemQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const { addToCart, cartItems } = useCart()
-  const { addToWishlist, likedItems } = useWishlist()
+  const { addToCart } = useCart();
+  const { addToWishlist } = useWishlist();
 
-  // ADDED 'description' for the new feature
-  const { _id, title, price, imageUrl, isNew, category, description } = product;
-
-  // Placeholder handler functions
   const handleAddToCart = () => {
     const normalized = {
       ...product,
-      _id:
-        product._id ??
-        product.id ??
-        product.slug ??
-        product.title
+      _id: product._id ?? product.id ?? product.title
     };
-
     addToCart(normalized, itemQuantity);
   };
 
-  const handle_wishlist = (params) => {
-    addToWishlist(product, itemQuantity)
+  const handle_wishlist = (e) => {
+    addToWishlist(product);
     setIsFavorite(!isFavorite);
-  }
+  };
 
-  useEffect(() => {
-    console.log("Cart Updated:", cartItems);
-    console.log("WishlIst Updated ", likedItems)
-  }, [cartItems]);
+  const handleInc = (e) => {
+    setItemQuantity((prev) => prev + 1);
+  };
 
-  const handleInc = () => {
-    setItemQuantity(itemQuantity + 1)
-  }
-  const handleDec = () => {
-    setItemQuantity(itemQuantity - 1)
-  }
-
+  const handleDec = (e) => {
+    setItemQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+  };
 
   return (
-    <div
-      className="group relative hover:border primary_bg rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl ">
-
-      {/* Product Image Area */}
-      <div className="relative aspect-w-1 aspect-h-1 h-52 w-full overflow-hidden">
+    <div className="group relative primary_bg  rounded-[2.5rem] p-3 shadow-sm hover:shadow-2xl transition-all duration-500 ease-out hover:-translate-y-2 max-w-sm mx-auto">
+      {/* --- Image Section --- */}
+      <div className="relative  w-56 h-56  rounded-[2rem] overflow-hidden ">
         <img
-          src={imageUrl}
+          src={imageUrl || "https://images.unsplash.com/photo-1589135401662-8415d860d24c?auto=format&fit=crop&q=80&w=600"}
           alt={title}
-          className="w-full h-full object-cover transition-all hover:scale-105 duration-500"
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = "https://placehold.co/400x400/e2e8f0/334155?text=Spicy+Item";
-          }}
+          className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
           loading="lazy"
         />
 
-        {/* --- NEW: Hover Description Overlay (UX Focus) --- */}
-        {description && (
-          <div className="
-            absolute inset-0 
-            bg-black/50 backdrop-blur-xs
-            flex items-center justify-center p-4 
-            opacity-0 group-hover:opacity-100 
-            transition-opacity duration-500 
-            pointer-events-none 
-            z-20
-          ">
-            {/* Description Box - Styled for Readability (like the image) */}
-            <div className="
-              w-11/12 max-h-full 
-              bg-red text-white 
-              p-4 rounded-lg shadow-2xl 
-              overflow-y-auto text-sm font-medium border 
-            ">
-              <p className="leading-relaxed whitespace-pre-wrap">
-                {/* Use 'product.description' here */}
-                {description}
-              </p>
+        {/* Badges Layer */}
+        <div className="absolute top-4 left-4 flex flex-col gap-2 z-30">
+          {isNew && (
+            <span className="bg-black text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg">
+              New Drop
+            </span>
+          )}
+          {heat > 0 && (
+            <div className="flex items-center  backdrop-blur-md px-2 py-1 rounded-full shadow-sm w-fit">
+              {[...Array(heat)].map((_, i) => (
+                <Flame key={i} size={12} className="fill-red-500 text-red-500" />
+              ))}
             </div>
+          )}
+        </div>
+
+        {/* Floating Wishlist Button */}
+        <div className="absolute top-4 right-4 z-30">
+          <WishlistBtn isFavorite={isFavorite} onClick={handle_wishlist} />
+        </div>
+
+        {/* --- Hover Description Overlay --- */}
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex items-center justify-center p-6 opacity-0 group-hover:opacity-100 transition-all duration-500 z-20">
+          <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500 text-center">
+            <div className="/20 p-2 rounded-full w-fit mx-auto mb-3">
+              <Eye className="text-white" size={20} />
+            </div>
+            <p className="text-white text-sm font-medium leading-relaxed line-clamp-4">
+              {description}
+            </p>
           </div>
-        )}
-        {/* --- END: Hover Description Overlay --- */}
+        </div>
+      </div>
 
+      {/* --- Content Section --- */}
+      <div className="p-4 space-y-4">
+        <div className="space-y-1">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-black uppercase tracking-[0.15em] text-red-600">
+              {category?.name}
+            </span>
+            <span className="text-sm font-black ">
+              Rs. {price}
+            </span>
+          </div>
+          <h3 className="text-lg font-bold  truncate leading-tight">
+            {title}
+          </h3>
+        </div>
 
-        {/* New Badge (Existing) */}
-        {isNew && (
-          <span className="absolute top-3 left-3 px-3 py-1 text-xs font-bold uppercase text-white bg-red-600 rounded-full z-10">
-            New
-          </span>
-        )
-        }
+        {/* Quantity and Actions Container */}
+        <div className="pt-2 flex flex-col gap-3">
+          {/* Enhanced Quantity Controller */}
+          <div className="flex items-center justify-between  p-1.5 rounded-2xl border border-gray-100">
+            <button
+              onClick={handleDec}
+              disabled={itemQuantity <= 1}
+              className={`p-2 rounded-xl transition-all ${itemQuantity <= 1
+                ? " cursor-not-allowed"
+                : " hover:cursor-pointer  shadow-sm hover:bg-red-700 hover:text-white"
+                }`}
+            >
+              <Minus size={16} strokeWidth={3} />
+            </button>
 
-        {/* Wishlist Icon (Existing) */}
-        {/* Moved WishlistBtn to z-30 to ensure it is clickable over the overlay */}
-        <WishlistBtn onClick={handle_wishlist}
-          isFavorite={isFavorite}
-          className="z-30" // Added class for z-index
-        />
-      </div >
+            <span className="font-black  tabular-nums">
+              {itemQuantity < 10 ? `0${itemQuantity}` : itemQuantity}
+            </span>
 
-      {/* Product Details (Kept consistent) */}
-      < div className="p-4 flex flex-col items-start" >
-        {/* Category Badge */}
-        < span className="inline-block px-2 py-0.5 mb-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full transition-colors duration-200 hover:bg-gray-200" >
-          {product.category?.name}
-        </span >
+            <button
+              onClick={handleInc}
+              className="p-2 hover:cursor-pointer   rounded-xl shadow-sm hover:bg-red-700 hover:text-white transition-all"
+            >
+              <Plus size={16} strokeWidth={3} />
+            </button>
+          </div>
 
-        <h3 className="text-lg font-semibold text-gray-900 leading-tight truncate w-full mb-1" >
-          {title}
-        </h3 >
-
-        <p className="text-xl font-bold text-red-600 mb-4" > Rs. {price}</p >
-
-        {/* Quantity Buttons */}
-        < div className="flex items-center justify-between w-full mb-3" >
-          <button
-            onClick={handleDec}
-            value={itemQuantity}
-            className={`
-            ${itemQuantity <= 1 ? "bg-gray-200 text-gray-600 cursor-not-allowed hover:bg-gray-200" : "bg-red-600 text-white"}
-            px-3 py-1 text-lg font-bold rounded-md transition hover:bg-red-700 active:scale-95"
-          aria-label="Decrease quantity`}
-            disabled={itemQuantity <= 1}
-          >
-            −
-          </button>
-          <span className="text-base font-semibold" > {itemQuantity}</span >
-          <button
-            onClick={handleInc}
-            value={itemQuantity}
-            className="px-3 py-1 text-lg font-bold text-white bg-red-600 rounded-md transition hover:bg-red-700 active:scale-95"
-            aria-label="Increase quantity"
-          >
-            +
-          </button>
-        </div >
-
-        {/* Add to Cart Button */}
-        < AddCart onClick={handleAddToCart} />
-
-      </div >
-    </div >
-
+          {/* Add to Cart Trigger */}
+          <AddCart onClick={handleAddToCart} />
+        </div>
+      </div>
+    </div>
   );
 };
+
+export default ProdCard;

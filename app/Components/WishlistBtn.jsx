@@ -5,7 +5,7 @@ const WishlistBtn = ({ onClick, isFavorite }) => {
   return (
     <button
       onClick={onClick}
-      className={`absolute top-3 right-3 p-2 rounded-full transition-colors duration-300 hover:cursor-pointer z-10 ${isFavorite
+      className={` p-2 rounded-full transition-colors duration-300 hover:cursor-pointer z-10 ${isFavorite
         ? "bg-red-500 text-white" // <-- **Turns RED when true**
         : "bg-white text-gray-400 hover:text-red-500 shadow-lg"
         }`}

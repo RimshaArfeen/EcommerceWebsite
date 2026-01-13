@@ -52,12 +52,12 @@ export const LeftSideBar = ({ onSelect }) => {
                                         <ChevronRight className="w-4 h-4" />
                                    </button >
                               );
-                         })}
+                          })}
 
 
                     <div className="pt-4 border-t border-gray-100 mt-2">
                          <button
-                              onClick={() => signOut()}
+                              onClick={() => signOut({ redirectTo: "/login" })}
                               className=" w-full flex items-center p-3 rounded-lg cursor-pointer text-white  bg-red-900 hover:bg-red-800 hover:text-white transition-colors">
                               <LogOut className="w-5 h-5 mr-3" />
                               <span className="text-sm font-bold">Sign Out</span>

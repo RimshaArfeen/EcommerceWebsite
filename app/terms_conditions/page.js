@@ -2,23 +2,79 @@ import React from 'react';
 
 // The data structure for the Table of Contents and Sections
 // NOTE: In a real-world app, you might map over a JSON or Markdown source for this content.
+
 const termsData = [
-  { id: 'intro', title: '1. Introduction', content: 'These Terms & Conditions govern your use of our ecommerce platform. By browsing or purchasing products, you acknowledge your acceptance of these terms.' },
-  { id: 'eligibility', title: '2. Eligibility', content: 'You must be of legal age to purchase items from our store. By placing an order, you confirm that the information provided is accurate.' },
-  { id: 'product', title: '3. Product Information', content: 'We aim to ensure that all product details, descriptions, and pricing are accurate. However, occasional updates or corrections may occur if errors are found.' },
   {
-    id: 'orders', title: '4. Orders & Payments', list: [
+    id: 'intro',
+    title: '1. Introduction',
+    content:
+      'These Terms & Conditions govern your use of our ecommerce platform. By browsing or purchasing products, you acknowledge your acceptance of these terms.',
+  },
+  {
+    id: 'eligibility',
+    title: '2. Eligibility',
+    content:
+      'You must be of legal age to purchase items from our store. By placing an order, you confirm that the information provided is accurate.',
+  },
+  {
+    id: 'product',
+    title: '3. Product Information',
+    content:
+      'We aim to ensure that all product details, descriptions, and pricing are accurate. However, occasional updates or corrections may occur if errors are found.',
+  },
+  {
+    id: 'orders',
+    title: '4. Orders & Payments',
+    list: [
       'All orders are subject to acceptance and availability.',
       'Prices may change without prior notice.',
       'Payment must be completed before order processing begins.',
-    ]
+    ],
   },
-  { id: 'shipping', title: '5. Shipping & Delivery', content: 'Delivery times are estimates based on your location. Once shipped, tracking information will be provided when available.' },
-  { id: 'returns', title: '6. Returns & Refunds', content: 'Items may be eligible for return depending on condition and timeframe. Please review our Return Policy for detailed instructions.' },
-  { id: 'responsibility', title: '7. User Responsibilities', content: 'You agree not to misuse our website or engage in activities that could harm our platform or violate applicable laws.' },
-  { id: 'liability', title: '8. Limitation of Liability', content: 'We are not responsible for damages caused by product misuse or delays beyond our control. Use all spicy products responsibly.' },
-  { id: 'updates', title: '9. Updates to Terms', content: 'These Terms may be updated periodically. Continued use of the site indicates acceptance of revised policies.' },
+  {
+    id: 'shipping',
+    title: '5. Shipping & Delivery',
+    content:
+      'Delivery times are estimates based on your location. Once shipped, tracking information will be provided when available.',
+  },
+  {
+    id: 'returns',
+    title: '6. Returns & Refunds',
+    content:
+      'Items may be eligible for return depending on condition and timeframe. Please review our Return Policy for detailed instructions.',
+  },
+  {
+    id: 'responsibility',
+    title: '7. User Responsibilities',
+    content:
+      'You agree not to misuse our website or engage in activities that could harm our platform or violate applicable laws.',
+  },
+  {
+    id: 'liability',
+    title: '8. Limitation of Liability',
+    content:
+      'We are not responsible for damages caused by product misuse or delays beyond our control. Use all spicy products responsibly.',
+  },
+  {
+    id: 'privacy',
+    title: '9. Privacy Policy',
+    content:
+      'We respect your privacy and are committed to protecting your personal information. Data collected is used only to process orders, improve services, and comply with legal requirements.',
+  },
+  {
+    id: 'cookies',
+    title: '10. Cookie Policy',
+    content:
+      'Our website uses cookies to enhance user experience, analyze traffic, and personalize content. By using our site, you consent to the use of cookies.',
+  },
+  {
+    id: 'updates',
+    title: '11. Updates to Terms',
+    content:
+      'These Terms may be updated periodically. Continued use of the site indicates acceptance of revised policies.',
+  },
 ];
+
 
 export default function Page() {
   return (

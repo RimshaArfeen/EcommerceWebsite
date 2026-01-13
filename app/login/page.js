@@ -42,7 +42,7 @@ const Page = () => {
             < div className="space-y-3" >
               <button
                 type="button"
-                onClick={() => signIn("google", { redirectTo: "/" })}
+                onClick={() => signIn("google", { callbackUrl: "/redirect" })}
                 className="w-full flex items-center justify-center p-3 font-semibold rounded-xl text-sm transition-all duration-200
                 border border-gray-300 shadow-sm bg-white text-gray-700 hover:text-gray-900 hover:cursor-pointer"
               >
@@ -52,7 +52,7 @@ const Page = () => {
 
               <button
                 type="button"
-                onClick={() => signIn("github", { redirectTo: "/" })}
+                onClick={() => signIn("github", { callbackUrl: "/redirect" })}
                 className="w-full flex items-center justify-center p-3 font-semibold rounded-xl text-sm transition-all duration-200
                 border border-gray-300 shadow-sm bg-white text-gray-700 hover:text-gray-900 hover:cursor-pointer"
               >

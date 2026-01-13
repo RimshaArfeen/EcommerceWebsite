@@ -25,13 +25,19 @@ const AddressLayout = () => {
     }, []);
 
     const handleDelete = async (id) => {
-        await fetch(`/api/addresses?id=${id}`, {
-            method: "DELETE",
-        });
+        window.confirm("Are you sure you want to delete this address?");
+        if (true)
+        {
+            await fetch(`/api/addresses?id=${id}`, {
+                method: "DELETE",
+            });
+    
+            // refresh UI
+            setAddress(prev => prev.filter(a => a.id !== id));
+            alert("Address deleted successfully");
 
-        // refresh UI
-        setAddress(prev => prev.filter(a => a.id !== id));
-        alert("Address deleted successfully");
+        }
+        
     };
 
 
@@ -82,7 +88,7 @@ const AddressLayout = () => {
 
                             < button
                                 onClick={() => handleDelete(address.id)}
-                                className="flex items-center text-sm text-red-600 hover:text-red-800 font-medium cursor-not-allowed disabled:opacity-50"
+                                className="flex items-center text-sm text-red-600 hover:text-red-800 font-medium cursor-pointer disabled:opacity-50"
                             >
                                 <Trash className="w-4 h-4 mr-1" /> Remove
                             </button >

@@ -10,12 +10,13 @@ import { useCustomers } from '@/app/context/CustomerContext';
 import { formatDate } from '@/app/utils/index';
 import { CustomerDetailsHeader, OrderHistoryCard, OrderHistoryAccordion } from './OrderHistoryCard';
 
-
+ 
 // --- Main Admin Customers Component (Modal Structure Update) ---
 const AdminCustomers = () => {
 
      const [showModal, setShowModal] = useState(false)
      const [selectedCustomer, setSelectedCustomer] = useState(null);
+     const [searchTerm, setSearchTerm] = useState('');
 
      const { customers } = useCustomers();
      // console.log("Customers ", customers)
@@ -30,11 +31,19 @@ const AdminCustomers = () => {
           setShowModal(false);
           setSelectedCustomer(null);
      };
+     // Filter logic (simplified for mockup)
+     const filteredCustomers = customers.filter(c =>
+          c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          c.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          c.id.toLowerCase().includes(searchTerm.toLowerCase())
+     );
+
+
 
      // Customer Table (Minimalist and Responsive) - (Kept for context, unchanged)
-     const CustomerTable = ({ customers }) => (
+     const CustomerTable = ({ filteredCustomers }) => (
           <div className="rounded-xl shadow-lg border overflow-x-auto scrollbar-colored">
-               <table className="min-w-full divide-y divide-red-200">
+               <table className="min-w-full divide-y divide-red-300">
                     <thead className="">
                          <tr>
                               {/* Headers adjusted for better information density */}
@@ -49,8 +58,16 @@ const AdminCustomers = () => {
                               ))}
                          </tr>
                     </thead>
-                    <tbody className=" primary_bg divide-y divide-red-100">
-                         {customers.map((customer, idx) => (
+                    <tbody className=" primary_bg divide-y divide-red-200">
+                         {filteredCustomers.length === 0 && (
+                              <tr>
+                                   <td colSpan="4" className="px-6 py-4 text-center text-lg text-gray-500">   
+                                        No customers found.
+                                   </td>
+                              </tr>
+                         )}
+                         {filteredCustomers
+                         .map((customer, idx) => (
                               <tr key={idx} className=" transition-colors hover:" >
                                    {/* User ID (Monospace font for ID/Code readability) */}
                                    <td className="px-6 py-4 whitespace-nowrap text-xs font-mono ">
@@ -72,7 +89,7 @@ const AdminCustomers = () => {
                                    </td>
 
                                    {/* Total Orders */}
-                                   <td className="px-6 py-4 whitespace-nowrap text-sm text-center font-medium ">
+                                   <td className="px-6 py-4 whitespace-nowrap text-sm  font-medium ">
                                         {customer.orders?.length || 0}
                                    </td>
 
@@ -113,19 +130,23 @@ const AdminCustomers = () => {
 
                     {/* Filter and Search Bar */}
                     <div className="flex justify-between items-center mb-8">
-                         <div className="w-full sm:w-80 relative">
-                              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 opacity-50" />
-                              <input
-                                   type="text"
-                                   placeholder="Search by name or email..."
-                                   className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-red-500 focus:border-red-500 transition-all shadow-sm"
-                              />
-                         </div>
+                         <div className="relative flex-grow w-full sm:w-auto">
+                                                            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                                 <Search className="h-5 w-5 " />
+                                                            </div>
+                                                            <input name='name'
+                                                                 type="text"
+                                                                 placeholder="Search by name or email..."
+                                                                 value={searchTerm}
+                                                                 onChange={(e) => setSearchTerm(e.target.value)}
+                                                                 className="w-full pl-10 pr-4 py-2 border  rounded-lg focus:ring-red-500 focus:border-red-500 transition duration-150"
+                                                            />
+                                                       </div>
                          {/* Placeholder for additional filters like Status Dropdown or Date Range */}
                     </div>
 
                     {/* Customer List / Table */}
-                    <CustomerTable customers={customers} />
+                    <CustomerTable filteredCustomers={filteredCustomers} />
                </div>
 
                {/* --- MODAL STRUCTURE MODIFIED (High-Fidelity UI/UX) --- */}
@@ -154,22 +175,17 @@ const AdminCustomers = () => {
                                    <CustomerDetailsHeader customer={selectedCustomer} />
 
                                    {/* 2. Key Metrics Card (Optional but Recommended for UX) */}
-                                   <div className="grid grid-cols-3 gap-4 mt-6">
+                                   <div className="grid grid-cols-2 gap-4 mt-6">
                                         {/* Total Orders */}
                                         <div className="p-4 border rounded-lg shadow-xl hover:cursor-pointer hover:scale-95 transition-all duration-300 text-center">
-                                             <ShoppingCart className="w-5 h-5 mx-auto text-red-600" />
+                                             <ShoppingCart className="w-7 h-7 mx-auto text-red-600" />
                                              <p className="text-2xl font-bold mt-1 ">{selectedCustomer.orders?.length || 0}</p>
                                              <p className="text-xs opacity-70 mt-0.5 ">Total Orders</p>
                                         </div>
-                                        {/* LTV (Mocked since data structure doesn't contain LTV directly) */}
-                                        <div className="p-4 border rounded-lg   shadow-sm text-center">
-                                             <DollarSign className="w-5 h-5 mx-auto text-green-600" />
-                                             <p className="text-2xl font-bold mt-1">${selectedCustomer.ltv?.toFixed(2) || '0.00'}</p>
-                                             <p className="text-xs opacity-70 mt-0.5">Life Time Value (LTV)</p>
-                                        </div>
+                                      
                                         {/* Last Order Date */}
                                         <div className="p-4 border rounded-lg   shadow-sm text-center">
-                                             <Clock className="w-5 h-5 mx-auto text-blue-600" />
+                                             <Clock className="w-7 h-7 mx-auto text-blue-600" />
                                              <p className="text-sm font-bold mt-1 whitespace-nowrap">
                                                   {selectedCustomer.orders && selectedCustomer.orders.length > 0
                                                        ? formatDate(selectedCustomer.orders[0].createdAt) // Assuming first one is latest after sorting in component

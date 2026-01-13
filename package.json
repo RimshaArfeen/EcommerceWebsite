@@ -14,6 +14,7 @@
     "@prisma/client": "^6.19.0",
     "dotenv": "^17.2.3",
     "flowbite": "^3.1.2",
+    "framer-motion": "^12.23.26",
     "lucide-react": "^0.552.0",
     "mongodb": "^7.0.0",
     "next": "^16.0.10",

@@ -133,12 +133,14 @@ const Page = () => {
             Our story is now waiting to be written on your plate.Browse our curated collection and find your new addiction.
           </p >
           {/* CTA Button: Saffron on Light, Chili Red on Dark. Text: Muted Brown on Light, White on Dark */}
-          < div className="inline-block px-8 py-3 bg-[#FFB300] dark:bg-[#E53935] 
+          < a 
+          href='/allProds'
+          className="inline-block px-8 py-3 bg-[#FFB300] dark:bg-[#E53935] 
 text - [#4B2E2E] dark: text - white font - bold rounded - full shadow - lg
 hover: bg - [#e69a00] dark: hover: bg - [#A32412] transition duration - 300 
                         transform hover: scale - 105 cursor - pointer">
             View All Products
-          </div >
+          </a >
         </div >
       </section >
 

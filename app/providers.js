@@ -8,18 +8,19 @@ import { OrderProvider } from "./context/OrderContext";
 import { AdminProvider } from "./context/AdminContext";
 import { CustomerProvider } from "./context/CustomerContext";
 import { UserProvider } from "./context/UsersContext";
+import RouteSpinner from "./Components/RouteSpinner";
+
 export default function Providers({ children }) {
   return (
     <SessionProvider>
       <ProdProvider>
-
         <CartProvider>
           <WishListProvider>
             <OrderProvider>
               <AdminProvider>
                 <UserProvider>
                   <CustomerProvider>
-
+                    <RouteSpinner />
                     {children}
                   </CustomerProvider>
                 </UserProvider>

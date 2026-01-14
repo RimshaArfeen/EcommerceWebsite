@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Flame, Star, Zap, Users, Sun, Moon } from 'lucide-react';
 import "../globals.css"
-
+import ClientGuard from '../Components/ClientGuard/ClientGuard';
 // Color Variable Mappings (for reference, using hex values in Tailwind classes):
 // Light Theme Defaults:
 // BG: #FFF8F0 | Text/Headings: #4B2E2E | Accent (Chili): #E53935 | CTA (Saffron): #FFB300 | Border: #E5DDD6
@@ -32,6 +32,7 @@ const DarkModeToggle = ({ isDark, toggleTheme }) => (
 const Page = () => {
 
   return (
+     <ClientGuard>
     <div className="min-h-screen pb-24">
 
 
@@ -145,6 +146,7 @@ hover: bg - [#e69a00] dark: hover: bg - [#A32412] transition duration - 300
       </section >
 
     </div >
+          </ClientGuard>
   );
 };
 

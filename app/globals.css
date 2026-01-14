@@ -3,8 +3,9 @@
 @layer base {
   :root {
     /* Assuming these fonts are loaded via Next.js or similar mechanism */
-    --font-logo: var(--font-allura);
-    --font-body: var(--font-poppins);
+   font-family: var(--font-poppins);
+font-family: var(--font-allura);
+
   }
 
   body {

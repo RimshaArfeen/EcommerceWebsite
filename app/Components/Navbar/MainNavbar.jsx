@@ -14,12 +14,33 @@ const MainNavbar = () => {
   const { likedItems } = useWishlist()
   const total_items = cartItems.reduce((total, item) => total + (item.qty || 0), 0);
   const total_liked_items = likedItems.length
-  // console.log("Cart Now:", cartItems);
-  // console.log("Liked Items", likedItems)
-  // console.log("Total items:", total_items);
+    const phrases = [
+      "Authentic Heat.",
+      "Global Flavors.",
+      "Kitchen Traditions.",
+      "Premium Spices."
+    ];
+
+    const [index, setIndex] = useState(0);
+    const [fadeProp, setFadeProp] = useState('opacity-100');
+
+    useEffect(() => {
+      const timeout = setInterval(() => {
+        // 1. Start fading out
+        setFadeProp('opacity-0');
+
+        // 2. Wait for fade-out to finish (500ms), then change text and fade back in
+        setTimeout(() => {
+          setIndex((prevIndex) => (prevIndex + 1) % phrases.length);
+          setFadeProp('opacity-100');
+        }, 500);
+
+      }, 4000); // Change phrase every 4 seconds
+
+      return () => clearInterval(timeout);
+    }, []);
 
 
-  // --- Theme Logic ---
   useEffect(() => {
     const storedTheme = localStorage.getItem('theme');
     const systemPreference = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -75,27 +96,25 @@ const MainNavbar = () => {
           </Link>
         </div>
 
-        {/* Middle Section: Search Bar */}
-        <div className=" max-w-2xl order-3  w-full md:w-auto">
-          <form onSubmit={handleSearch} className="flex rounded-lg overflow-hidden border">
-            <input
-              type="search"
-              placeholder="Search for spices, sauces, and heat levels..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-4 py-2 text-sm focus:outline-none bg-transparent"
-              aria-label="Search products"
-            />
-            <button
-              type="submit"
-              aria-label="Search"
-              className="p-3 bg-[#e69a00] transition-colors hover:cursor-pointer"
-            >
-              <Search size={20} style={{ color: 'var(--color-muted-brown)' }} />
-            </button>
-          </form>
-        </div >
+        {/* Middle Section: Brand Tagline */}
+        <div className="max-w-2xl order-3 w-full md:w-auto flex flex-col items-center md:items-start justify-center px-4">
+          <div className="flex items-center gap-2 group">
+            <span className="h-px w-8 bg-[var(--color-saffron)] hidden lg:block opacity-50"></span>
 
+            <h2 className="text-lg md:text-xl lg:text-2xl font-serif italic tracking-wide text-gray-800 dark:text-gray-100">
+              Ignite Your Senses with{" "}
+              <span className={`text-[var(--color-saffron)] font-bold not-italic transition-opacity duration-500 ${fadeProp}`}>
+                {phrases[index]}
+              </span>
+            </h2>
+          </div>
+
+          <p className="text-[10px] hidden sm:flex uppercase tracking-[0.2em] text-gray-500 mt-1 font-medium">
+            Your Global Gateway to Premium Spices
+          </p>
+        </div>
+
+        
         {/* Right Section: User Icons and Theme Toggle */}
         < div className="flex items-center space-x-4 order-4 " >
 
@@ -128,7 +147,9 @@ const MainNavbar = () => {
           </button >
 
         </div >
-      </div >
+        </div>
+
+     
     </nav >
   );
 }

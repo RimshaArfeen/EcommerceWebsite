@@ -85,12 +85,12 @@ export const ProdCard = ({ product = {} }) => {
         </div>
 
         {/* --- Hover Description Overlay --- */}
-        <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex items-center justify-center p-6 opacity-0 group-hover:opacity-100 transition-all duration-500 z-20">
+        <div className="absolute inset-0 bg-gray-300/30 backdrop-blur-[2px] flex items-center justify-center p-6 opacity-0 group-hover:opacity-100 transition-all duration-500 z-20">
           <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500 text-center">
             <div className="/20 p-2 rounded-full w-fit mx-auto mb-3">
               <Eye className="text-white" size={20} />
             </div>
-            <p className="text-white text-sm font-medium leading-relaxed line-clamp-4">
+            <p className="text-sm font-medium leading-relaxed line-clamp-4">
               {description}
             </p>
           </div>

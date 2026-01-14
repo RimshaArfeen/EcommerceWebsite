@@ -111,7 +111,7 @@ const Homepage = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                          <DealCard title="Sriracha Legends Pack" discount="30%" image="https://images.unsplash.com/photo-1605034997223-1a4819bb58cf?auto=format&fit=crop&q=80&w=870" />
-                         <DealCard title="Truffle Chili Trio" discount="20%" image="https://images.unsplash.com/photo-1544333346-64e4fe1820af?auto=format&fit=crop&q=80&w=870" />
+                         <DealCard title="Truffle Chili Trio" discount="20%" image="https://i.pinimg.com/1200x/98/2e/1c/982e1ca1c343be00883ecebe47301938.jpg" />
                          <DealCard title="The Reaper Challenge" discount="FREE SHIPPING" image="https://images.unsplash.com/photo-1615485243343-4dc975765961?auto=format&fit=crop&q=80&w=870" />
                     </div>
                </section>

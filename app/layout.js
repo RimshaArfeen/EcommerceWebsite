@@ -1,18 +1,21 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins, Allura } from "next/font/google";
 import "./globals.css";
 import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/Footer/Footer";
 import Providers from "./providers";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const poppins = Poppins({
   subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-poppins",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const allura = Allura({
   subsets: ["latin"],
+  weight: "400",
+  variable: "--font-allura",
 });
+
 
 export const metadata = {
   title: "Create Next App",
@@ -22,7 +25,7 @@ export const metadata = {
 export default function RootLayout({ children, session }) {
   return (
     <html lang="en" className=" dark">
-      <body>
+      <body className={`${poppins.variable} ${allura.variable}`}>
         <Providers>
           <Navbar />
           {children}

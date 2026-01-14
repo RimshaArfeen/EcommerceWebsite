@@ -72,7 +72,7 @@ const TopNavbar = () => {
 
         {/* Right Section: User & Support */}
         <div className="flex flex-wrap items-center justify-center gap-y-1 gap-x-4 md:justify-start">
-          <UtilityLink href="/" icon={HelpCircle}>
+          <UtilityLink href="/helpCenter" icon={HelpCircle}>
             Help Center
           </UtilityLink>
           {

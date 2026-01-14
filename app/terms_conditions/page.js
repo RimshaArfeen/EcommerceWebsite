@@ -1,5 +1,6 @@
-import React from 'react';
 
+import React from 'react';
+import ClientGuard from '../Components/ClientGuard/ClientGuard';
 // The data structure for the Table of Contents and Sections
 // NOTE: In a real-world app, you might map over a JSON or Markdown source for this content.
 
@@ -77,7 +78,9 @@ const termsData = [
 
 
 export default function Page() {
+
   return (
+     <ClientGuard>
     <div className="min-h-screen py-12 md:py-16">
       < div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-7xl" >
 
@@ -162,5 +165,6 @@ export default function Page() {
         </div >
       </div >
     </div >
+    </ClientGuard>
   );
 }

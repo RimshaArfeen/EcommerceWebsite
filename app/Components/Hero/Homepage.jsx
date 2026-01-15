@@ -8,6 +8,8 @@ import { useProducts } from '@/app/context/ProdContext';
 import { ProdCard } from '../ProdCard/ProdCard';
 import Categories from '../Categories/Categories';
 import SliderComponent from '../Hero/SliderComponent';
+import {dealData} from './dealsData';
+
 
 // --- Particle Animation Component ---
 const ParticleEffect = ({ x, y, onComplete }) => {
@@ -40,9 +42,11 @@ const DealCard = ({ title, discount, image }) => (
      <div className="relative overflow-hidden rounded-3xl group h-64 900">
           <img src={image} className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-700" alt={title} />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent p-6 flex flex-col justify-end">
-               <span className="text-red-500 font-black text-4xl mb-1 uppercase italic tracking-tighter">{discount} OFF</span>
-               <h3 className="text-white font-bold text-xl">{title}</h3>
-               <button className="mt-4 text-xs font-bold text-white uppercase tracking-[0.2em] border-b border-white w-fit pb-1 hover:text-red-500 hover:border-red-500 transition-colors">Grab it Now</button>
+               <span className="font-black text-4xl mb-1 uppercase italic tracking-tighter">{discount}</span>
+               <span className="font-bold text-xl text-[#FFB300]">{title}</span>
+               <Link
+               href="/allProds" 
+               className="mt-4 text-xs font-bold  uppercase tracking-[0.2em] border-b border-white w-fit pb-1 transition-colors">Grab it Now</Link>
           </div>
      </div>
 );
@@ -54,6 +58,7 @@ const Homepage = () => {
      const [clickParticles, setClickParticles] = useState([]);
      const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
      const products = useProducts();
+console.log("Deals Data: ", dealData)
 
      // console.log("Products : ", products)
      // Handle global click for food animations
@@ -106,13 +111,18 @@ const Homepage = () => {
                               <h2 className="text-5xl font-black uppercase tracking-tighter">Liquid Gold <span className="text-red-600">Flash</span></h2>
                               <p className="text-gray-500 font-medium">Limited time bundles that burn bright.</p>
                          </div>
-                         <button className="bg-black text-white px-8 py-3 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-red-600 transition-colors">View All Deals</button>
+                         <Link href="/allProds" className="bg-black text-white px-8 py-3 rounded-full font-bold uppercase tracking-widest text-xs transition-all duration-500 hover:bg-red-600 ">View All Deals</Link>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                         <DealCard title="Sriracha Legends Pack" discount="30%" image="https://images.unsplash.com/photo-1605034997223-1a4819bb58cf?auto=format&fit=crop&q=80&w=870" />
-                         <DealCard title="Truffle Chili Trio" discount="20%" image="https://i.pinimg.com/1200x/98/2e/1c/982e1ca1c343be00883ecebe47301938.jpg" />
-                         <DealCard title="The Reaper Challenge" discount="FREE SHIPPING" image="https://images.unsplash.com/photo-1615485243343-4dc975765961?auto=format&fit=crop&q=80&w=870" />
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                     {dealData.map((deal, idx) => (
+                          <>
+                               <DealCard title={deal.title} discount={deal.tag} image={deal.imgUrl} />
+                          </>
+                     ))}                   
+
+
+                      
                     </div>
                </section>
 

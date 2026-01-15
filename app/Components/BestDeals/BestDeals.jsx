@@ -2,7 +2,7 @@
 "use client"
 import React, { useState } from 'react';
 import { Heart, ShoppingBag } from 'lucide-react'; // Using lucide-react for icons
-import { dealData } from './dealsData';
+import { dealData } from '../Hero/dealsData';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";

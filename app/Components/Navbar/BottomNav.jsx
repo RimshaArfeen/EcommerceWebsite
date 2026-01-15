@@ -1,3 +1,4 @@
+
 "use client"
 import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
@@ -149,7 +150,7 @@ const BottomNav = () => {
                 <div className="flex items-center justify-between py-3">
                   <Link
                     href={item.href}
-                    className="flex items-center gap-3 text-sm font-medium"
+                    className="flex items-center gap-3 text-sm font-medium p-1 transition-all duration-200 hover:ml-2"
                     onClick={() => item.href !== '#' && setIsMobileMenuOpen(false)}
                   >
                     <item.icon size={18} className="text-[var(--color-saffron)]" />
@@ -158,7 +159,7 @@ const BottomNav = () => {
                   {item.subLinks && (
                     <button
                       onClick={() => setExpandedItem(expandedItem === item.name ? null : item.name)}
-                      className="p-1"
+                      className="p-1 transition-all duration-200 hover:ml-2"
                     >
                       <ChevronDown size={18} className={`transition-transform ${expandedItem === item.name ? 'rotate-180' : ''}`} />
                     </button>

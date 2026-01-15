@@ -103,7 +103,7 @@ const CategoryCard = ({ name, subText, icon, img, className, slug }) => {
         <h3 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tighter leading-none">
           {name}
         </h3>
-        <div className="w-0 h-1 bg-red-600 mt-4 transition-all duration-500 group-hover:w-full" />
+        <div className="w-0 h-1 bg-red-600 mt-4 transition-all duration-700 group-hover:w-full" />
       </div>
 
       <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">

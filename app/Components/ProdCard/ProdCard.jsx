@@ -65,11 +65,7 @@ export const ProdCard = ({ product = {} }) => {
 
         {/* Badges Layer */}
         <div className="absolute top-4 left-4 flex flex-col gap-2 z-30">
-          {isNew && (
-            <span className="bg-black text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg">
-              New Drop
-            </span>
-          )}
+          
           {heat > 0 && (
             <div className="flex items-center  backdrop-blur-md px-2 py-1 rounded-full shadow-sm w-fit">
               {[...Array(heat)].map((_, i) => (
